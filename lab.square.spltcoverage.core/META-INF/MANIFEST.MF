@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Core
+Bundle-SymbolicName: lab.square.spltcoverage.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: lab.square.spltcoverage.core
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.jacoco.agent;bundle-version="0.8.6",
+ org.jacoco.core;bundle-version="0.8.6",
+ org.jacoco.report;bundle-version="0.8.6"
+Export-Package: lab.square.spltcoverage.core.analysis,
+ lab.square.spltcoverage.core.model

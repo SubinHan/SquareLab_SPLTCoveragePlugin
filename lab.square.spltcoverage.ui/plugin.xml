@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="lab.square.spltcoverage.ui.commands.category"
+            name="Sample Category">
+      </category>
+      <command
+            categoryId="lab.square.spltcoverage.ui.commands.category"
+            name="Sample Command"
+            id="lab.square.spltcoverage.ui.commands.sampleCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="lab.square.spltcoverage.ui.handlers.SampleHandler"
+            commandId="lab.square.spltcoverage.ui.commands.sampleCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="lab.square.spltcoverage.ui.commands.sampleCommand"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+6">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="lab.square.spltcoverage.ui.menus.sampleMenu"
+               label="Sample Menu"
+               mnemonic="M">
+            <command
+                  commandId="lab.square.spltcoverage.ui.commands.sampleCommand"
+                  id="lab.square.spltcoverage.ui.menus.sampleCommand"
+                  mnemonic="S">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="lab.square.spltcoverage.ui.toolbars.sampleToolbar">
+            <command
+                  id="lab.square.spltcoverage.ui.toolbars.sampleCommand"
+                  commandId="lab.square.spltcoverage.ui.commands.sampleCommand"
+                  icon="icons/sample.png"
+                  tooltip="Say hello world">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         id="lab.square.spltcoverage.markers.covered"
+         point="org.eclipse.core.resources.markers">
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="lab.square.spltcoverage.markers.covered"
+            name="lab.square.spltcoverage.ui.annotationType.covered">
+      </type>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="lab.square.spltcoverage.ui.annotationType.covered"
+            colorPreferenceKey="covered_color"
+            colorPreferenceValue="192,255,192"
+            highlightPreferenceKey="covered_highlight"
+            highlightPreferenceValue="true"
+            label="Line Covered"
+            overviewRulerPreferenceKey="covered_overviewruler"
+            overviewRulerPreferenceValue="true"
+            textPreferenceKey="covered_text"
+            textPreferenceValue="true"
+            textStylePreferenceValue="IBEAM"
+            verticalRulerPreferenceKey="covered_verticalruler"
+            verticalRulerPreferenceValue="true">
+      </specification>
+   </extension>
+
+</plugin>
