@@ -155,4 +155,17 @@ public class TestMethodCoverage {
 	public Class[] getTargetClasses() {
 		return targetClasses;
 	}
+
+	public int getScore() {
+		int score = 0;
+		
+		for(IClassCoverage cc : classCoverages) {
+			for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+				if(cc.getLine(i).getStatus() == ICounter.FULLY_COVERED)
+					score++;
+			}
+		}
+		
+		return score;
+	}
 }

@@ -75,6 +75,16 @@ public class ProductCoverage {
 		return this.classCoverages;
 	}
 	
+	public int getScore() {
+		int score = 0;
+		
+		for(TestCaseCoverage tcc : testCaseCoverages) {
+			score += tcc.getScore();
+		}
+		
+		return score;
+	}
+	
 	/**
 	 * Add the TestCaseCoverage.
 	 * @param testCaseCoverage

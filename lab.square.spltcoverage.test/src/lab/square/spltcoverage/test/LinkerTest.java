@@ -75,16 +75,24 @@ public class LinkerTest extends TestCase {
 			if(different >= 0)
 				System.out.print("  (+" + String.format("%.1f", different * 100) + ")");
 			else
-				System.out.print("  (-" + String.format("%.1f", different * 100) + ")");
+				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
 			System.out.println();
 			System.out.print("     Covered Ratio(Method): " + String.format("%.1f", cc.getMethodCounter().getCoveredRatio() * 100));
 			different = cc.getMethodCounter().getCoveredRatio() - findParentsMethodRatio(graph, cc.getName());
 			if(different >= 0)
 				System.out.print("  (+" + String.format("%.1f", different * 100) + ")");
 			else
-				System.out.print("  (-" + String.format("%.1f", different * 100) + ")");
+				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
 			System.out.println();
 		}
+		
+		int different = pc.getScore() - findParentsScore(graph);
+		System.out.print("Score: " + pc.getScore());
+		if(different >= 0)
+			System.out.print(" (+" + different + ")");
+		else
+			System.out.print(" (" + different + ")");
+		System.out.println();
 		
 		Map<String, IClassCoverage> parentMap;
 
@@ -94,6 +102,21 @@ public class LinkerTest extends TestCase {
 		}
 	}
 	
+	private int findParentsScore(ProductGraph graph) {
+		if(graph.getParents() == null)
+			return 0;
+		if(graph.getParents().isEmpty())
+			return 0;
+		
+		for(ProductGraph parent : graph.getParents()) {
+			if(parent == null)
+				continue;
+			return parent.getProductCoverage().getScore();
+		}
+		
+		return 0;
+	}
+
 	private double findParentsLineRatio(ProductGraph graph, String name) {
 		if(graph.getParents() == null)
 			return 0.f;

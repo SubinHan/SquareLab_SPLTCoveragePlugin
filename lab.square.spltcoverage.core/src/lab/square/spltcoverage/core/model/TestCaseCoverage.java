@@ -150,5 +150,15 @@ public class TestCaseCoverage {
 		
 		return true;
 	}
+
+	public int getScore() {
+		int score = 0;
+		
+		for(TestMethodCoverage tmc : testMethodCoverages) {
+			score += tmc.getScore();
+		}
+		
+		return score;
+	}
 	
 }
