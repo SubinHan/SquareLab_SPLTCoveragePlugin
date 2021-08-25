@@ -32,6 +32,7 @@ import org.jacoco.core.runtime.LoggerRuntime;
 import org.jacoco.core.runtime.RuntimeData;
 import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
+import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
 import lab.square.spltcoverage.core.model.CoverageResult;
@@ -184,7 +185,7 @@ public class CoverageGenerator {
 		final String resource = '/' + name.replace('.', '/') + ".class";
 		if(targetClasses.length == 0)
 			return null;
-		return targetClasses[0].getResourceAsStream(resource);
+		return getClass().getResourceAsStream(resource);
 	}
 
 	private void printCounter(final String unit, final ICounter counter) {
@@ -307,6 +308,13 @@ public class CoverageGenerator {
 			resetData();
 		}
 
+		@Override
+		public void testFailure(Failure failure) throws Exception {
+			System.out.println(failure.getTestHeader());
+			System.out.println(failure.getTrace());
+			System.out.println(failure.getMessage());
+			
+		}
 	}
 
 }

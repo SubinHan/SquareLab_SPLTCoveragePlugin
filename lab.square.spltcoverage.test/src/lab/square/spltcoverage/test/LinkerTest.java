@@ -18,12 +18,28 @@ public class LinkerTest extends TestCase {
 	
 	private Collection<ProductGraph> visited;
 	private int count = 0;
-
+	
 	@Test
-	public void testLinker() {
-		String directory = "D:/directorypath/bankaccount/";
-		String classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/bankaccount/bin/bankaccount";
+	public void testLinkerBankaccount() {
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/bankaccount/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/bankaccount/bin/bankaccount";
+		
+		testLinker(directory, classDirectory);
+	}
+	
+	@Test
+	public void testLinkerFeatureAmp1() {
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/featureamp1";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\FeatureAMP1\\bin";
+		
+		testLinker(directory, classDirectory);
+	}
 
+	private void testLinker(String directory, String classDirectory) {
 		ProductCoverageManager manager = new ProductCoverageManager();
 		CoverageReader reader = new CoverageReader(manager, directory, classDirectory);
 		try {
@@ -35,7 +51,7 @@ public class LinkerTest extends TestCase {
 
 		ProductLinker linker = new ProductLinker(manager);
 		Collection<ProductGraph> heads = linker.linkAll();
-		if (heads.isEmpty() || heads.size() != 1)
+		if (heads.isEmpty())
 			fail();
 		
 		visited = new HashSet<ProductGraph>();
