@@ -18,4 +18,18 @@ public class CoverageResult {
 		this.coverageBuilder = coverageBuilder;
 		this.proxy = proxy;
 	}
+
+	public Analyzer getAnalyzer() {
+		return analyzer;
+	}
+
+	public CoverageBuilder getCoverageBuilder() {
+		return coverageBuilder;
+	}
+
+	public IProxy getProxy() {
+		return proxy;
+	}
+	
+	
 }

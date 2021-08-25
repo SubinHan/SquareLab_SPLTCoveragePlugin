@@ -7,6 +7,7 @@ Automatic-Module-Name: lab.square.spltcoverage.core
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.jacoco.agent;bundle-version="0.8.6",
  org.jacoco.core;bundle-version="0.8.6",
- org.jacoco.report;bundle-version="0.8.6"
+ org.jacoco.report;bundle-version="0.8.6",
+ org.junit;bundle-version="4.13.0"
 Export-Package: lab.square.spltcoverage.core.analysis,
  lab.square.spltcoverage.core.model
