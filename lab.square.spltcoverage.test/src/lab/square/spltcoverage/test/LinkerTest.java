@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+
 import org.jacoco.core.analysis.IClassCoverage;
+import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -18,25 +20,53 @@ public class LinkerTest extends TestCase {
 	
 	private Collection<ProductGraph> visited;
 	private int count = 0;
+	private int notEnough = 0;
+	private final double criteria = .5f;
+	
+	@Before
+	public void setUp() {
+		notEnough = 0;
+		count = 0;
+	}
 	
 	@Test
-	public void testLinkerBankaccount() {
+	public void testLinkerBankaccount() {		
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/bankaccount/";
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/bankaccount/bin/bankaccount";
 		
 		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
 	}
 	
 	@Test
-	public void testLinkerFeatureAmp1() {
+	public void testLinkerFeatureAmp1() {		
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/featureamp1";
 		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\FeatureAMP1\\bin";
 		
 		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	@Test
+	public void testLinkerAtm() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/atm";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\ATM\\bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	private void pinrtNumOfNotEnoughs() {
+		System.out.println("Num of Products that the coverage didn't change than its parents: " + notEnough);
 	}
 
 	private void testLinker(String directory, String classDirectory) {
@@ -68,6 +98,7 @@ public class LinkerTest extends TestCase {
 			return;
 		visited.add(graph);
 		count++;
+		double ratioSum = 0;
 		
 		ProductCoverage pc = graph.getProductCoverage();
 		System.out.println("//============================//");
@@ -100,6 +131,8 @@ public class LinkerTest extends TestCase {
 			else
 				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
 			System.out.println();
+			
+			ratioSum += cc.getLineCounter().getCoveredRatio();
 		}
 		
 		int different = pc.getScore() - findParentsScore(graph);
@@ -112,7 +145,9 @@ public class LinkerTest extends TestCase {
 		
 		Map<String, IClassCoverage> parentMap;
 
-		
+		if(different == 0)
+			notEnough++;
+			
 		for(ProductGraph child : graph.getChildren()) {
 			visitGraphRecur(child);
 		}

@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="C:/Users/selab/.p2/pool/plugins/org.jacoco.core-0.7.7.201606060606.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

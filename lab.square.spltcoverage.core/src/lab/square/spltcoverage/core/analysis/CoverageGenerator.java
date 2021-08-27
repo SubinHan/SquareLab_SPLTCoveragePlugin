@@ -9,6 +9,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,6 +80,7 @@ public class CoverageGenerator {
 	private Class[] targetClasses;
 	private Class[] instrumentedClasses;
 	private int count;
+	private final IProxy proxy;
 
 	final IRuntime runtime;
 	final Instrumenter instr;
@@ -88,15 +90,25 @@ public class CoverageGenerator {
 	 * Creates a new example instance printing to the given stream.
 	 * 
 	 * @param out stream for outputs
+	 * @throws IOException 
+	 * @throws MalformedObjectNameException 
 	 */
-	public CoverageGenerator(final PrintStream out) {
+	public CoverageGenerator(final PrintStream out) throws IOException, MalformedObjectNameException {
 		this.out = out;
 		runtime = new LoggerRuntime();
 		instr = new Instrumenter(runtime);
 		data = new RuntimeData();
+
+		// Open connection to the coverage agent:
+		final JMXServiceURL url = new JMXServiceURL(SERVICE_URL);
+		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();
+
+		proxy = MBeanServerInvocationHandler.newProxyInstance(connection,
+				new ObjectName("org.jacoco:type=Runtime"), IProxy.class, false);
 	}
 
-	public CoverageGenerator(final PrintStream out, Class... targetClasses) {
+	public CoverageGenerator(final PrintStream out, Class... targetClasses) throws MalformedObjectNameException, IOException {
 		this(out);
 		this.targetClasses = targetClasses;
 	}
@@ -120,13 +132,6 @@ public class CoverageGenerator {
 	}
 
 	public CoverageResult analyze() throws Exception {
-		// Open connection to the coverage agent:
-		final JMXServiceURL url = new JMXServiceURL(SERVICE_URL);
-		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
-		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();
-
-		final IProxy proxy = MBeanServerInvocationHandler.newProxyInstance(connection,
-				new ObjectName("org.jacoco:type=Runtime"), IProxy.class, false);
 
 		// Retrieve JaCoCo version and session id:
 		System.out.println("Version: " + proxy.getVersion());
@@ -148,13 +153,11 @@ public class CoverageGenerator {
 			final String targetName = targetClasses[i].getName();
 			analyzer.analyzeClass(getTargetClass(targetName), targetName);
 		}
-		
+
 		final CoverageResult result = new CoverageResult(analyzer, coverageBuilder, proxy);
-		return result; 
+		return result;
 	}
 
-	
-	
 	public CoverageResult analyze(String directory) throws Exception {
 
 		final CoverageResult result = analyze();
@@ -166,7 +169,7 @@ public class CoverageGenerator {
 		final FileOutputStream localFile = new FileOutputStream(execFile, false);
 		localFile.write(exeData);
 		localFile.close();
-		
+
 		return result;
 	}
 
@@ -183,7 +186,7 @@ public class CoverageGenerator {
 
 	private InputStream getTargetClass(final String name) {
 		final String resource = '/' + name.replace('.', '/') + ".class";
-		if(targetClasses.length == 0)
+		if (targetClasses.length == 0)
 			return null;
 		return getClass().getResourceAsStream(resource);
 	}
@@ -207,53 +210,45 @@ public class CoverageGenerator {
 	}
 
 	public void resetData() throws IOException, MalformedObjectNameException {
-		// Open connection to the coverage agent:
-		final JMXServiceURL url = new JMXServiceURL(SERVICE_URL);
-		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
-		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();
-
-		final IProxy proxy = MBeanServerInvocationHandler.newProxyInstance(connection,
-				new ObjectName("org.jacoco:type=Runtime"), IProxy.class, false);
-
 		proxy.reset();
 	}
-	
+
 	public void generateCoverage(ICoverageRunner runner) {
 		count = 0;
-		targetClasses = runner.onGetTargetClasses();
-		while(runner.onMakeNextProduct()) {
+		targetClasses = runner.getTargetClasses();
+		while (runner.makeNextProduct()) {
 			count++;
-			
+
 			String productDirectory;
-			productDirectory = runner.onGetProductDirectory() + count;
-			String pathOfFeatureSet = runner.onGetBaseDirectory() + productDirectory + "/featureset.txt";
+			productDirectory = runner.getProductDirectory() + count;
+			String pathOfFeatureSet = runner.getBaseDirectory() + productDirectory + "/featureset.txt";
 			File featureSet = new File(pathOfFeatureSet);
 			makeDirectory(pathOfFeatureSet);
 			try {
 				// write file containing the current featureSet in the product folder.
 				BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet));
-				localFile.write(runner.onGetFeatureSet().toString());
+				localFile.write(runner.getFeatureSet().toString());
 				localFile.close();
 			} catch (Exception e) {
 				;
 			}
-			
+
 			JUnitCore junit = new JUnitCore();
 			junit.addListener(new TestListener(runner));
-			org.junit.runner.Result result = junit.run(runner.onGetTestClasses());
-			
-			File productFolder = new File(runner.onGetBaseDirectory() + productDirectory);
+			org.junit.runner.Result result = junit.run(runner.getTestClasses());
+
+			File productFolder = new File(runner.getBaseDirectory() + productDirectory);
 			File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
 				@Override
 				public boolean accept(File current, String name) {
-						return new File(current, name).isDirectory();
+					return new File(current, name).isDirectory();
 				}
 			}).length];
-			
+
 			int index = 0;
 			CoverageMerger merger = new CoverageMerger();
 			for (File testCaseFolder : productFolder.listFiles()) {
-				if(!testCaseFolder.isDirectory())
+				if (!testCaseFolder.isDirectory())
 					continue;
 				File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + "Merged.exec");
 				try {
@@ -268,18 +263,18 @@ public class CoverageGenerator {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}		
-			
+			}
+
 		}
 	}
-	
+
 	private class TestListener extends RunListener {
 		ICoverageRunner runner;
-		
+
 		public TestListener(ICoverageRunner runner) {
 			this.runner = runner;
 		}
-		
+
 		@Override
 		public void testStarted(Description description) throws Exception {
 		}
@@ -291,11 +286,12 @@ public class CoverageGenerator {
 			System.out.println("//==============finished===========//");
 			String testCaseDirectory;
 			String testMethodDirectory;
-			testCaseDirectory = runner.onGetTestCaseDirectory() + description.getTestClass().getSimpleName();
-			testMethodDirectory = runner.onGetTestMethodDirectory() + description.getMethodName();
-			String directory = runner.onGetBaseDirectory() + runner.onGetProductDirectory() + count + testCaseDirectory + testMethodDirectory;
+			testCaseDirectory = runner.getTestCaseDirectory() + description.getTestClass().getSimpleName();
+			testMethodDirectory = runner.getTestMethodDirectory() + description.getMethodName();
+			String directory = runner.getBaseDirectory() + runner.getProductDirectory() + count + testCaseDirectory
+					+ testMethodDirectory;
 			CoverageResult result = analyze(directory);
-			
+
 			final byte[] exeData = result.getProxy().getExecutionData(false);
 
 			makeDirectory(directory);
@@ -304,7 +300,7 @@ public class CoverageGenerator {
 			final FileOutputStream localFile = new FileOutputStream(execFile, false);
 			localFile.write(exeData);
 			localFile.close();
-			
+
 			resetData();
 		}
 
@@ -313,7 +309,7 @@ public class CoverageGenerator {
 			System.out.println(failure.getTestHeader());
 			System.out.println(failure.getTrace());
 			System.out.println(failure.getMessage());
-			
+
 		}
 	}
 
