@@ -2,19 +2,23 @@ package lab.square.spltcoverage.core.analysis;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 
 import lab.square.spltcoverage.core.model.ProductCoverage;
 import lab.square.spltcoverage.core.model.ProductGraph;
 
 public class ProductGraphAnalyzer {
 	Collection<ProductGraph> heads;
-	Collection<ProductGraph> problems;
+	Collection<ProductGraph> problemProducts;
 	Collection<ProductGraph> visited;
+	Collection<Collection<String>> problemFeatures;
 
 	public ProductGraphAnalyzer(Collection<ProductGraph> heads) {
 		this.heads = heads;
-		this.problems = new ArrayList<ProductGraph>();
+		this.problemProducts = new ArrayList<ProductGraph>();
 		this.visited = new ArrayList<ProductGraph>();
+		this.problemFeatures = new ArrayList<Collection<String>>();
 		init();
 	}
 	
@@ -40,8 +44,10 @@ public class ProductGraphAnalyzer {
 					int targetScore = parent.getProductCoverage().getScore();
 					
 					if(thisScore == targetScore) {
-						if(!problems.contains(graph)) {
-							problems.add(graph);
+						problemFeatures.add(calculateDifference(parent.getProductCoverage().getFeatureSet(), pc.getFeatureSet()));
+						
+						if(!problemProducts.contains(graph)) {
+							problemProducts.add(graph);
 							break;
 						}
 					}
@@ -54,8 +60,26 @@ public class ProductGraphAnalyzer {
 		});
 	}
 
+	protected Collection<String> calculateDifference(Map<String, Boolean> smaller,
+			Map<String, Boolean> bigger) {
+		HashSet<String> toReturn = new HashSet<String>();
+		
+		for(String key : smaller.keySet()) {
+			if(!smaller.get(key)) {
+				if(bigger.get(key)) {
+					toReturn.add(key);
+				}
+			}
+		}
+		return toReturn;
+	}
+
 	public Collection<ProductGraph> getProblemProducts() {
-		return this.problems;
+		return this.problemProducts;
+	}
+
+	public Collection<Collection<String>> getProblemFeatures() {
+		return problemFeatures;
 	}
 
 	private void acceptGraph(GraphVisitor visitor) {

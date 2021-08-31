@@ -84,6 +84,8 @@ public class PGAnalyzerTest extends TestCase {
 			e.printStackTrace();
 		}
 		
+		System.out.println(directory);
+		
 		ProductLinker linker = new ProductLinker(manager);
 		Collection<ProductGraph> heads = linker.linkAll();
 		if (heads.isEmpty())
@@ -93,7 +95,17 @@ public class PGAnalyzerTest extends TestCase {
 		for(ProductGraph problem : analyzer.getProblemProducts()) {
 			System.out.println(problem.getProductCoverage().getFeatureSet());
 		}
-		System.out.println(analyzer.getProblemProducts().size());
+		
+		System.out.println("Problem features :");
+		
+		for(Collection<String> set : analyzer.getProblemFeatures()) {
+			System.out.print("  {");
+			for(String key : set) {
+				System.out.print(key + ", ");
+			}
+			System.out.println("}");
+		}
+		System.out.println("# Problem products: " + analyzer.getProblemProducts().size());
 		
 	}
 }
