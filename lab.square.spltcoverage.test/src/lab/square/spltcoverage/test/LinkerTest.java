@@ -54,11 +54,48 @@ public class LinkerTest extends TestCase {
 	}
 	
 	@Test
+	public void testLinkerFeatureAmp8() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/featureamp8";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\FeatureAMP8\\bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	
+	@Test
 	public void testLinkerAtm() {		
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/atm";
 		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\ATM\\bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	@Test
+	public void testLinkerChess() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/chess";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Chess\\bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	@Test
+	public void testLinkerElevator() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/elevator";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Elevator\\bin";
 		
 		testLinker(directory, classDirectory);
 		

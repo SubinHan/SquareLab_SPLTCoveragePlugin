@@ -47,6 +47,5 @@ public class ProductGraph {
 	
 	public int getLevel() {
 		return this.level;
-	}
-	
+	}	
 }
