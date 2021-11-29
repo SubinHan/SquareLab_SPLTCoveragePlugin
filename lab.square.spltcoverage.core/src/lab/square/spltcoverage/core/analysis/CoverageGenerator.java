@@ -52,7 +52,6 @@ public class CoverageGenerator {
 
 	private final PrintStream out;
 	private Class[] targetClasses;
-	private Class[] instrumentedClasses;
 	private int count;
 	private final IProxy proxy;
 
@@ -145,24 +144,6 @@ public class CoverageGenerator {
 		if (targetClasses.length == 0)
 			return null;
 		return getClass().getResourceAsStream(resource);
-	}
-
-	private void printCounter(final String unit, final ICounter counter) {
-		final Integer missed = Integer.valueOf(counter.getMissedCount());
-		final Integer total = Integer.valueOf(counter.getTotalCount());
-		out.printf("%s of %s %s missed%n", missed, total, unit);
-	}
-
-	private String getColor(final int status) {
-		switch (status) {
-		case ICounter.NOT_COVERED:
-			return "red";
-		case ICounter.PARTLY_COVERED:
-			return "yellow";
-		case ICounter.FULLY_COVERED:
-			return "green";
-		}
-		return "";
 	}
 
 	public void resetData() throws IOException, MalformedObjectNameException {
