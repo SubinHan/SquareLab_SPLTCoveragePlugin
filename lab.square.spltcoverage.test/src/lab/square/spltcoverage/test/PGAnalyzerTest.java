@@ -1,10 +1,13 @@
 package lab.square.spltcoverage.test;
 
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.util.Collection;
 
 import org.junit.Test;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import lab.square.spltcoverage.core.analysis.CoverageReader;
 import lab.square.spltcoverage.core.analysis.ProductGraphAnalyzer;
@@ -12,9 +15,9 @@ import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.core.model.ProductCoverageManager;
 import lab.square.spltcoverage.core.model.ProductGraph;
 
-public class PGAnalyzerTest extends TestCase {
+public class PGAnalyzerTest {
 	
-	@Test
+	//@Test
 	public void testBankaccount() {
 		String directory;
 		String classDirectory;
@@ -24,7 +27,7 @@ public class PGAnalyzerTest extends TestCase {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerFeatureAmp1() {		
 		String directory;
 		String classDirectory;
@@ -34,7 +37,7 @@ public class PGAnalyzerTest extends TestCase {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerFeatureAmp8() {		
 		String directory;
 		String classDirectory;
@@ -44,7 +47,7 @@ public class PGAnalyzerTest extends TestCase {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerAtm() {		
 		String directory;
 		String classDirectory;
@@ -54,7 +57,7 @@ public class PGAnalyzerTest extends TestCase {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerChess() {		
 		String directory;
 		String classDirectory;
@@ -64,7 +67,7 @@ public class PGAnalyzerTest extends TestCase {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerElevator() {		
 		String directory;
 		String classDirectory;
@@ -73,6 +76,27 @@ public class PGAnalyzerTest extends TestCase {
 		
 		testAnalyzer(directory, classDirectory);
 	}
+	
+	@Test
+	public void testLinkerMinepump() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/minepump";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\MinePump\\bin";
+		
+		testAnalyzer(directory, classDirectory);
+	}
+
+	@Test
+	public void testLinkerVendingMachine() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/vendingmachine";
+		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\vending\\bin";
+		
+		testAnalyzer(directory, classDirectory);
+	}
+
 
 	private void testAnalyzer(String directory, String classDirectory) {
 		ProductCoverageManager manager = new ProductCoverageManager();

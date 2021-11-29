@@ -1,5 +1,7 @@
 package lab.square.spltcoverage.test;
 
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,14 +11,17 @@ import org.jacoco.core.analysis.IClassCoverage;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.TestCase;
 import lab.square.spltcoverage.core.analysis.CoverageReader;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.core.model.ProductCoverage;
 import lab.square.spltcoverage.core.model.ProductCoverageManager;
 import lab.square.spltcoverage.core.model.ProductGraph;
 
-public class LinkerTest extends TestCase {
+/*
+ * Test 시: core의 plugin.xml dependency -> org.jacoco (0.8.6) 이어야 함.
+ * Plug-in testing으로 수행할 것.
+ */
+public class LinkerTest {
 	
 	private Collection<ProductGraph> visited;
 	private int count = 0;
@@ -29,7 +34,67 @@ public class LinkerTest extends TestCase {
 		count = 0;
 	}
 	
+	//@Test
+	public void testLinkerGpl() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/gpl/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/gpl/bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	//@Test
+	public void testLinkerMinepump() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/minepump/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/minepump/bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
 	@Test
+	public void testLinkerNotepad() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/notepad/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/notepad/bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	//@Test
+	public void testLinkerSudoku() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/sudoku/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/sudoku/bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	//@Test
+	public void testLinkerVendingMachine() {		
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/vendingmachine/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/vending/bin";
+		
+		testLinker(directory, classDirectory);
+		
+		pinrtNumOfNotEnoughs();
+	}
+	
+	//@Test
 	public void testLinkerBankaccount() {		
 		String directory;
 		String classDirectory;
@@ -41,7 +106,7 @@ public class LinkerTest extends TestCase {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerFeatureAmp1() {		
 		String directory;
 		String classDirectory;
@@ -53,7 +118,7 @@ public class LinkerTest extends TestCase {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerFeatureAmp8() {		
 		String directory;
 		String classDirectory;
@@ -66,7 +131,7 @@ public class LinkerTest extends TestCase {
 	}
 	
 	
-	@Test
+	//@Test
 	public void testLinkerAtm() {		
 		String directory;
 		String classDirectory;
@@ -78,7 +143,7 @@ public class LinkerTest extends TestCase {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerChess() {		
 		String directory;
 		String classDirectory;
@@ -90,7 +155,7 @@ public class LinkerTest extends TestCase {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerElevator() {		
 		String directory;
 		String classDirectory;

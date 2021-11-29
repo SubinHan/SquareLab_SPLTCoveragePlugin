@@ -105,7 +105,7 @@ public class CoverageReader {
 					final String testMethodName = testMethodCoverageFile.getName().replaceAll(".exec", "");
 
 					if (testMethodName.endsWith("Merged")) {
-						// TODO: find the way to separate between the merged *.exec file and not more
+						// TODO: find the way to separate between the merged *.exec file or not, more
 						// reasonably.
 						testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
 						continue;

@@ -39,6 +39,10 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.core.model.CoverageResult;
 import lab.square.spltcoverage.core.model.IProxy;
 
+
+/*
+ * Dependes on jacoco 0.7.7!!!!!
+ */
 public class CoverageGenerator {
 
 	/**

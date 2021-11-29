@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  lab.square.spltcoverage.core;bundle-version="1.0.0",
  lab.square.spltcoverage.ui;bundle-version="1.0.0",
  org.junit;bundle-version="4.13.0",
- org.jacoco.core
+ org.jacoco.core;bundle-version="0.8.6"
 Bundle-RequiredExecutionEnvironment: JavaSE-16
 Automatic-Module-Name: lab.square.spltcoverage.test
 Bundle-ActivationPolicy: lazy
