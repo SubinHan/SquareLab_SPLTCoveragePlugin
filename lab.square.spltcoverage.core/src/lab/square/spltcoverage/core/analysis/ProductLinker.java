@@ -84,7 +84,7 @@ public class ProductLinker {
 			return null;
 
 		List<ProductCoverage> toReturn = new LinkedList<ProductCoverage>();
-		manager.accept(new ISPLTCoverageVisitor() {
+		manager.accept(new ISpltCoverageVisitor() {
 
 			@Override
 			public void visit(ProductCoverage pc) {
@@ -176,7 +176,7 @@ public class ProductLinker {
 
 	private void getMinNumFeature() {
 		min = Integer.MAX_VALUE;
-		manager.accept(new ISPLTCoverageVisitor() {
+		manager.accept(new ISpltCoverageVisitor() {
 
 			@Override
 			public void visit(ProductCoverage pc) {

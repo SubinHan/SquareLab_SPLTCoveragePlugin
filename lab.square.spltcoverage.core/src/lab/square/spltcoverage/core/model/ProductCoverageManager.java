@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
 
-import lab.square.spltcoverage.core.analysis.ISPLTCoverageVisitor;
+import lab.square.spltcoverage.core.analysis.ISpltCoverageVisitor;
 
 /**
  * The ProductCoverageManager class is a class containing the ProductCoverages.
@@ -79,7 +79,7 @@ public class ProductCoverageManager {
 	 * Visit to all subclasses with ISPLTCoverageVisitor.
 	 * @param visitor		The ISPLTCoverageVisitor defined what to do for each model.
 	 */
-	public void accept(ISPLTCoverageVisitor visitor) {
+	public void accept(ISpltCoverageVisitor visitor) {
 		visitor.visit(this);
 	}
 	

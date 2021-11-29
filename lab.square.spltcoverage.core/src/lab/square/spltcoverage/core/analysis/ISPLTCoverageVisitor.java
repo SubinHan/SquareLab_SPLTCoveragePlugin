@@ -5,7 +5,7 @@ import lab.square.spltcoverage.core.model.ProductCoverageManager;
 import lab.square.spltcoverage.core.model.TestCaseCoverage;
 import lab.square.spltcoverage.core.model.TestMethodCoverage;
 
-public interface ISPLTCoverageVisitor {
+public interface ISpltCoverageVisitor {
 	public void visit(ProductCoverageManager pcm);
 	public void visit(ProductCoverage pc);
 	public void visit(TestCaseCoverage tcc);

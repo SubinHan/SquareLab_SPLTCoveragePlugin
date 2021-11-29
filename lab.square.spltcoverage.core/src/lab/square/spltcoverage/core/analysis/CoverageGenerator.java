@@ -45,36 +45,6 @@ import lab.square.spltcoverage.core.model.IProxy;
  */
 public class CoverageGenerator {
 
-	/**
-	 * A class loader that loads classes from in-memory data.
-	 */
-	public static class MemoryClassLoader extends ClassLoader {
-
-		private final Map<String, byte[]> definitions = new HashMap<String, byte[]>();
-
-		/**
-		 * Add a in-memory representation of a class.
-		 * 
-		 * @param name  name of the class
-		 * @param bytes class definition
-		 */
-		public void addDefinition(final String name, final byte[] bytes) {
-			definitions.put(name, bytes);
-		}
-
-		@Override
-		protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
-
-			final byte[] bytes = definitions.get(name);
-			if (bytes != null) {
-				return defineClass(name, bytes, 0, bytes.length);
-			}
-//			InstrumentationImpl impl = new InstrumentationImpl(0, resolve, resolve);
-//			impl.redefineClasses(new ClassDefinition(Class.forName(name), bytes));
-			return super.loadClass(name, resolve);
-		}
-
-	}
 
 	private static final String DESTFILE = "mydata.exec";
 
@@ -115,24 +85,6 @@ public class CoverageGenerator {
 	public CoverageGenerator(final PrintStream out, Class... targetClasses) throws MalformedObjectNameException, IOException {
 		this(out);
 		this.targetClasses = targetClasses;
-	}
-
-	public Class[] getInstrumentedClasses() throws Exception {
-		if (instrumentedClasses != null)
-			return instrumentedClasses;
-		runtime.startup(data);
-		instrumentedClasses = new Class[this.targetClasses.length];
-		System.arraycopy(this.targetClasses, 0, instrumentedClasses, 0, this.targetClasses.length);
-		for (int i = 0; i < instrumentedClasses.length; i++) {
-			final String targetName = instrumentedClasses[i].getName();
-			final byte[] instrumented = instr.instrument(getTargetClass(targetName), targetName);
-
-			final MemoryClassLoader memoryClassLoader = new MemoryClassLoader();
-			memoryClassLoader.addDefinition(targetName, instrumented);
-			final Class<?> targetClass = memoryClassLoader.loadClass(targetName);
-			instrumentedClasses[i] = targetClass;
-		}
-		return instrumentedClasses;
 	}
 
 	public CoverageResult analyze() throws Exception {
@@ -217,7 +169,14 @@ public class CoverageGenerator {
 		proxy.reset();
 	}
 
-	public void generateCoverage(ICoverageRunner runner) {
+	/**
+	 * @deprecated
+	 * Use the SpltCoverageGenerator.generateCoverage().
+	 * 
+	 * @param runner
+	 */
+	@Deprecated
+	public void generateCoverage(ISpltCoverageRunner runner) {
 		count = 0;
 		targetClasses = runner.getTargetClasses();
 		while (runner.makeNextProduct()) {
@@ -273,9 +232,9 @@ public class CoverageGenerator {
 	}
 
 	private class TestListener extends RunListener {
-		ICoverageRunner runner;
+		ISpltCoverageRunner runner;
 
-		public TestListener(ICoverageRunner runner) {
+		public TestListener(ISpltCoverageRunner runner) {
 			this.runner = runner;
 		}
 
