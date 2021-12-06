@@ -3,6 +3,8 @@ package lab.square.spltcoverage.model;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.jacoco.core.analysis.IClassCoverage;
+
 public class ProductGraph {
 	private Collection<ProductGraph> parents;
 	private Collection<ProductGraph> children;
@@ -48,4 +50,39 @@ public class ProductGraph {
 	public int getLevel() {
 		return this.level;
 	}	
+	
+	public boolean isCoveredMoreThanParent() {
+		double different = 0;
+		
+		if(this.parents == null)
+			return false;
+		if(this.parents.isEmpty())
+			return false;
+		
+		for(ProductGraph parent : this.parents) {
+			if(parent == null)
+				continue;
+			different = 0.f;
+			for(IClassCoverage cc : this.productCoverage.getClassCoverages()) {
+				different += cc.getLineCounter().getCoveredRatio() - findLineRatioWtihClassName(parent, cc);
+			}
+			if (different <= 0.01f && different >= -0.01f)
+				return false;
+		}		
+		
+		return true;
+	}
+
+	private double findLineRatioWtihClassName(ProductGraph parent, IClassCoverage cc) {
+		Collection<IClassCoverage> parentClassCoverages = parent.getProductCoverage().getClassCoverages();
+		
+		for(IClassCoverage pcc : parentClassCoverages) {
+			if(pcc.getName().equals(cc.getName()))
+				return pcc.getLineCounter().getCoveredRatio();
+		}
+		
+		return 0.f;
+	}
+	
+
 }
