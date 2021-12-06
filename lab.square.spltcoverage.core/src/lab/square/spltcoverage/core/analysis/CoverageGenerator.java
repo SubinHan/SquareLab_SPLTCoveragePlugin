@@ -36,8 +36,8 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
-import lab.square.spltcoverage.core.model.CoverageResult;
-import lab.square.spltcoverage.core.model.IProxy;
+import lab.square.spltcoverage.model.CoverageResult;
+import lab.square.spltcoverage.model.IProxy;
 
 
 /*

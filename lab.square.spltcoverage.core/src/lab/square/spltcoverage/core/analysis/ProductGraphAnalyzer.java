@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
-import lab.square.spltcoverage.core.model.ProductCoverage;
-import lab.square.spltcoverage.core.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductCoverage;
+import lab.square.spltcoverage.model.ProductGraph;
 
 public class ProductGraphAnalyzer {
 	Collection<ProductGraph> heads;

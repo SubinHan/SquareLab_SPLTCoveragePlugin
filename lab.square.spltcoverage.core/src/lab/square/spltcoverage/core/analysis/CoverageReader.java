@@ -22,10 +22,10 @@ import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
-import lab.square.spltcoverage.core.model.ProductCoverage;
-import lab.square.spltcoverage.core.model.ProductCoverageManager;
-import lab.square.spltcoverage.core.model.TestCaseCoverage;
-import lab.square.spltcoverage.core.model.TestMethodCoverage;
+import lab.square.spltcoverage.model.ProductCoverage;
+import lab.square.spltcoverage.model.ProductCoverageManager;
+import lab.square.spltcoverage.model.TestCaseCoverage;
+import lab.square.spltcoverage.model.TestMethodCoverage;
 
 /**
  * The CoverageReader class is the class reading the product coverages.

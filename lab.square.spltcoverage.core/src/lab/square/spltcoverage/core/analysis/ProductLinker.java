@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import lab.square.spltcoverage.core.model.ProductCoverage;
-import lab.square.spltcoverage.core.model.ProductCoverageManager;
-import lab.square.spltcoverage.core.model.ProductGraph;
-import lab.square.spltcoverage.core.model.TestCaseCoverage;
-import lab.square.spltcoverage.core.model.TestMethodCoverage;
+import lab.square.spltcoverage.model.ProductCoverage;
+import lab.square.spltcoverage.model.ProductCoverageManager;
+import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.TestCaseCoverage;
+import lab.square.spltcoverage.model.TestMethodCoverage;
 
 public class ProductLinker {
 	private int min;
