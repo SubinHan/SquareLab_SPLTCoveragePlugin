@@ -18,11 +18,11 @@ import guru.nidi.graphviz.model.Graph;
 import guru.nidi.graphviz.model.Node;
 import lab.square.spltcoverage.model.ProductGraph;
 
-public class VizGenerator {
+public class GraphVizGenerator {
 	
 	private static final int RENDER_HEIGHT = 2048;
 
-	public VizGenerator() {
+	public GraphVizGenerator() {
 
 	}
 

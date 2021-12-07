@@ -11,12 +11,12 @@ import lab.square.spltcoverage.core.analysis.CoverageReader;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
-import lab.square.spltcoverage.report.VizGenerator;
+import lab.square.spltcoverage.report.GraphVizGenerator;
 
 public class VizGeneratorTest {
 	
 	@Test
-	public void generatorTestMinepump() {
+	public void testGeneratorMinepump() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/minepump/";
@@ -25,7 +25,7 @@ public class VizGeneratorTest {
 		Collection<ProductGraph> heads = createLinker(directory, classDirectory);
 		
 		try {
-			VizGenerator.generate(heads);
+			GraphVizGenerator.generate(heads);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,7 +33,7 @@ public class VizGeneratorTest {
 	}
 	
 	//@Test
-	public void generatorTestGpl() {
+	public void testGeneratorGpl() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/gpl/";
@@ -42,7 +42,7 @@ public class VizGeneratorTest {
 		Collection<ProductGraph> heads = createLinker(directory, classDirectory);
 		
 		try {
-			VizGenerator.generate(heads);
+			GraphVizGenerator.generate(heads);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
