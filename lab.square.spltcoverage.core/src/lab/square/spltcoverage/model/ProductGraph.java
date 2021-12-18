@@ -20,10 +20,16 @@ public class ProductGraph {
 		this.featureSet = new HashMap<String, Boolean>();
 	}
 	
+	public ProductGraph(Map<String, Boolean> featureSet) {
+		this();
+		this.featureSet = featureSet;
+	}
+	
 	public ProductGraph(ProductCoverage product) {
 		this();
 		this.productCoverage = product;
-		this.featureSet = product.getFeatureSet();
+		if(product != null)
+			this.featureSet = product.getFeatureSet();
 	}
 	
 	public void addParent(ProductGraph parent) {

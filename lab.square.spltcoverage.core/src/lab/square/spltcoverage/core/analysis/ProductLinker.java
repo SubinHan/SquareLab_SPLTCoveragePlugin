@@ -393,7 +393,7 @@ public class ProductLinker {
 			Map<String, Boolean> targetProduct, int level) {
 		ProductGraph graph = findGraphEquals(generatedGraph, targetProduct);
 		if (graph == null) {
-			graph = new ProductGraph(null);
+			graph = new ProductGraph(targetProduct);
 			graph.setLevel(level);
 			generatedGraph.add(graph);
 			notGeneratedYet.remove(targetProduct);
