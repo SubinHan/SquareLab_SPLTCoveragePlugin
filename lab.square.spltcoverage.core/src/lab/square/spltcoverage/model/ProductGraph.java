@@ -1,24 +1,29 @@
 package lab.square.spltcoverage.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
 
 public class ProductGraph {
 	private Collection<ProductGraph> parents;
 	private Collection<ProductGraph> children;
+	private Map<String, Boolean> featureSet;
 	private ProductCoverage productCoverage;
 	private int level;
 	
 	public ProductGraph() {
 		this.parents = new HashSet<ProductGraph>();
 		this.children = new HashSet<ProductGraph>();
+		this.featureSet = new HashMap<String, Boolean>();
 	}
 	
 	public ProductGraph(ProductCoverage product) {
 		this();
 		this.productCoverage = product;
+		this.featureSet = product.getFeatureSet();
 	}
 	
 	public void addParent(ProductGraph parent) {
@@ -50,6 +55,10 @@ public class ProductGraph {
 	public int getLevel() {
 		return this.level;
 	}	
+	
+	public Map<String, Boolean> getFeatureSet(){
+		return this.featureSet;
+	}
 	
 	public boolean isCoveredMoreThanParent() {
 		double different = 0;

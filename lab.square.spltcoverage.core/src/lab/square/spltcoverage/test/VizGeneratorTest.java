@@ -59,8 +59,7 @@ public class VizGeneratorTest {
 			e.printStackTrace();
 		}
 
-		ProductLinker linker = new ProductLinker(manager);
-		Collection<ProductGraph> heads = linker.linkAll();
+		Collection<ProductGraph> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
 			fail();
 		
