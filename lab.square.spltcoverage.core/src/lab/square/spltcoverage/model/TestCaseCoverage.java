@@ -123,17 +123,23 @@ public class TestCaseCoverage {
 		if(targetClasses == null)
 			throw new IllegalStateException("Cannot decide equailty. Set target classes before call equals().");
 		
-		return equals(obj, targetClasses);
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
 	}
 	
 	/**
 	 * Checks equality within only given classes.
 	 * You can use also setTargetClasses() and equals().
 	 * @param obj
-	 * @param classes
+	 * @param classNames
 	 * @return
 	 */
-	public boolean equals(Object obj, Class... classes) {
+	public boolean equals(Object obj, String... classNames) {
 		TestCaseCoverage compareTo;
 		if (!(obj instanceof TestCaseCoverage))
 			return false;
@@ -144,7 +150,7 @@ public class TestCaseCoverage {
 			return false;
 		
 		for(TestMethodCoverage tmc : testMethodCoverages) {
-			if(!tmc.equals(compareTo.getTestMethodCoverage(tmc.getMethodName()), classes))
+			if(!tmc.equals(compareTo.getTestMethodCoverage(tmc.getMethodName()), classNames))
 				return false;
 		}
 		

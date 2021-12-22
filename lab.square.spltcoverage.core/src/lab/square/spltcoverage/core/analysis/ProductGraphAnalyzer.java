@@ -21,7 +21,7 @@ public class ProductGraphAnalyzer {
 		this.problemFeatures = new ArrayList<Collection<String>>();
 		init();
 	}
-	
+
 	private void init() {
 		initProblems();
 	}
@@ -34,19 +34,21 @@ public class ProductGraphAnalyzer {
 				if (visited.contains(graph))
 					return;
 				visited.add(graph);
+				System.out.println("Graph visited: " + graph.getFeatureSet());
 
 				ProductCoverage pc = graph.getProductCoverage();
-				Collection<ProductGraph> parents = graph.getParents();
 				for (ProductGraph parent : graph.getParents()) {
-					if(parent == null)
+					if (parent == null)
 						continue;
 					int thisScore = pc.getScore();
 					int targetScore = parent.getProductCoverage().getScore();
-					
-					if(thisScore == targetScore) {
-						problemFeatures.add(calculateDifference(parent.getProductCoverage().getFeatureSet(), pc.getFeatureSet()));
-						
-						if(!problemProducts.contains(graph)) {
+
+					if (pc.equals(parent.getProductCoverage())) {
+
+						problemFeatures.add(
+								calculateDifference(parent.getProductCoverage().getFeatureSet(), pc.getFeatureSet()));
+
+						if (!problemProducts.contains(graph)) {
 							problemProducts.add(graph);
 							break;
 						}
@@ -60,13 +62,12 @@ public class ProductGraphAnalyzer {
 		});
 	}
 
-	protected Collection<String> calculateDifference(Map<String, Boolean> smaller,
-			Map<String, Boolean> bigger) {
+	protected Collection<String> calculateDifference(Map<String, Boolean> smaller, Map<String, Boolean> bigger) {
 		HashSet<String> toReturn = new HashSet<String>();
-		
-		for(String key : smaller.keySet()) {
-			if(!smaller.get(key)) {
-				if(bigger.get(key)) {
+
+		for (String key : smaller.keySet()) {
+			if (!smaller.get(key)) {
+				if (bigger.get(key)) {
 					toReturn.add(key);
 				}
 			}
@@ -84,7 +85,7 @@ public class ProductGraphAnalyzer {
 
 	private void acceptGraph(GraphVisitor visitor) {
 		visited.clear();
-		for(ProductGraph head : heads)
+		for (ProductGraph head : heads)
 			visitor.visit(head);
 	}
 

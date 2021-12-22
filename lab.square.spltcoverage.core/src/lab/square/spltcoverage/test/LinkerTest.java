@@ -58,7 +58,7 @@ public class LinkerTest {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerNotepad() {		
 		String directory;
 		String classDirectory;
@@ -118,7 +118,7 @@ public class LinkerTest {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	//@Test
+	@Test
 	public void testLinkerFeatureAmp8() {		
 		String directory;
 		String classDirectory;
@@ -246,7 +246,7 @@ public class LinkerTest {
 		
 		Map<String, IClassCoverage> parentMap;
 
-		if(different == 0)
+		if(isProblemProduct(graph))
 			notEnough++;
 			
 		for(ProductGraph child : graph.getChildren()) {
@@ -254,6 +254,32 @@ public class LinkerTest {
 		}
 	}
 	
+	private boolean isProblemProduct(ProductGraph graph) {
+		ProductCoverage pc = graph.getProductCoverage();
+		
+		if(graph.getParents() == null)
+			return false;
+		
+		for(ProductGraph parent : graph.getParents()) {
+			if(parent == null)
+				continue;
+			Collection<IClassCoverage> classCoverages = pc.getClassCoverages();
+			boolean isProblem = true;
+			
+			for(IClassCoverage cc : classCoverages) {
+				double different = cc.getLineCounter().getCoveredRatio() - getLineRatioOfClass(parent.getProductCoverage().getClassCoverages(), cc.getName());
+				if(different != 0) {
+					isProblem = false;
+					break;
+				}
+			}
+			
+			if(isProblem)
+				return true;
+		}
+		return false;
+	}
+
 	private int findParentsScore(ProductGraph graph) {
 		if(graph.getParents() == null)
 			return 0;
@@ -278,14 +304,18 @@ public class LinkerTest {
 		for(ProductGraph parent : graph.getParents()) {
 			if(parent == null)
 				continue;
-			Collection<IClassCoverage> parentClassCoverages = parent.getProductCoverage().getClassCoverages();
 			
-			for(IClassCoverage cc : parentClassCoverages) {
-				if(cc.getName().equals(name))
-					return cc.getLineCounter().getCoveredRatio();
-			}
-			break;
+			return getLineRatioOfClass(parent.getProductCoverage().getClassCoverages(), name);
 		}
+		return 0.f;
+	}
+	
+	private double getLineRatioOfClass(Collection<IClassCoverage> ccs, String className) {		
+		for(IClassCoverage cc : ccs) {
+			if(cc.getName().equals(className))
+				return cc.getLineCounter().getCoveredRatio();
+		}
+		
 		return 0.f;
 	}
 	

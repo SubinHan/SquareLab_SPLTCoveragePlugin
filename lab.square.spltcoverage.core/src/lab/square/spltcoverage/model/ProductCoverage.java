@@ -133,10 +133,23 @@ public class ProductCoverage {
 	
 	@Override
 	public boolean equals(Object obj) throws IllegalStateException {
-		if(targetClasses == null)
-			return justEquals(obj);
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
 		
-		return equals(obj, targetClasses);
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
 	}
 	
 	/**
@@ -146,7 +159,7 @@ public class ProductCoverage {
 	 * @param classes
 	 * @return
 	 */
-	public boolean equals(Object obj, Class... classes) {
+	public boolean equals(Object obj, String... classNames) {
 		ProductCoverage compareTo;
 		if (!(obj instanceof ProductCoverage))
 			return false;
@@ -154,7 +167,7 @@ public class ProductCoverage {
 		compareTo = (ProductCoverage) obj;
 		
 		for(TestCaseCoverage tcc : testCaseCoverages) {
-			if(!tcc.equals(compareTo.getTestCaseCoverage(tcc.getTestCaseName()), classes))
+			if(!tcc.equals(compareTo.getTestCaseCoverage(tcc.getTestCaseName()), classNames))
 				return false;
 		}
 		

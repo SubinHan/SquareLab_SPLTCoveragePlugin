@@ -113,17 +113,23 @@ public class TestMethodCoverage {
 	public boolean equals(Object obj){
 		if(targetClasses == null)
 			return false;		
-		return equals(obj, targetClasses);
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
 	}
 
 	/**
 	 * Checks equality within only given classes.
 	 * You can use also setTargetClasses() and equals().
 	 * @param obj
-	 * @param classes
+	 * @param classNames
 	 * @return
 	 */
-	public boolean equals(Object obj, Class... classes) {
+	public boolean equals(Object obj, String... classNames) {
 		TestMethodCoverage compareTo;
 		if (!(obj instanceof TestMethodCoverage))
 			return false;
@@ -133,9 +139,9 @@ public class TestMethodCoverage {
 		if (!testMethodName.equals(compareTo.getMethodName()))
 			return false;
 
-		for (Class klass : classes) {
+		for (String klass : classNames) {
 			for (IClassCoverage cc : compareTo.getCoverages()) {
-				if(klass.getCanonicalName().replace(".", "/").equals(cc.getName())) {
+				if(klass.equals(cc.getName())) {
 					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
 						if(cc.getLine(i).getStatus() != this.getCoverage(cc.getName()).getLine(i).getStatus())
 							return false;

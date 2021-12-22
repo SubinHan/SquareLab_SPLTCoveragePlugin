@@ -270,7 +270,13 @@ public class CoverageReader {
 
 		for (ProductCoverage product : products) {
 			for (ProductCoverage product2 : products) {
-				if (product.equals(product2, targetClasses)) {
+				String[] classNames = new String[targetClasses.length];
+				int i = 0;
+				for(Class klass : targetClasses) {
+					classNames[i++] = klass.getCanonicalName().replace(".", "/");
+				}
+				
+				if (product.equals(product2, classNames)) {
 					if (!product.getFeatureSet().equals(product2.getFeatureSet())) {
 						System.out.println(product.getFeatureSet() + "\n" + product2.getFeatureSet());
 						System.out.println("===================");
