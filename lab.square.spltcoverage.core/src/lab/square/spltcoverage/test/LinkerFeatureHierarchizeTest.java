@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import lab.square.spltcoverage.core.analysis.FeatureSetGroupReader;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
+import lab.square.spltcoverage.io.FeatureSetGroupReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductGraph;
 

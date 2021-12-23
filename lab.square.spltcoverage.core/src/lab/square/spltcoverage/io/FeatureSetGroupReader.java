@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.analysis;
+package lab.square.spltcoverage.io;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
+import lab.square.spltcoverage.core.analysis.IFeatureSetReader;
 
 /**
  * 

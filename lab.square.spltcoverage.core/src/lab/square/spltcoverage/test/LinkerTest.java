@@ -11,8 +11,8 @@ import org.jacoco.core.analysis.IClassCoverage;
 import org.junit.Before;
 import org.junit.Test;
 
-import lab.square.spltcoverage.core.analysis.CoverageReader;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
+import lab.square.spltcoverage.io.CoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;

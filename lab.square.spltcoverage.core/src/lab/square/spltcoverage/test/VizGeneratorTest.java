@@ -7,8 +7,8 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import lab.square.spltcoverage.core.analysis.CoverageReader;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
+import lab.square.spltcoverage.io.CoverageReader;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.report.GraphVizGenerator;
