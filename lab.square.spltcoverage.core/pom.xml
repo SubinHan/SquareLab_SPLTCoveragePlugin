@@ -30,5 +30,10 @@
 			<version>0.7.7.201606060606</version>
 		</dependency>
 
+		<dependency>
+			<groupId>lab.square.similaritymeasure</groupId>
+			<artifactId>lab.square.similaritymeasure</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -25,11 +25,11 @@ public class PGAnalyzerTest {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	//@Test
+	@Test
 	public void testLinkerFeatureAmp1() {		
 		String directory;
 		String classDirectory;
-		directory = "D:/directorypath/featureamp1";
+		directory = "D:/directorypath/featureamp1.old2";
 		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\FeatureAMP1\\bin";
 		
 		testAnalyzer(directory, classDirectory);
@@ -45,7 +45,7 @@ public class PGAnalyzerTest {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerAtm() {		
 		String directory;
 		String classDirectory;
