@@ -40,8 +40,6 @@ public class ProductGraphAnalyzer {
 				for (ProductGraph parent : graph.getParents()) {
 					if (parent == null)
 						continue;
-					int thisScore = pc.getScore();
-					int targetScore = parent.getProductCoverage().getScore();
 
 					if (pc.equals(parent.getProductCoverage())) {
 

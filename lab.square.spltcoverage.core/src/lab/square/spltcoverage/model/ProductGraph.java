@@ -77,12 +77,10 @@ public class ProductGraph {
 		for(ProductGraph parent : this.parents) {
 			if(parent == null)
 				continue;
-			different = 0.f;
-			for(IClassCoverage cc : this.productCoverage.getClassCoverages()) {
-				different += cc.getLineCounter().getCoveredRatio() - findLineRatioWtihClassName(parent, cc);
-			}
-			if (different <= 0.01f && different >= -0.01f)
+			
+			if (productCoverage.equals(parent.getProductCoverage())) {
 				return false;
+			}
 		}		
 		
 		return true;

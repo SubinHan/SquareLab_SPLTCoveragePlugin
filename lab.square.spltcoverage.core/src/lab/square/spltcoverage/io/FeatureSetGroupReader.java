@@ -44,6 +44,7 @@ public class FeatureSetGroupReader implements IFeatureSetReader {
 				while((line = reader.readLine()) != null){
 					featureSet.put(line, true);
 				}
+				reader.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
