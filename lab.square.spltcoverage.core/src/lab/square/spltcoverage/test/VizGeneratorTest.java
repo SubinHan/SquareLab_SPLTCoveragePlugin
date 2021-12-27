@@ -50,7 +50,7 @@ public class VizGeneratorTest {
 		Collection<ProductGraph> heads = createLinker(directory, classDirectory);
 		
 		try {
-			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_SHOWPROBLEM_TOPTOBOTTOM);
+			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_LIGHT_LEFTTORIGHT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

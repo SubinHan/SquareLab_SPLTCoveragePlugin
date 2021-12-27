@@ -20,11 +20,17 @@ import lab.square.spltcoverage.model.ProductGraph;
 
 public class GraphVizGenerator {
 
-	public static final Config CONFIG_DEFAULT_TOPTOBOTTOM = new Config("product", RankDir.TOP_TO_BOTTOM, true, false, false);
-	public static final Config CONFIG_DEFAULT_LEFTTORIGHT = new Config("product", RankDir.LEFT_TO_RIGHT, true, false, false);
-	public static final Config CONFIG_LIGHT_TOPTOBOTTOM = new Config("product", RankDir.TOP_TO_BOTTOM, false, false, false);
-	public static final Config CONFIG_LIGHT_LEFTTORIGHT = new Config("product", RankDir.LEFT_TO_RIGHT, false, false, false);
-	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product", RankDir.TOP_TO_BOTTOM, true, false, true);
+	public static int LEFT_TO_RIGHT = 0x00000000;
+	public static int TOP_TO_BOTTOM = 0x00000001;
+	public static int DRAW_ALL_ARROW = 0x00000002;
+	public static int DIRECTED = 0x00000004;
+	public static int HIGHLIGHT_PROBLEM_PRODUCTS = 0x00000008;
+
+	public static final Config CONFIG_DEFAULT_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM | DRAW_ALL_ARROW);
+	public static final Config CONFIG_DEFAULT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT | DRAW_ALL_ARROW);
+	public static final Config CONFIG_LIGHT_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM);
+	public static final Config CONFIG_LIGHT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT);
+	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
 	
 	private static final int RENDER_HEIGHT = 2048;
 
@@ -41,13 +47,13 @@ public class GraphVizGenerator {
 
 	public static void generate(Collection<ProductGraph> roots, Config config)
 			throws IOException {
-		Graph g = Factory.graph("report").graphAttr().with(Rank.dir(config.dir)).linkAttr().with("class",
+		Graph g = Factory.graph("report").graphAttr().with(Rank.dir((TOP_TO_BOTTOM & config.config) != 0 ? RankDir.TOP_TO_BOTTOM : RankDir.LEFT_TO_RIGHT)).linkAttr().with("class",
 				"link-class");
 
 		Node node = Factory.node(config.rootName);
 
 		for (ProductGraph root : roots) {
-			g = g.with(linkChildrenRecur(root, node, new HashSet<String>(), config.drawAllArrow, config.highlightProblemProducts));
+			g = g.with(linkChildrenRecur(root, node, new HashSet<String>(), (DRAW_ALL_ARROW & config.config) != 0, (HIGHLIGHT_PROBLEM_PRODUCTS & config.config) != 0));
 		}
 
 		try {
@@ -106,18 +112,11 @@ public class GraphVizGenerator {
 
 	public static class Config {
 		String rootName;
-		final RankDir dir;
-		final boolean drawAllArrow;
-		final boolean isDirected;
-		final boolean highlightProblemProducts;
+		final int config;
 
-		public Config(String rootName, RankDir dir, boolean drawAllArrow, boolean isDirected,
-				boolean highlightProblemProducts) {
+		public Config(String rootName, int config) {
 			this.rootName = rootName;
-			this.dir = dir;
-			this.drawAllArrow = drawAllArrow;
-			this.isDirected = isDirected;
-			this.highlightProblemProducts = highlightProblemProducts;
+			this.config = config;
 		}
 		
 		public void setRootName(String title) {
