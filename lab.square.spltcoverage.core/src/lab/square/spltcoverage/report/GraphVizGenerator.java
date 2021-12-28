@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,31 +30,35 @@ public class GraphVizGenerator {
 	public static final Config CONFIG_DEFAULT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT | DRAW_ALL_ARROW);
 	public static final Config CONFIG_LIGHT_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM);
 	public static final Config CONFIG_LIGHT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT);
-	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
-	
+	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product",
+			TOP_TO_BOTTOM | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
+
 	private static final int RENDER_HEIGHT = 2048;
 
 	public GraphVizGenerator() {
 
 	}
 
-	public static void generate(ProductGraph root, Config config)
-			throws IOException {
+	public static void generate(ProductGraph root, Config config) throws IOException {
 		Collection<ProductGraph> roots = new ArrayList<ProductGraph>();
 		roots.add(root);
 		generate(roots, config);
 	}
 
-	public static void generate(Collection<ProductGraph> roots, Config config)
-			throws IOException {
-		Graph g = Factory.graph("report").graphAttr().with(Rank.dir((TOP_TO_BOTTOM & config.config) != 0 ? RankDir.TOP_TO_BOTTOM : RankDir.LEFT_TO_RIGHT)).linkAttr().with("class",
-				"link-class");
+	public static void generate(Collection<ProductGraph> roots, Config config) throws IOException {
+		Graph g = Factory.graph("report").graphAttr()
+				.with(Rank.dir((TOP_TO_BOTTOM & config.config) != 0 ? RankDir.TOP_TO_BOTTOM : RankDir.LEFT_TO_RIGHT))
+				.linkAttr().with("class", "link-class");
 
 		Node node = Factory.node(config.rootName);
 
+		Map<String, Node> visited = new HashMap<String, Node>();
+
 		for (ProductGraph root : roots) {
-			g = g.with(linkChildrenRecur(root, node, new HashSet<String>(), (DRAW_ALL_ARROW & config.config) != 0, (HIGHLIGHT_PROBLEM_PRODUCTS & config.config) != 0));
+			node = node.link(linkChildrenRecur(root, node, visited, (DRAW_ALL_ARROW & config.config) != 0,
+					(HIGHLIGHT_PROBLEM_PRODUCTS & config.config) != 0));
 		}
+		g = g.with(node);
 
 		try {
 			Graphviz.fromGraph(g).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
@@ -64,21 +68,26 @@ public class GraphVizGenerator {
 		}
 	}
 
-	private static Node linkChildrenRecur(ProductGraph product, Node node, Set<String> visited, boolean drawAllArrow,
+	private static Node linkChildrenRecur(ProductGraph product, Node parent, Map<String, Node> visited, boolean drawAllArrow,
 			boolean highlightProblemProducts) {
-		for (ProductGraph child : product.getChildren()) {
-			if (!drawAllArrow && visited.contains(child.getProductCoverage().getFeatureSet().toString()))
-				continue;
-			visited.add(child.getProductCoverage().getFeatureSet().toString());
-
-			Node childNode = Factory.node(toLightString(child.getProductCoverage().getFeatureSet()));
-			if (highlightProblemProducts && !product.isCoveredMoreThanParent()) {
-				childNode = childNode.with(Color.RED);
+		Node node;
+		
+		if(visited.get(product.getFeatureSet()) == null){
+			node = Factory.node(toLightString(product.getFeatureSet()));
+			if(highlightProblemProducts && !product.isCoveredMoreThanParent()) {
+				node = node.with(Color.RED);
 			}
-			node = node.link(
-					Factory.to(linkChildrenRecur(child, childNode, visited, drawAllArrow, highlightProblemProducts)));
+			
+			for(ProductGraph child : product.getChildren()) {
+				node = node.link(Factory.to(linkChildrenRecur(child, node, visited, drawAllArrow, highlightProblemProducts)));
+			}
 		}
+		else {
+			node = visited.get(product.getFeatureSet());
+		}
+		
 		return node;
+		
 	}
 
 	private static String toLightString(Map<String, Boolean> featureSet) {
@@ -118,7 +127,7 @@ public class GraphVizGenerator {
 			this.rootName = rootName;
 			this.config = config;
 		}
-		
+
 		public void setRootName(String title) {
 			this.rootName = title;
 		}

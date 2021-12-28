@@ -15,7 +15,7 @@ import lab.square.spltcoverage.report.GraphVizGenerator;
 
 public class VizGeneratorTest {
 	
-	//@Test
+	@Test
 	public void testGeneratorChess() {
 		String directory;
 		String classDirectory;
@@ -25,7 +25,7 @@ public class VizGeneratorTest {
 		generateViz(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testGeneratorElevator() {
 		String directory;
 		String classDirectory;
