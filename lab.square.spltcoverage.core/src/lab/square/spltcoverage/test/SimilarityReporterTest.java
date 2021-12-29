@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
-import lab.square.spltcoverage.report.SimilarityReporter;
+import lab.square.spltcoverage.report.MarkdownSimilarityReporter;
 
 public class SimilarityReporterTest {
 	
@@ -22,9 +22,9 @@ public class SimilarityReporterTest {
 		
 		Collection<Map<String, Boolean>> products = reader.readAll();
 		
-		SimilarityReporter reporter = new SimilarityReporter(products);
+		MarkdownSimilarityReporter reporter = new MarkdownSimilarityReporter(products);
 		
-		reporter.generateReport();
+		reporter.generateReport("D:/directorypath/chess/report", "table");
 	}
 
 }

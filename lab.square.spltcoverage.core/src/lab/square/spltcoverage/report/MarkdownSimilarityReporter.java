@@ -1,5 +1,8 @@
 package lab.square.spltcoverage.report;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -10,20 +13,46 @@ import lab.square.similaritymeasure.core.ISimilarityMeasurer;
 import lab.square.similaritymeasure.core.Jaccard;
 import lab.square.spltcoverage.io.MarkdownTableBuilder;
 
-public class SimilarityReporter {
+public class MarkdownSimilarityReporter {
 
 	Collection<Map<String, Boolean>> products;
 
-	public SimilarityReporter(Collection<Map<String, Boolean>> products) {
+	public MarkdownSimilarityReporter(Collection<Map<String, Boolean>> products) {
 		this.products = products;
 	}
 
-	public void generateReport() {
+	public void generateReport(String directory, String fileName) {
 		MarkdownTableBuilder builder = new MarkdownTableBuilder(products.size());
 		
 		builder = buildHeader(builder);
 		builder = buildContents(builder);
-		System.out.println(builder.build());
+		
+		FileWriter writer;
+
+		directory = directory.replace('\\', '/');
+		if(!(directory.endsWith("/")))
+			directory = directory.concat("/");
+		
+		try {
+			makeDirectory(directory);
+			writer = new FileWriter(new File(directory + fileName + ".md"));
+			writer.write(builder.build());
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
 	}
 
 	private MarkdownTableBuilder buildContents(MarkdownTableBuilder builder) {
@@ -60,7 +89,7 @@ public class SimilarityReporter {
 		String[] headers = new String[products.size()];
 		int i = 0;
 		for (Map<String, Boolean> product : products) {
-			headers[i++] = product.toString();
+			headers[i++] = toLightString(product);
 		}
 		
 		builder = builder.addHeader(headers);
@@ -68,6 +97,17 @@ public class SimilarityReporter {
 		return builder;
 	}
 	
+	private String toLightString(Map<String, Boolean> product) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(String key : product.keySet()) {
+			if(product.get(key)) {
+				builder.append(key + " ");
+			}
+		}
+		return builder.toString();
+	}
+
 	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
 		List<String> existsFeatures = new ArrayList<String>();
 		
