@@ -31,3 +31,11 @@ The idea of software product-line engineering is that we invest some initial wor
 ## How can we use this?
 
 - Example is under construction...
+<br>
+
+## VM Arguments
+
+The 7777 port is used to communicate to the JaCoCo by using RMI.
+
+`-javaagent:[JACOCO_AGNET_PATH]=jmx=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=7777 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost`
+
