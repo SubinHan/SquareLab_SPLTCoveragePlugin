@@ -1,4 +1,4 @@
-# Square Lab - SPLT Coverage
+# SQuaRe Lab - SPLT Coverage
 
 This project is for the coverage measurement in Software Product Line Testing for controlling the software variability.
 <br><br>
