@@ -45,34 +45,37 @@ public class SpltCoverageGenerator {
 			junit.addListener(new TestListener(runner, generator, productNum));
 			org.junit.runner.Result result = junit.run(runner.getTestClasses());
 
-			File productFolder = new File(runner.getBaseDirectory() + productDirectory);
-			File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
-				@Override
-				public boolean accept(File current, String name) {
-					return new File(current, name).isDirectory();
-				}
-			}).length];
+			mergeExecs(runner.getBaseDirectory(), productDirectory);
+		}
+	}
 
-			int index = 0;
-			CoverageMerger merger = new CoverageMerger();
-			for (File testCaseFolder : productFolder.listFiles()) {
-				if (!testCaseFolder.isDirectory())
-					continue;
-				File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + PREFIX_MERGED);
-				try {
-					merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				testCaseExecs[index++] = testCaseExec;
+	private void mergeExecs(String baseDirectory, String productDirectory) {
+		File productFolder = new File(baseDirectory + productDirectory);
+		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
 			}
+		}).length];
+
+		int index = 0;
+		CoverageMerger merger = new CoverageMerger();
+		for (File testCaseFolder : productFolder.listFiles()) {
+			if (!testCaseFolder.isDirectory())
+				continue;
+			File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + PREFIX_MERGED);
 			try {
-				merger.mergeExecs(new File(productFolder, productFolder.getName() + PREFIX_MERGED), testCaseExecs);
+				merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			testCaseExecs[index++] = testCaseExec;
+		}
+		try {
+			merger.mergeExecs(new File(productFolder, productFolder.getName() + PREFIX_MERGED), testCaseExecs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

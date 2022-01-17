@@ -15,22 +15,6 @@ import org.jacoco.core.tools.ExecFileLoader;
  */
 public class CoverageMerger {
 
-	public static void main(String[] args) throws IOException {
-
-		String directory = "D:/directorypath/bankaccount/Product1/AccountTest";
-
-		ExecFileLoader execFileLoader = new ExecFileLoader();
-
-		File folder = new File(directory);
-		File[] files = folder.listFiles();
-
-		for (File file : files) {
-			execFileLoader.load(file);
-		}
-		
-		execFileLoader.save(new File(directory + "/aa"), false);
-	}
-
 	public void createCoverageList() throws IOException {
 
 	}
