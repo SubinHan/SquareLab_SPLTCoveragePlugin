@@ -1,12 +1,7 @@
 package lab.square.spltcoverage.core.analysis;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -36,6 +31,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
+import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.CoverageResult;
 import lab.square.spltcoverage.model.IProxy;
 
@@ -111,17 +107,6 @@ public class CoverageGenerator {
 		return result;
 	}
 
-	private void makeDirectory(String directory) {
-		String[] splitted = directory.split("/");
-		String checkDirectory = "";
-		for (int i = 0; i < splitted.length - 1; i++) {
-			checkDirectory = checkDirectory + splitted[i] + "/";
-			File file = new File(checkDirectory);
-			if (!file.exists())
-				file.mkdir();
-		}
-	}
-
 	private InputStream getTargetClass(final String name) {
 		final String resource = '/' + name.replace('.', '/') + ".class";
 		if (targetClasses.length == 0)
@@ -167,15 +152,6 @@ public class CoverageGenerator {
 		return loader.loadClass(name);
 	}
 
-	private void makeExecFile(String directory, final byte[] exeData) throws IOException, FileNotFoundException {
-		makeDirectory(directory);
-		File execFile = new File(directory + ".exec");
-		execFile.createNewFile();
-		final FileOutputStream localFile = new FileOutputStream(execFile, false);
-		localFile.write(exeData);
-		localFile.close();
-	}
-
 	private class TestListener extends RunListener {
 		ICoverageRunner runner;
 
@@ -199,10 +175,7 @@ public class CoverageGenerator {
 			testMethodDirectory = description.getMethodName();
 			String directory = runner.getOutputPath() + testCaseDirectory + testMethodDirectory;
 
-			final byte[] exeData = proxy.getExecutionData(false);
-
-			makeExecFile(directory, exeData);
-
+			CoverageWriter.makeExecFile(directory, proxy.getExecutionData(false));
 			resetData();
 		}
 

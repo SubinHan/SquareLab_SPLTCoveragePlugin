@@ -14,6 +14,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
+import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.CoverageResult;
 
 public class SpltCoverageGenerator {
@@ -114,14 +115,7 @@ public class SpltCoverageGenerator {
 					+ testMethodDirectory;
 			CoverageResult result = generator.analyze();
 
-			final byte[] exeData = result.getProxy().getExecutionData(false);
-
-			makeDirectory(directory);
-			File execFile = new File(directory + ".exec");
-			execFile.createNewFile();
-			final FileOutputStream localFile = new FileOutputStream(execFile, false);
-			localFile.write(exeData);
-			localFile.close();
+			CoverageWriter.makeExecFile(directory, result.getProxy().getExecutionData(false));
 
 			generator.resetData();
 		}
