@@ -112,7 +112,7 @@ public class SpltCoverageGenerator {
 			testMethodDirectory = runner.getTestMethodDirectory() + description.getMethodName();
 			String directory = runner.getBaseDirectory() + runner.getProductDirectory() + productNumber + testCaseDirectory
 					+ testMethodDirectory;
-			CoverageResult result = generator.analyze(directory);
+			CoverageResult result = generator.analyze();
 
 			final byte[] exeData = result.getProxy().getExecutionData(false);
 

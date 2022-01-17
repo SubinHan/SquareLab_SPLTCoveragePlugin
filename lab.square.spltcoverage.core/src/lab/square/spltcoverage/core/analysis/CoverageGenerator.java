@@ -87,7 +87,6 @@ public class CoverageGenerator {
 
 	public CoverageResult analyze() throws Exception {
 
-		// Retrieve JaCoCo version and session id:
 		System.out.println("Version: " + proxy.getVersion());
 		System.out.println("Session: " + proxy.getSessionId());
 
@@ -109,13 +108,6 @@ public class CoverageGenerator {
 		}
 
 		final CoverageResult result = new CoverageResult(analyzer, coverageBuilder, proxy);
-		return result;
-	}
-
-	public CoverageResult analyze(String directory) throws Exception {
-
-		final CoverageResult result = analyze();
-
 		return result;
 	}
 
@@ -160,67 +152,6 @@ public class CoverageGenerator {
 		}
 	}
 
-	/**
-	 * @deprecated Use the SpltCoverageGenerator.generateCoverage().
-	 * 
-	 * @param runner
-	 */
-	@Deprecated
-	public void generateCoverage(ISpltCoverageRunner runner) {
-		count = 0;
-		targetClasses = runner.getTargetClasses();
-		while (runner.makeNextProduct()) {
-			count++;
-
-			String productDirectory;
-			productDirectory = runner.getProductDirectory() + count;
-			String pathOfFeatureSet = runner.getBaseDirectory() + productDirectory + "/featureset.txt";
-			File featureSet = new File(pathOfFeatureSet);
-			makeDirectory(pathOfFeatureSet);
-			try {
-				// write file containing the current featureSet in the product folder.
-				BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet));
-				localFile.write(runner.getFeatureSet().toString());
-				localFile.close();
-			} catch (Exception e) {
-				;
-			}
-
-			JUnitCore junit = new JUnitCore();
-			junit.addListener(new SpltTestListener(runner));
-			org.junit.runner.Result result = junit.run(runner.getTestClasses());
-
-			File productFolder = new File(runner.getBaseDirectory() + productDirectory);
-			File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
-				@Override
-				public boolean accept(File current, String name) {
-					return new File(current, name).isDirectory();
-				}
-			}).length];
-
-			int index = 0;
-			CoverageMerger merger = new CoverageMerger();
-			for (File testCaseFolder : productFolder.listFiles()) {
-				if (!testCaseFolder.isDirectory())
-					continue;
-				File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + "Merged.exec");
-				try {
-					merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				testCaseExecs[index++] = testCaseExec;
-			}
-			try {
-				merger.mergeExecs(new File(productFolder, productFolder.getName() + "Merged.exec"), testCaseExecs);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-	}
-
 	private String convertPathToClassName(String classPath) {
 		String filtered = classPath.replace('\\', '/').replace('/', '.').replaceFirst(".*bin.", "");
 
@@ -243,51 +174,6 @@ public class CoverageGenerator {
 		final FileOutputStream localFile = new FileOutputStream(execFile, false);
 		localFile.write(exeData);
 		localFile.close();
-	}
-
-	private class SpltTestListener extends RunListener {
-		ISpltCoverageRunner runner;
-
-		public SpltTestListener(ISpltCoverageRunner runner) {
-			this.runner = runner;
-		}
-
-		@Override
-		public void testStarted(Description description) throws Exception {
-		}
-
-		@Override
-		public void testFinished(Description description) throws Exception {
-			System.out.println(description.getTestClass().getSimpleName());
-			System.out.println(description.getMethodName());
-			System.out.println("//==============finished===========//");
-			String testCaseDirectory;
-			String testMethodDirectory;
-			testCaseDirectory = runner.getTestCaseDirectory() + description.getTestClass().getSimpleName();
-			testMethodDirectory = runner.getTestMethodDirectory() + description.getMethodName();
-			String directory = runner.getBaseDirectory() + runner.getProductDirectory() + count + testCaseDirectory
-					+ testMethodDirectory;
-			CoverageResult result = analyze(directory);
-
-			final byte[] exeData = result.getProxy().getExecutionData(false);
-
-			makeDirectory(directory);
-			File execFile = new File(directory + ".exec");
-			execFile.createNewFile();
-			final FileOutputStream localFile = new FileOutputStream(execFile, false);
-			localFile.write(exeData);
-			localFile.close();
-
-			resetData();
-		}
-
-		@Override
-		public void testFailure(Failure failure) throws Exception {
-			System.out.println(failure.getTestHeader());
-			System.out.println(failure.getTrace());
-			System.out.println(failure.getMessage());
-
-		}
 	}
 
 	private class TestListener extends RunListener {
