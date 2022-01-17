@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
@@ -22,6 +21,7 @@ import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
+import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.TestCaseCoverage;
@@ -93,7 +93,7 @@ public class CoverageReader {
 
 				// the file is not a directory.
 				if (!testCaseFolder.isDirectory()) {
-					if (testCaseFolder.getName().endsWith("Merged.exec")) {
+					if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.PREFIX_MERGED)) {
 						productCoverage.addClassCoverages(load(testCaseFolder));
 					}
 					continue;

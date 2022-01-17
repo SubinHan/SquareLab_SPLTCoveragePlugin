@@ -17,6 +17,8 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.model.CoverageResult;
 
 public class SpltCoverageGenerator {
+	
+	public static final String PREFIX_MERGED = "__merged__.exec";
 
 	public void generateCoverage(ISpltCoverageRunner runner) throws MalformedObjectNameException, IOException {
 		int productNum = 0;
@@ -55,7 +57,7 @@ public class SpltCoverageGenerator {
 			for (File testCaseFolder : productFolder.listFiles()) {
 				if (!testCaseFolder.isDirectory())
 					continue;
-				File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + "Merged.exec");
+				File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + PREFIX_MERGED);
 				try {
 					merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
 				} catch (IOException e) {
@@ -64,7 +66,7 @@ public class SpltCoverageGenerator {
 				testCaseExecs[index++] = testCaseExec;
 			}
 			try {
-				merger.mergeExecs(new File(productFolder, productFolder.getName() + "Merged.exec"), testCaseExecs);
+				merger.mergeExecs(new File(productFolder, productFolder.getName() + PREFIX_MERGED), testCaseExecs);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
