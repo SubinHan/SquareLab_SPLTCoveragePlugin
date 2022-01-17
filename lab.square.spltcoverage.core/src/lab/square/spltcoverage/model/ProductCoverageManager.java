@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
 
-import lab.square.spltcoverage.core.analysis.ISpltCoverageVisitor;
-
 /**
  * The ProductCoverageManager class is a class containing the ProductCoverages.
  * @author SQUARELAB

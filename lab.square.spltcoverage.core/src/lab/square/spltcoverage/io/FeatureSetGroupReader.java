@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import lab.square.spltcoverage.core.analysis.IFeatureSetReader;
-
 /**
  * 
  * @author selab

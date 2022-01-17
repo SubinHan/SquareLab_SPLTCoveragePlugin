@@ -16,7 +16,7 @@ import org.jacoco.core.tools.ExecFileLoader;
 public class CoverageMerger {
 
 	public void createCoverageList() throws IOException {
-
+		
 	}
 	
 	/**

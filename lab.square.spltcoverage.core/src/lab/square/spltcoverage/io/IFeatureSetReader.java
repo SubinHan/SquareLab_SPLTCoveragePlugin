@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.analysis;
+package lab.square.spltcoverage.io;
 
 import java.util.Collection;
 import java.util.Map;
