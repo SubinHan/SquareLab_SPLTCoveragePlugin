@@ -3,12 +3,16 @@ package lab.square.spltcoverage.core.analysis;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
@@ -35,12 +39,10 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.model.CoverageResult;
 import lab.square.spltcoverage.model.IProxy;
 
-
 /*
  * Dependes on jacoco 0.7.7!!!!!
  */
 public class CoverageGenerator {
-
 
 	private static final String DESTFILE = "mydata.exec";
 
@@ -59,8 +61,8 @@ public class CoverageGenerator {
 	 * Creates a new example instance printing to the given stream.
 	 * 
 	 * @param out stream for outputs
-	 * @throws IOException 
-	 * @throws MalformedObjectNameException 
+	 * @throws IOException
+	 * @throws MalformedObjectNameException
 	 */
 	public CoverageGenerator(final PrintStream out) throws IOException, MalformedObjectNameException {
 		this.out = out;
@@ -73,11 +75,12 @@ public class CoverageGenerator {
 		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
 		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();
 
-		proxy = MBeanServerInvocationHandler.newProxyInstance(connection,
-				new ObjectName("org.jacoco:type=Runtime"), IProxy.class, false);
+		proxy = MBeanServerInvocationHandler.newProxyInstance(connection, new ObjectName("org.jacoco:type=Runtime"),
+				IProxy.class, false);
 	}
 
-	public CoverageGenerator(final PrintStream out, Class... targetClasses) throws MalformedObjectNameException, IOException {
+	public CoverageGenerator(final PrintStream out, Class... targetClasses)
+			throws MalformedObjectNameException, IOException {
 		this(out);
 		this.targetClasses = targetClasses;
 	}
@@ -112,14 +115,6 @@ public class CoverageGenerator {
 	public CoverageResult analyze(String directory) throws Exception {
 
 		final CoverageResult result = analyze();
-		final byte[] exeData = result.proxy.getExecutionData(false);
-
-		makeDirectory(directory);
-		File execFile = new File(directory + ".exec");
-		execFile.createNewFile();
-		final FileOutputStream localFile = new FileOutputStream(execFile, false);
-		localFile.write(exeData);
-		localFile.close();
 
 		return result;
 	}
@@ -146,9 +141,27 @@ public class CoverageGenerator {
 		proxy.reset();
 	}
 
+	public void generateCoverage(ICoverageRunner runner) {
+		runTestInPath(runner.getClasspath(), runner.getTestClassesPath(), runner);
+	}
+
+	private void runTestInPath(String classpath, String[] testClassesPath, ICoverageRunner runner) {
+		JUnitCore junit = new JUnitCore();
+		junit.addListener(new TestListener(runner));
+
+		for (String path : testClassesPath) {
+			Class forTest = null;
+			try {
+				forTest = loadClassByPath(classpath, convertPathToClassName(path));
+			} catch (MalformedURLException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			junit.run(forTest);
+		}
+	}
+
 	/**
-	 * @deprecated
-	 * Use the SpltCoverageGenerator.generateCoverage().
+	 * @deprecated Use the SpltCoverageGenerator.generateCoverage().
 	 * 
 	 * @param runner
 	 */
@@ -174,7 +187,7 @@ public class CoverageGenerator {
 			}
 
 			JUnitCore junit = new JUnitCore();
-			junit.addListener(new TestListener(runner));
+			junit.addListener(new SpltTestListener(runner));
 			org.junit.runner.Result result = junit.run(runner.getTestClasses());
 
 			File productFolder = new File(runner.getBaseDirectory() + productDirectory);
@@ -208,10 +221,34 @@ public class CoverageGenerator {
 		}
 	}
 
-	private class TestListener extends RunListener {
+	private String convertPathToClassName(String classPath) {
+		String filtered = classPath.replace('\\', '/').replace('/', '.').replaceFirst(".*bin.", "");
+
+		if (filtered.endsWith(".class"))
+			filtered = filtered.substring(0, filtered.length() - 6);
+
+		return filtered;
+	}
+
+	private Class loadClassByPath(String binPath, String name) throws MalformedURLException, ClassNotFoundException {
+		URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });
+
+		return loader.loadClass(name);
+	}
+
+	private void makeExecFile(String directory, final byte[] exeData) throws IOException, FileNotFoundException {
+		makeDirectory(directory);
+		File execFile = new File(directory + ".exec");
+		execFile.createNewFile();
+		final FileOutputStream localFile = new FileOutputStream(execFile, false);
+		localFile.write(exeData);
+		localFile.close();
+	}
+
+	private class SpltTestListener extends RunListener {
 		ISpltCoverageRunner runner;
 
-		public TestListener(ISpltCoverageRunner runner) {
+		public SpltTestListener(ISpltCoverageRunner runner) {
 			this.runner = runner;
 		}
 
@@ -252,7 +289,43 @@ public class CoverageGenerator {
 
 		}
 	}
-	
-	
+
+	private class TestListener extends RunListener {
+		ICoverageRunner runner;
+
+		public TestListener(ICoverageRunner runner) {
+			this.runner = runner;
+		}
+
+		@Override
+		public void testStarted(Description description) throws Exception {
+		}
+
+		@Override
+		public void testFinished(Description description) throws Exception {
+			System.out.println(description.getTestClass().getSimpleName());
+			System.out.println(description.getMethodName());
+			System.out.println("//==============finished===========//");
+
+			String testCaseDirectory;
+			String testMethodDirectory;
+			testCaseDirectory = description.getTestClass().getSimpleName() + "/";
+			testMethodDirectory = description.getMethodName();
+			String directory = runner.getOutputPath() + testCaseDirectory + testMethodDirectory;
+
+			final byte[] exeData = proxy.getExecutionData(false);
+
+			makeExecFile(directory, exeData);
+
+			resetData();
+		}
+
+		@Override
+		public void testFailure(Failure failure) throws Exception {
+			System.out.println(failure.getTestHeader());
+			System.out.println(failure.getTrace());
+			System.out.println(failure.getMessage());
+		}
+	}
 
 }
