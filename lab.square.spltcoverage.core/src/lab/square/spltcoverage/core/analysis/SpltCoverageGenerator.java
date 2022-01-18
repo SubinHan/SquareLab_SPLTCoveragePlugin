@@ -33,22 +33,26 @@ public class SpltCoverageGenerator {
 			String productDirectory;
 			productDirectory = provider.getProductDirectory() + productNum;
 			String pathOfFeatureSet = provider.getBaseDirectory() + productDirectory + "/featureset.txt";
-			File featureSet = new File(pathOfFeatureSet);
-			makeDirectory(pathOfFeatureSet);
-			try {
-				// write file containing the current featureSet in the product folder.
-				BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet));
-				localFile.write(provider.getFeatureSet().toString());
-				localFile.close();
-			} catch (Exception e) {
-				;
-			}
+			writeFeatureSet(pathOfFeatureSet, provider.getFeatureSet().toString());
 
 			JUnitCore junit = new JUnitCore();
 			junit.addListener(new TestListener(provider, generator, productNum));
 			org.junit.runner.Result result = junit.run(provider.getTestClasses());
 
 			mergeExecs(provider.getBaseDirectory() + productDirectory);
+		}
+	}
+
+	private void writeFeatureSet(String pathOfFeatureSet, String content) {
+		File featureSet = new File(pathOfFeatureSet);
+		makeDirectory(pathOfFeatureSet);
+		try {
+			// write file containing the current featureSet in the product folder.
+			BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet));
+			localFile.write(content);
+			localFile.close();
+		} catch (Exception e) {
+			;
 		}
 	}
 	
@@ -74,7 +78,6 @@ public class SpltCoverageGenerator {
 				
 				@Override
 				public String getClasspath() {
-					// TODO Auto-generated method stub
 					return info.classpath;
 				}
 			});
@@ -109,7 +112,6 @@ public class SpltCoverageGenerator {
 		try {
 			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

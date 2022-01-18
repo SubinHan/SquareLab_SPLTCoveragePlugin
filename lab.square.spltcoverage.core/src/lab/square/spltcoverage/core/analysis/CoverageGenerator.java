@@ -154,10 +154,10 @@ public class CoverageGenerator {
 	}
 
 	private class TestListener extends RunListener {
-		IProductProvider runner;
+		IProductProvider provider;
 
-		public TestListener(IProductProvider runner) {
-			this.runner = runner;
+		public TestListener(IProductProvider provider) {
+			this.provider = provider;
 		}
 
 		@Override
@@ -174,7 +174,7 @@ public class CoverageGenerator {
 			String testMethodDirectory;
 			testCaseDirectory = description.getTestClass().getSimpleName() + "/";
 			testMethodDirectory = description.getMethodName();
-			String directory = runner.getOutputPath() + testCaseDirectory + testMethodDirectory;
+			String directory = provider.getOutputPath() + testCaseDirectory + testMethodDirectory;
 
 			CoverageWriter.makeExecFile(directory, proxy.getExecutionData(false));
 			resetData();
