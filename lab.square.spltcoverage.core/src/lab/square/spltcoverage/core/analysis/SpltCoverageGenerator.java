@@ -154,8 +154,9 @@ public class SpltCoverageGenerator {
 			String directory = provider.getBaseDirectory() + provider.getProductDirectory() + productNumber + testCaseDirectory
 					+ testMethodDirectory;
 			CoverageResult result = generator.analyze();
-
-			CoverageWriter.makeExecFile(directory, result.getProxy().getExecutionData(false));
+			JacocoConnection connection = JacocoConnection.getInstance();
+			
+			CoverageWriter.makeExecFile(directory, connection.getExecutionData(false));
 
 			generator.resetData();
 		}

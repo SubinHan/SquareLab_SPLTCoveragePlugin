@@ -48,11 +48,7 @@ public class CoverageGenerator {
 	private final PrintStream out;
 	private Class[] targetClasses;
 	private int count;
-	private final IProxy proxy;
-
-	final IRuntime runtime;
-	final Instrumenter instr;
-	final RuntimeData data;
+	private final JacocoConnection jacocoConnection;
 
 	/**
 	 * Creates a new example instance printing to the given stream.
@@ -62,18 +58,8 @@ public class CoverageGenerator {
 	 * @throws MalformedObjectNameException
 	 */
 	public CoverageGenerator(final PrintStream out) throws IOException, MalformedObjectNameException {
+		this.jacocoConnection = JacocoConnection.getInstance();
 		this.out = out;
-		runtime = new LoggerRuntime();
-		instr = new Instrumenter(runtime);
-		data = new RuntimeData();
-
-		// Open connection to the coverage agent:
-		final JMXServiceURL url = new JMXServiceURL(SERVICE_URL);
-		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
-		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();
-
-		proxy = MBeanServerInvocationHandler.newProxyInstance(connection, new ObjectName("org.jacoco:type=Runtime"),
-				IProxy.class, false);
 	}
 
 	public CoverageGenerator(final PrintStream out, Class... targetClasses)
@@ -84,14 +70,14 @@ public class CoverageGenerator {
 
 	public CoverageResult analyze() throws Exception {
 
-		System.out.println("Version: " + proxy.getVersion());
-		System.out.println("Session: " + proxy.getSessionId());
+		System.out.println("Version: " + jacocoConnection.getVersion());
+		System.out.println("Session: " + jacocoConnection.getSessionId());
 
 		final ExecutionDataStore execStore = new ExecutionDataStore();
 		final SessionInfoStore sessionStore = new SessionInfoStore();
 
 		final ExecutionDataReader reader = new ExecutionDataReader(
-				new ByteArrayInputStream(proxy.getExecutionData(false)));
+				new ByteArrayInputStream(jacocoConnection.getExecutionData(false)));
 		reader.setExecutionDataVisitor(execStore);
 		reader.setSessionInfoVisitor(sessionStore);
 		reader.read();
@@ -104,7 +90,7 @@ public class CoverageGenerator {
 			analyzer.analyzeClass(getTargetClass(targetName), targetName);
 		}
 
-		final CoverageResult result = new CoverageResult(analyzer, coverageBuilder, proxy);
+		final CoverageResult result = new CoverageResult(analyzer, coverageBuilder);
 		return result;
 	}
 
@@ -116,7 +102,7 @@ public class CoverageGenerator {
 	}
 
 	public void resetData() throws IOException, MalformedObjectNameException {
-		proxy.reset();
+		jacocoConnection.resetData();
 	}
 
 	public void generateCoverage(IProductProvider provider) {
@@ -176,7 +162,7 @@ public class CoverageGenerator {
 			testMethodDirectory = description.getMethodName();
 			String directory = provider.getOutputPath() + testCaseDirectory + testMethodDirectory;
 
-			CoverageWriter.makeExecFile(directory, proxy.getExecutionData(false));
+			CoverageWriter.makeExecFile(directory, jacocoConnection.getExecutionData(false));
 			resetData();
 		}
 
