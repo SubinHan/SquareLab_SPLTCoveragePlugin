@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
-import lab.square.spltcoverage.io.CoverageReader;
+import lab.square.spltcoverage.io.SpltCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.report.GraphVizGenerator;
@@ -78,7 +78,7 @@ public class VizGeneratorTest {
 
 	private Collection<ProductGraph> createLinker(String directory, String classDirectory) {
 		ProductCoverageManager manager = new ProductCoverageManager();
-		CoverageReader reader = new CoverageReader(manager, directory, classDirectory);
+		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
 		try {
 			reader.read();
 		} catch (IOException e) {

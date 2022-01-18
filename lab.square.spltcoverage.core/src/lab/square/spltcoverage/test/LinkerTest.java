@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
-import lab.square.spltcoverage.io.CoverageReader;
+import lab.square.spltcoverage.io.SpltCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
@@ -173,7 +173,7 @@ public class LinkerTest {
 
 	private void testLinker(String directory, String classDirectory) {
 		ProductCoverageManager manager = new ProductCoverageManager();
-		CoverageReader reader = new CoverageReader(manager, directory, classDirectory);
+		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
 		try {
 			reader.read();
 		} catch (IOException e) {
