@@ -1,9 +1,9 @@
 package lab.square.spltcoverage.core.analysis;
 
-import java.io.InputStream;
+import java.util.Collection;
 
-public interface ICoverageRunner {
-	public String[] getTestClassesPath();
+public interface IProductProvider {
+	public Collection<String> getTestClassPaths();
 	public String getClasspath();	
 	public String getOutputPath();
 }

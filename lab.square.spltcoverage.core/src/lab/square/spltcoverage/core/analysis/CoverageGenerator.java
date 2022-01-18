@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collection;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
@@ -118,11 +119,11 @@ public class CoverageGenerator {
 		proxy.reset();
 	}
 
-	public void generateCoverage(ICoverageRunner runner) {
-		runTestInPath(runner.getClasspath(), runner.getTestClassesPath(), runner);
+	public void generateCoverage(IProductProvider provider) {
+		runTestInPath(provider.getClasspath(), provider.getTestClassPaths(), provider);
 	}
 
-	private void runTestInPath(String classpath, String[] testClassesPath, ICoverageRunner runner) {
+	private void runTestInPath(String classpath, Collection<String> testClassesPath, IProductProvider runner) {
 		JUnitCore junit = new JUnitCore();
 		junit.addListener(new TestListener(runner));
 
@@ -153,9 +154,9 @@ public class CoverageGenerator {
 	}
 
 	private class TestListener extends RunListener {
-		ICoverageRunner runner;
+		IProductProvider runner;
 
-		public TestListener(ICoverageRunner runner) {
+		public TestListener(IProductProvider runner) {
 			this.runner = runner;
 		}
 

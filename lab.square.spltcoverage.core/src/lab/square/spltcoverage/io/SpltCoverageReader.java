@@ -93,7 +93,7 @@ public class SpltCoverageReader {
 
 				// the file is not a directory.
 				if (!testCaseFolder.isDirectory()) {
-					if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.PREFIX_MERGED)) {
+					if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
 						productCoverage.addClassCoverages(load(testCaseFolder));
 					}
 					continue;
@@ -104,7 +104,7 @@ public class SpltCoverageReader {
 				for (File testMethodCoverageFile : testMethodCoverages) {
 					final String testMethodName = testMethodCoverageFile.getName().replaceAll(".exec", "");
 
-					if (testMethodName.endsWith("Merged") || testMethodName.endsWith(SpltCoverageGenerator.PREFIX_MERGED)) {
+					if (testMethodName.endsWith("Merged") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
 						testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
 						continue;
 					}

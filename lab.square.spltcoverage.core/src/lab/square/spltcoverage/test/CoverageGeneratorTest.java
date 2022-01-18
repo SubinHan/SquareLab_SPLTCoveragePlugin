@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
@@ -31,8 +36,11 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.notification.RunListener;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
-import lab.square.spltcoverage.core.analysis.ICoverageRunner;
+import lab.square.spltcoverage.core.analysis.IProductProvider;
+import lab.square.spltcoverage.core.analysis.ISpltProvider;
+import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
 import lab.square.spltcoverage.model.IProxy;
+import lab.square.spltcoverage.model.ProductSourceInfo;
 
 public class CoverageGeneratorTest {
 	
@@ -43,6 +51,75 @@ public class CoverageGeneratorTest {
 	
 	private static final String SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:7777/jmxrmi";
 	
+	
+	private static final String CLASSPATH_1 = "D:\\workspace-featureide\\Elevator-feature01\\bin";
+	private static final String CLASSPATH_2 = "D:\\workspace-featureide\\Elevator-feature02\\bin";
+	private static final String OUTPUT_PATH_SPLT = "D:/directorypath/elevatorantenna/";
+	
+	@Test
+	public void testSpltCoverageGenerator() {
+		List<ProductSourceInfo> productSourceInfos;
+		productSourceInfos = new ArrayList<ProductSourceInfo>();
+		
+		Collection<String> testsPath1 = new ArrayList<String>();
+		testsPath1.add("D:\\workspace-featureide\\Elevator-feature01\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
+		Collection<String> testsPath2 = new ArrayList<String>();
+		testsPath2.add("D:\\workspace-featureide\\Elevator-feature02\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
+		
+		Map<String, Boolean> featureSet1 = new HashMap<String, Boolean>();
+		featureSet1.put("Elevator", true);
+		featureSet1.put("Behavior", true);
+		featureSet1.put("Modes", true);
+		featureSet1.put("ShortestPaht", true);
+		featureSet1.put("CallButtons", true);
+		featureSet1.put("DirectedCall", true);
+		featureSet1.put("Service", true);
+		featureSet1.put("Priorities", true);
+		featureSet1.put("RushHour", true);
+		featureSet1.put("FloorPrioritiy", true);
+		featureSet1.put("PersonPriority", true);
+		featureSet1.put("VoiceOutput", true);
+		featureSet1.put("Security", true);
+		featureSet1.put("Permission", true);
+		featureSet1.put("FloorPermision", true);
+		featureSet1.put("PermissionControl", true);
+		featureSet1.put("Safety", true);
+		featureSet1.put("Overloaded", true);
+		
+		Map<String, Boolean> featureSet2 = new HashMap<String, Boolean>();
+		featureSet1.put("Elevator", true);
+		featureSet1.put("Behavior", true);
+		featureSet1.put("Modes", true);
+		featureSet1.put("FIFO", true);
+		featureSet1.put("CallButtons", true);
+		featureSet1.put("UndirectedCall", true);
+	
+		
+		productSourceInfos.add(new ProductSourceInfo(CLASSPATH_1, testsPath1, featureSet1));
+		productSourceInfos.add(new ProductSourceInfo(CLASSPATH_2, testsPath2, featureSet2));
+		
+		SpltCoverageGenerator generator;
+		generator = new SpltCoverageGenerator();
+		
+		try {
+			generator.generateCoverage(OUTPUT_PATH_SPLT, new ISpltProvider() {
+				
+				@Override
+				public int getNumProducts() {
+					return productSourceInfos.size();
+				}
+
+				@Override
+				public ProductSourceInfo getProductInfo(int i) {
+					return productSourceInfos.get(i);
+				}
+			});
+		} catch (MalformedObjectNameException | IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Test
 	public void testCoverageGenerator() {
 		CoverageGenerator generator = null;
@@ -52,11 +129,13 @@ public class CoverageGeneratorTest {
 			e.printStackTrace();
 		}
 		
-		generator.generateCoverage(new ICoverageRunner() {
+		generator.generateCoverage(new IProductProvider() {
 
 			@Override
-			public String[] getTestClassesPath() {
-				return new String[] { CLASS_PATH };
+			public Collection<String> getTestClassPaths() {
+				Collection<String> testClassPaths = new ArrayList<String>();
+				testClassPaths.add(CLASS_PATH);
+				return testClassPaths;
 			}
 
 			@Override
