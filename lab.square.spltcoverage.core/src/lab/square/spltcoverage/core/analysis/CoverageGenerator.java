@@ -2,6 +2,7 @@ package lab.square.spltcoverage.core.analysis;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -42,12 +43,9 @@ import lab.square.spltcoverage.model.IProxy;
 public class CoverageGenerator {
 
 	private static final String DESTFILE = "mydata.exec";
+	public static final String SUFFIX_MERGED = "__merged__.exec";
 
-	private static final String SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:7777/jmxrmi";
-
-	private final PrintStream out;
 	private Class[] targetClasses;
-	private int count;
 	private final JacocoConnection jacocoConnection;
 
 	/**
@@ -57,14 +55,13 @@ public class CoverageGenerator {
 	 * @throws IOException
 	 * @throws MalformedObjectNameException
 	 */
-	public CoverageGenerator(final PrintStream out) throws IOException, MalformedObjectNameException {
+	public CoverageGenerator() throws IOException, MalformedObjectNameException {
 		this.jacocoConnection = JacocoConnection.getInstance();
-		this.out = out;
 	}
 
-	public CoverageGenerator(final PrintStream out, Class... targetClasses)
+	public CoverageGenerator(Class... targetClasses)
 			throws MalformedObjectNameException, IOException {
-		this(out);
+		this();
 		this.targetClasses = targetClasses;
 	}
 
@@ -107,11 +104,12 @@ public class CoverageGenerator {
 
 	public void generateCoverage(IProductProvider provider) {
 		runTestInPath(provider.getClasspath(), provider.getTestClassPaths(), provider);
+		mergeExecs(provider.getOutputPath());
 	}
 
-	private void runTestInPath(String classpath, Collection<String> testClassesPath, IProductProvider runner) {
+	private void runTestInPath(String classpath, Collection<String> testClassesPath, IProductProvider provider) {
 		JUnitCore junit = new JUnitCore();
-		junit.addListener(new TestListener(runner));
+		junit.addListener(new TestListener(provider));
 
 		for (String path : testClassesPath) {
 			Class forTest = null;
@@ -137,6 +135,35 @@ public class CoverageGenerator {
 		URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });
 
 		return loader.loadClass(name);
+	}
+	
+	private void mergeExecs(String productDirectory) {
+		File productFolder = new File(productDirectory);
+		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		}).length];
+
+		int index = 0;
+		CoverageMerger merger = new CoverageMerger();
+		for (File testCaseFolder : productFolder.listFiles()) {
+			if (!testCaseFolder.isDirectory())
+				continue;
+			File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + SUFFIX_MERGED);
+			try {
+				merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			testCaseExecs[index++] = testCaseExec;
+		}
+		try {
+			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private class TestListener extends RunListener {

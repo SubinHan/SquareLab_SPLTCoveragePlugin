@@ -124,7 +124,7 @@ public class CoverageGeneratorTest {
 	public void testCoverageGenerator() {
 		CoverageGenerator generator = null;
 		try {
-			generator = new CoverageGenerator(System.out);
+			generator = new CoverageGenerator();
 		} catch (MalformedObjectNameException | IOException e) {
 			e.printStackTrace();
 		}

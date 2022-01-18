@@ -27,7 +27,7 @@ public class SpltCoverageGenerator {
 	public void generateCoverage(IIterableSpltProvider provider) throws MalformedObjectNameException, IOException {
 		int productNum = 0;
 		Class[] targetClasses = provider.getTargetClasses();
-		CoverageGenerator generator = new CoverageGenerator(System.out, targetClasses);
+		CoverageGenerator generator = new CoverageGenerator(targetClasses);
 		while (provider.makeNextProduct()) {
 			productNum++;
 			String productDirectory;
@@ -37,7 +37,7 @@ public class SpltCoverageGenerator {
 
 			JUnitCore junit = new JUnitCore();
 			junit.addListener(new TestListener(provider, generator, productNum));
-			org.junit.runner.Result result = junit.run(provider.getTestClasses());
+			junit.run(provider.getTestClasses());
 
 			mergeExecs(provider.getBaseDirectory() + productDirectory);
 		}
@@ -62,7 +62,7 @@ public class SpltCoverageGenerator {
 		for(int i = 0; i < provider.getNumProducts(); i++) {
 			ProductSourceInfo info = provider.getProductInfo(i);
 			CoverageGenerator generator = null;
-			generator = new CoverageGenerator(System.out);
+			generator = new CoverageGenerator();
 			String thisOutputPath = outputPath + PRODUCT_DIRECTORY_NAME + i + "/";
 			productPaths.add(thisOutputPath);
 			generator.generateCoverage(new IProductProvider() {				
@@ -153,12 +153,11 @@ public class SpltCoverageGenerator {
 			testMethodDirectory = provider.getTestMethodDirectory() + description.getMethodName();
 			String directory = provider.getBaseDirectory() + provider.getProductDirectory() + productNumber + testCaseDirectory
 					+ testMethodDirectory;
-			CoverageResult result = generator.analyze();
-			JacocoConnection connection = JacocoConnection.getInstance();
 			
+			JacocoConnection connection = JacocoConnection.getInstance();
 			CoverageWriter.makeExecFile(directory, connection.getExecutionData(false));
 
-			generator.resetData();
+			connection.resetData();
 		}
 
 		@Override
