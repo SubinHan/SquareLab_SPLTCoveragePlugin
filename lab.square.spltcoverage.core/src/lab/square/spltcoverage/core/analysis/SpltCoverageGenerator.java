@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.management.MalformedObjectNameException;
@@ -55,12 +53,14 @@ public class SpltCoverageGenerator {
 	}
 	
 	public void generateCoverage(String outputPath, ISpltProvider provider) throws MalformedObjectNameException, IOException {
+		Collection<String> productPaths = new ArrayList<String>();
 		
 		for(int i = 0; i < provider.getNumProducts(); i++) {
 			ProductSourceInfo info = provider.getProductInfo(i);
 			CoverageGenerator generator = null;
 			generator = new CoverageGenerator(System.out);
 			String thisOutputPath = outputPath + PRODUCT_DIRECTORY_NAME + i + "/";
+			productPaths.add(thisOutputPath);
 			generator.generateCoverage(new IProductProvider() {				
 				@Override
 				public Collection<String> getTestClassPaths() {
@@ -78,6 +78,9 @@ public class SpltCoverageGenerator {
 					return info.classpath;
 				}
 			});
+		}
+		for(String productPath : productPaths) {
+			mergeExecs("", productPath);
 		}
 	}
 
