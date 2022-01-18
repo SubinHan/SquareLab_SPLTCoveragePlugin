@@ -48,7 +48,7 @@ public class SpltCoverageGenerator {
 			junit.addListener(new TestListener(provider, generator, productNum));
 			org.junit.runner.Result result = junit.run(provider.getTestClasses());
 
-			mergeExecs(provider.getBaseDirectory(), productDirectory);
+			mergeExecs(provider.getBaseDirectory() + productDirectory);
 		}
 	}
 	
@@ -80,12 +80,12 @@ public class SpltCoverageGenerator {
 			});
 		}
 		for(String productPath : productPaths) {
-			mergeExecs("", productPath);
+			mergeExecs(productPath);
 		}
 	}
 
-	private void mergeExecs(String baseDirectory, String productDirectory) {
-		File productFolder = new File(baseDirectory + productDirectory);
+	private void mergeExecs(String productDirectory) {
+		File productFolder = new File(productDirectory);
 		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File current, String name) {
