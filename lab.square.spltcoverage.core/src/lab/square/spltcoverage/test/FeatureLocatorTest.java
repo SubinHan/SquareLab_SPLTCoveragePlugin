@@ -16,7 +16,7 @@ public class FeatureLocatorTest {
 				"D:\\workspace-featureide\\Elevator-feature01\\src\\de\\ovgu\\featureide\\examples\\elevator\\core\\controller\\Request.java");
 
 		for (FeatureLocation featureLocation : featureLocations) {
-			for (String feature : featureLocation.getFeatureExpressions()) {
+			for (String feature : featureLocation.getFeatureExpression()) {
 				System.out.println(feature);
 			}
 			System.out.println(featureLocation.expressionToString());
@@ -28,7 +28,7 @@ public class FeatureLocatorTest {
 				"D:\\workspace-featureide\\Elevator-feature01\\src\\de\\ovgu\\featureide\\examples\\elevator\\core\\controller\\Request.java");
 
 		for (FeatureLocation featureLocation : featureLocations) {
-			for (String feature : featureLocation.getFeatureExpressions()) {
+			for (String feature : featureLocation.getFeatureExpression()) {
 				System.out.println(feature);
 			}
 			System.out.println(featureLocation.expressionToString());

@@ -33,11 +33,7 @@ public class AntennaCoverageComparator {
 		Collection<FeatureLocation> featureLocations = getFeature(path);
 		
 		for (int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
-			System.out.print("Line " + i + " " + getColor(cc.getLine(i).getStatus()) + ", ");
-			for(FeatureLocation fl : featureLocations) {
-				if(fl.getLineStart() <= i && i <= fl.getLineEnd())
-					System.out.print(fl.getFeatureExpressions().toString());
-			}
+			System.out.print("Line " + i + " " + getColor(cc.getLine(i).getStatus()) + ", " + FeatureLocation.calculateFeatureExpressionOfLine(featureLocations, i));
 			System.out.println();
 		}
 
