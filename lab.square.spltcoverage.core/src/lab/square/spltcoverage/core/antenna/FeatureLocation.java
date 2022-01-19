@@ -93,8 +93,10 @@ public class FeatureLocation {
 		Stack<String> result = null;
 		int max = 0;
 		for(Stack<String> featureExpression : featureExpressions) {
-			if(featureExpression.size() > max)
+			if(featureExpression.size() > max) {
+				max = featureExpression.size();
 				result = featureExpression;
+			}
 		}
 		
 		return result;
