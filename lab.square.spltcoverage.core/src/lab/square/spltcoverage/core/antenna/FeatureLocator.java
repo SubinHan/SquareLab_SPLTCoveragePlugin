@@ -23,20 +23,19 @@ public class FeatureLocator {
 		String line;
 		Stack<String> stackedExpressions = new Stack<String>();
 		while ((line = lineReader.readLine()) != null) {
-			System.out.println("    " + line);
-
+			line = removeSpace(line);
 			if (line.contains("//#if")) {
 				int startLine = lineReader.getLineNumber();
 				String featureExpression;
-				line = removeSpace(line);
 				featureExpression = line.substring(5);
 
-				System.out.println(featureExpression + startLine);
 				LocationInfo locationInfo = new LocationInfo(featureExpression, startLine);
 				infoStack.add(locationInfo);
 				stackedExpressions.push(featureExpression);
 			} else if (line.contains("//#endif")) {
 				int endLine = lineReader.getLineNumber();
+				if(infoStack.size() == 0)
+					System.out.println(endLine);
 				LocationInfo popped = infoStack.pop();
 
 				featureLocations.add(
@@ -51,7 +50,6 @@ public class FeatureLocator {
 				stackedExpressions.pop();
 				
 				String featureExpression;
-				line = removeSpace(line);
 				featureExpression = line.substring(7);
 
 				LocationInfo locationInfo = new LocationInfo(featureExpression, endLine);
