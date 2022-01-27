@@ -7,12 +7,21 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Rank;
+import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.attribute.Rank.RankDir;
+import guru.nidi.graphviz.attribute.Size.Mode;
+import guru.nidi.graphviz.attribute.Size;
+import guru.nidi.graphviz.engine.Engine;
+import guru.nidi.graphviz.engine.EngineResult;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
+import guru.nidi.graphviz.engine.GraphvizEngine;
+import guru.nidi.graphviz.engine.Options;
+import guru.nidi.graphviz.engine.Rasterizer;
 import guru.nidi.graphviz.model.Factory;
 import guru.nidi.graphviz.model.Graph;
 import guru.nidi.graphviz.model.Node;
@@ -33,10 +42,9 @@ public class GraphVizGenerator {
 	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product",
 			TOP_TO_BOTTOM | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
 
-	private static final int RENDER_HEIGHT = 2048;
+	private static final int RENDER_HEIGHT = 4096;
 
 	public GraphVizGenerator() {
-
 	}
 
 	public static void generate(ProductGraph root, Config config) throws IOException {
@@ -48,7 +56,7 @@ public class GraphVizGenerator {
 	public static void generate(Collection<ProductGraph> roots, Config config) throws IOException {
 		Graph g = Factory.graph("report").graphAttr()
 				.with(Rank.dir((TOP_TO_BOTTOM & config.config) != 0 ? RankDir.TOP_TO_BOTTOM : RankDir.LEFT_TO_RIGHT))
-				.linkAttr().with("class", "link-class");
+				.linkAttr().with(Style.SOLID);
 
 		Node node = Factory.node(config.rootName);
 
@@ -61,7 +69,7 @@ public class GraphVizGenerator {
 		g = g.with(node);
 
 		try {
-			Graphviz.fromGraph(g).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
+			Graphviz.fromGraph(g).engine(Engine.DOT).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

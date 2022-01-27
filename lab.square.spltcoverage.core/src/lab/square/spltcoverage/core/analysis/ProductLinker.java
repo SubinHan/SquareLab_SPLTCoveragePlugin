@@ -40,6 +40,7 @@ public class ProductLinker {
 		return heads;
 	}
 
+	@Deprecated
 	public static Collection<ProductGraph> link(ProductCoverageManager manager) {
 		int min = getMinNumFeature(manager);
 		Collection<ProductCoverage> notGeneratedYet = new LinkedList<ProductCoverage>(manager.getProductCoverages());

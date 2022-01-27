@@ -12,10 +12,11 @@ import lab.square.spltcoverage.io.SpltCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.report.GraphVizGenerator;
+import lab.square.spltcoverage.report.HierarchySimplifier;
 
 public class VizGeneratorTest {
 	
-	@Test
+	//@Test
 	public void testGeneratorChess() {
 		String directory;
 		String classDirectory;
@@ -56,7 +57,7 @@ public class VizGeneratorTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testGeneratorMinepump() {
 		String directory;
 		String classDirectory;
@@ -88,6 +89,9 @@ public class VizGeneratorTest {
 		Collection<ProductGraph> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
 			fail();
+		
+		HierarchySimplifier simplifier = new HierarchySimplifier();
+		heads = simplifier.cutByDepth(heads, 4);
 		
 		return heads;
 	}
