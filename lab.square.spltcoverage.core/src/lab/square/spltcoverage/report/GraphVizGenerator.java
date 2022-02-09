@@ -41,6 +41,8 @@ public class GraphVizGenerator {
 	public static final Config CONFIG_LIGHT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT);
 	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product",
 			TOP_TO_BOTTOM | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
+	public static final Config CONFIG_SHOWPROBLEM_LEFTTORIGHT = new Config("product",
+			LEFT_TO_RIGHT | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
 
 	private static final int RENDER_HEIGHT = 4096;
 
@@ -71,7 +73,6 @@ public class GraphVizGenerator {
 		try {
 			Graphviz.fromGraph(g).engine(Engine.DOT).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -65,7 +65,7 @@ public class PGAnalyzerTest {
 		testAnalyzer(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerElevator() {		
 		String directory;
 		String classDirectory;
@@ -85,7 +85,7 @@ public class PGAnalyzerTest {
 		testAnalyzer(directory, classDirectory);
 	}
 
-	//@Test
+	@Test
 	public void testLinkerVendingMachine() {		
 		String directory;
 		String classDirectory;

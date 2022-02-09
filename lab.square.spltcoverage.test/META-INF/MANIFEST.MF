@@ -7,7 +7,7 @@ Bundle-Activator: lab.square.spltcoverage.test.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  lab.square.spltcoverage.core;bundle-version="1.0.0",
- lab.square.spltcoverage.ui;bundle-version="1.0.0",
+ lab.square.spltplugin.ui;bundle-version="1.0.0",
  org.junit;bundle-version="4.13.0",
  org.jacoco.core;bundle-version="0.8.6"
 Bundle-RequiredExecutionEnvironment: JavaSE-16

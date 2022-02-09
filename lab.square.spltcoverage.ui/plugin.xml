@@ -87,5 +87,19 @@
             verticalRulerPreferenceValue="true">
       </specification>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="lab.square.spltcoverage.ui.spltcoveragecategory"
+            name="SPLTCoverage">
+      </category>
+      <view
+            category="lab.square.spltcoverage.ui.spltcoveragecategory"
+            class="lab.square.spltcoverage.ui.SpltCoverageViewPart"
+            id="lab.square.spltcoverage.ui.view1"
+            name="SPLTCoverageTable"
+            restorable="true">
+      </view>
+   </extension>
 
 </plugin>

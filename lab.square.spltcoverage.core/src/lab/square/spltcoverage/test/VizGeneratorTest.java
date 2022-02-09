@@ -15,65 +15,74 @@ import lab.square.spltcoverage.report.GraphVizGenerator;
 import lab.square.spltcoverage.report.HierarchySimplifier;
 
 public class VizGeneratorTest {
-	
-	//@Test
+
+	// @Test
 	public void testGeneratorChess() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/chess/";
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/chess/bin";
-		
+
 		generateViz(directory, classDirectory);
 	}
-	
+
 	//@Test
 	public void testGeneratorElevator() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/elevator/";
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/elevator/bin";
-		
+
 		generateViz(directory, classDirectory);
 	}
 
-	
-	//@Test
+	// @Test
 	public void testGeneratorSudoku() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/sudoku/";
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/sudoku/bin";
-		
+
 		generateViz(directory, classDirectory);
 	}
 
 	private void generateViz(String directory, String classDirectory) {
 		Collection<ProductGraph> heads = createLinker(directory, classDirectory);
-		
+
 		try {
-			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_LIGHT_LEFTTORIGHT);
+			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_SHOWPROBLEM_LEFTTORIGHT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
+
+	// @Test
 	public void testGeneratorMinepump() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/minepump/";
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/minepump/bin";
-		
+
 		generateViz(directory, classDirectory);
 	}
-	
-	//@Test
+
+	// @Test
 	public void testGeneratorGpl() {
 		String directory;
 		String classDirectory;
 		directory = "D:/directorypath/gpl/";
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/gpl/bin";
-		
+
+		generateViz(directory, classDirectory);
+	}
+
+	@Test
+	public void testGeneratorVendingMachine() {
+		String directory;
+		String classDirectory;
+		directory = "D:/directorypath/vendingmachine/";
+		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/vending/bin";
+
 		generateViz(directory, classDirectory);
 	}
 
@@ -89,10 +98,7 @@ public class VizGeneratorTest {
 		Collection<ProductGraph> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
 			fail();
-		
-		HierarchySimplifier simplifier = new HierarchySimplifier();
-		heads = simplifier.cutByDepth(heads, 4);
-		
+
 		return heads;
 	}
 }
