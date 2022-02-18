@@ -31,10 +31,8 @@ import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
-import lab.square.spltcoverage.core.analysis.CoverageReader;
-import lab.square.spltcoverage.core.analysis.ProductLinker;
-import lab.square.spltcoverage.core.model.ProductCoverageManager;
-import lab.square.spltcoverage.core.model.ProductGraph;
+import lab.square.spltcoverage.io.SpltCoverageReader;
+import lab.square.spltcoverage.model.ProductCoverageManager;
 
 public class SampleHandler extends AbstractHandler {
 	HashSet<IFile> javaFiles = new HashSet<IFile>();
@@ -69,7 +67,7 @@ public class SampleHandler extends AbstractHandler {
 						
 						
 						ProductCoverageManager manager = new ProductCoverageManager();
-						CoverageReader reader = new CoverageReader(manager, resource.getLocation().toString());
+						SpltCoverageReader reader = new SpltCoverageReader(manager, resource.getLocation().toString());
 						
 						testPrintCvoerage(resource);
 						
@@ -114,24 +112,23 @@ public class SampleHandler extends AbstractHandler {
 
 		//////////////////////
 		
-		String directory = "D:/directorypath/bankaccount/";
-		String classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/bankaccount/bin/bankaccount";
-		
-		ProductCoverageManager manager = new ProductCoverageManager();
-		CoverageReader reader = new CoverageReader(manager, directory, classDirectory);
-		try {
-			reader.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		ProductLinker linker = new ProductLinker(manager);
-		Collection<ProductGraph> heads = linker.linkAll();
-		if(heads.isEmpty() || heads.size() >= 3)
-			System.out.println("My Programming has failed.." + heads.isEmpty());
-		else
-			System.out.println("Successed!");
+//		String directory = "D:/directorypath/bankaccount/";
+//		String classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/bankaccount/bin/bankaccount";
+//		
+//		ProductCoverageManager manager = new ProductCoverageManager();
+//		CoverageReader reader = new CoverageReader(manager, directory, classDirectory);
+//		try {
+//			reader.read();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		Collection<ProductGraph> heads = ProductLinker.link(manager);
+//		if(heads.isEmpty() || heads.size() >= 3)
+//			System.out.println("My Programming has failed.." + heads.isEmpty());
+//		else
+//			System.out.println("Successed!");
 		
 		return null;
 	}

@@ -13,12 +13,33 @@
             name="Sample Command"
             id="lab.square.spltcoverage.ui.commands.sampleCommand">
       </command>
+      <command
+            id="lab.square.spltplugin.ui.commands.importSessionCommand"
+            name="Import Session">
+      </command>
+      <command
+            id="lab.square.spltplugin.ui.commands.openSessionCommand"
+            name="Open Session">
+         <commandParameter
+               id="lab.square.spltplugin.ui.params.sessionId"
+               name="Session Id"
+               optional="false">
+         </commandParameter>
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
             class="lab.square.spltcoverage.ui.handlers.SampleHandler"
             commandId="lab.square.spltcoverage.ui.commands.sampleCommand">
+      </handler>
+      <handler
+            class="lab.square.spltcoverage.ui.handlers.ImportSessionHandler"
+            commandId="lab.square.spltplugin.ui.commands.importSessionCommand">
+      </handler>
+      <handler
+            class="lab.square.spltcoverage.ui.handlers.OpenSessionHandler"
+            commandId="lab.square.spltplugin.ui.commands.openSessionCommand">
       </handler>
    </extension>
    <extension
@@ -57,6 +78,28 @@
             </command>
          </toolbar>
       </menuContribution>
+      <menuContribution
+            locationURI="toolbar:lab.square.spltcoverage.ui.spltCoverageView?after=additions">
+         <command
+               commandId="lab.square.spltplugin.ui.commands.importSessionCommand"
+               icon="icons/sample.png"
+               style="push">
+         </command>
+         <command
+               commandId="lab.square.spltplugin.ui.commands.openSessionCommand"
+               icon="icons/sample.png"
+               id="lab.squarte.spltplugin.ui.menus.sessionList"
+               style="pulldown">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:lab.squarte.spltplugin.ui.menus.sessionList">
+         <dynamic
+               class="lab.square.spltplugin.ui.dynamic.SessionListDynamic"
+               id="lab.square.spltplugin.ui.dynamic2">
+         </dynamic>
+      </menuContribution>
    </extension>
    <extension
          id="lab.square.spltcoverage.markers.covered"
@@ -90,16 +133,31 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            id="lab.square.spltcoverage.ui.spltcoveragecategory"
+            id="lab.square.spltcoverage.ui.spltCoverageCategory"
             name="SPLTCoverage">
       </category>
       <view
-            category="lab.square.spltcoverage.ui.spltcoveragecategory"
-            class="lab.square.spltcoverage.ui.SpltCoverageViewPart"
-            id="lab.square.spltcoverage.ui.view1"
+            allowMultiple="false"
+            category="lab.square.spltcoverage.ui.spltCoverageCategory"
+            class="lab.square.spltcoverage.ui.views.SpltCoverageView"
+            id="lab.square.spltcoverage.ui.spltCoverageView"
             name="SPLTCoverageTable"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="lab.square.spltplugin.ui.viewContribution1"
+            targetID="lab.square.spltcoverage.ui.spltCoverageView">
+         <action
+               class="lab.square.spltplugin.ui.actions.ImportSessionActionDelegate"
+               icon="icons/sample.png"
+               id="lab.square.spltplugin.ui.action1"
+               label="action"
+               style="push">
+         </action>
+      </viewContribution>
    </extension>
 
 </plugin>
