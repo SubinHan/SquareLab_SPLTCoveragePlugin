@@ -40,12 +40,12 @@ public class SessionListDynamic extends CompoundContributionItem implements IWor
 		int i = 0;
 		for (SpltCoverageSession session : sessions) {
 			Map<String, String> commandParams = new HashMap();
-			commandParams.put(OpenSessionHandler.PARM_SESSIONID, session.getName());
+			commandParams.put(OpenSessionHandler.PARM_SESSIONID, session.getId());
 
 			final CommandContributionItemParameter contributionParameter = new CommandContributionItemParameter(
 					serviceLocator, null, "lab.square.spltplugin.ui.commands.openSessionCommand",
 					CommandContributionItem.STYLE_PUSH);
-			contributionParameter.label = session.getName();
+			contributionParameter.label = session.getId();
 			contributionParameter.visibleEnabled = true;
 			contributionParameter.parameters = commandParams;
 

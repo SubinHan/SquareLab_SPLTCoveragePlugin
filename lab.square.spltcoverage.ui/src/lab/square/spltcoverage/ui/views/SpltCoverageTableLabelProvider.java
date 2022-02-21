@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 
 import lab.square.spltplugin.ui.model.ISpltCoverageItem;
 
-public class SpltCoverageViewLabelProvider extends LabelProvider implements ITableLabelProvider {
+public class SpltCoverageTableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {

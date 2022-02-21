@@ -34,40 +34,40 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		
-		JavaCore.addElementChangedListener(new IElementChangedListener() {
-			@Override
-			public void elementChanged(ElementChangedEvent event) {
-				System.out.println("element Changed");
-				
-			}
-		});
-		
-		Workbench.getInstance().getActiveWorkbenchWindow().getPartService().addPartListener(new IPartListener() {
-			@Override
-			public void partActivated(IWorkbenchPart part) {
-				System.out.println("part activated");
-				SampleHandler.testPrintCvoerage(part.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class));
-			}
-			@Override
-			public void partBroughtToTop(IWorkbenchPart part) {
-				System.out.println("part brought to top");
-			}
-
-			@Override
-			public void partClosed(IWorkbenchPart part) {
-				System.out.println("part closed");
-			}
-
-			@Override
-			public void partDeactivated(IWorkbenchPart part) {
-				System.out.println("part deactivated");
-			}
-			@Override
-			public void partOpened(IWorkbenchPart part) {
-				System.out.println("part opened");
-				System.out.println(part.getTitle());
-			}
-		});
+//		JavaCore.addElementChangedListener(new IElementChangedListener() {
+//			@Override
+//			public void elementChanged(ElementChangedEvent event) {
+//				System.out.println("element Changed");
+//				
+//			}
+//		});
+//		
+//		Workbench.getInstance().getActiveWorkbenchWindow().getPartService().addPartListener(new IPartListener() {
+//			@Override
+//			public void partActivated(IWorkbenchPart part) {
+//				System.out.println("part activated");
+//				SampleHandler.testPrintCvoerage(part.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class));
+//			}
+//			@Override
+//			public void partBroughtToTop(IWorkbenchPart part) {
+//				System.out.println("part brought to top");
+//			}
+//
+//			@Override
+//			public void partClosed(IWorkbenchPart part) {
+//				System.out.println("part closed");
+//			}
+//
+//			@Override
+//			public void partDeactivated(IWorkbenchPart part) {
+//				System.out.println("part deactivated");
+//			}
+//			@Override
+//			public void partOpened(IWorkbenchPart part) {
+//				System.out.println("part opened");
+//				System.out.println(part.getTitle());
+//			}
+//		});
 	}
 
 	@Override

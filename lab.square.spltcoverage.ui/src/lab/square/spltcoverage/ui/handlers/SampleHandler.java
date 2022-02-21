@@ -161,7 +161,7 @@ public class SampleHandler extends AbstractHandler {
 		
 		Collection<IClassCoverage> ccs = coverageBuilder.getClasses();
 		for(IClassCoverage cc : ccs) {
-			System.out.println(cc.getName());
+			System.out.println(cc.getId());
 			System.out.println(cc.getBranchCounter());
 			
 			if(cc.getBranchCounter().getCoveredRatio() > 0.f) {

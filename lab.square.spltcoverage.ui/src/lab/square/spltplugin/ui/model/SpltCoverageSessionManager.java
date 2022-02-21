@@ -14,17 +14,6 @@ public class SpltCoverageSessionManager {
 	
 	private SpltCoverageSessionManager() {
 		sessions = new LinkedList<SpltCoverageSession>();
-		
-		ProductCoverageManager manager = new ProductCoverageManager();
-		
-		SpltCoverageReader reader = new SpltCoverageReader(manager, "D:\\directorypath\\elevator", "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\elevator\\bin");
-		try {
-			reader.read();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		createSession(manager);
 	}
 	
 	public static SpltCoverageSessionManager getInstance() {
@@ -43,6 +32,15 @@ public class SpltCoverageSessionManager {
 	
 	public List<SpltCoverageSession> getSessions() {
 		return sessions;
+	}
+	
+	public SpltCoverageSession getSession(String id) {
+		for (SpltCoverageSession session : sessions) {
+			if(session.getId().equals(id))
+				return session;
+		}
+		
+		return null;
 	}
 	
 }

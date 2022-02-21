@@ -79,7 +79,7 @@
          </toolbar>
       </menuContribution>
       <menuContribution
-            locationURI="toolbar:lab.square.spltcoverage.ui.spltCoverageView?after=additions">
+            locationURI="toolbar:lab.square.spltcoverage.ui.spltCoverageTable?after=additions">
          <command
                commandId="lab.square.spltplugin.ui.commands.importSessionCommand"
                icon="icons/sample.png"
@@ -139,25 +139,11 @@
       <view
             allowMultiple="false"
             category="lab.square.spltcoverage.ui.spltCoverageCategory"
-            class="lab.square.spltcoverage.ui.views.SpltCoverageView"
-            id="lab.square.spltcoverage.ui.spltCoverageView"
+            class="lab.square.spltcoverage.ui.views.SpltCoverageTable"
+            id="lab.square.spltcoverage.ui.spltCoverageTable"
             name="SPLTCoverageTable"
             restorable="true">
       </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.viewActions">
-      <viewContribution
-            id="lab.square.spltplugin.ui.viewContribution1"
-            targetID="lab.square.spltcoverage.ui.spltCoverageView">
-         <action
-               class="lab.square.spltplugin.ui.actions.ImportSessionActionDelegate"
-               icon="icons/sample.png"
-               id="lab.square.spltplugin.ui.action1"
-               label="action"
-               style="push">
-         </action>
-      </viewContribution>
    </extension>
 
 </plugin>

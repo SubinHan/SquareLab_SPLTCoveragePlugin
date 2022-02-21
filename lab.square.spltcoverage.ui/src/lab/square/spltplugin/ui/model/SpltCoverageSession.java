@@ -10,18 +10,18 @@ import lab.square.spltcoverage.model.ProductCoverageManager;
 public class SpltCoverageSession {
 	
 	private ProductCoverageManager manager;
-	private String name;
+	private String id;
 	
 	
 	public SpltCoverageSession(ProductCoverageManager manager) {
 		this.manager = manager;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
 		
-		name = simpleDateFormat.format(System.currentTimeMillis());
+		id = simpleDateFormat.format(System.currentTimeMillis());
 	}
 	
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 	
 	public ISpltCoverageItem[] getItems() {
