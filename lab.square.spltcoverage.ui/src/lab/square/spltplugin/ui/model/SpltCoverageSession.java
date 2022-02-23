@@ -28,9 +28,13 @@ public class SpltCoverageSession {
 		Collection<ISpltCoverageItem> items = new LinkedList<ISpltCoverageItem>();
 		
 		for(ProductCoverage pc : manager.getProductCoverages()) {
-			items.add(new SpltCoverageItem(pc));
+			items.add(new SpltCoverageProduct(pc));
 		}
 		
 		return (ISpltCoverageItem[]) items.toArray(new ISpltCoverageItem[items.size()]);
+	}
+	
+	public ProductCoverageManager getManager() {
+		return this.manager;
 	}
 }

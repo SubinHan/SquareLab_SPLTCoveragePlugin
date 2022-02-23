@@ -46,12 +46,14 @@ lab\square\spltcoverage\core\analysis\CoverageGenerator$1.class
 lab\square\spltcoverage\report\MarkdownSimilarityReporter.class
 lab\square\spltcoverage\test\CoverageGeneratorTest$1.class
 lab\square\spltcoverage\core\analysis\ProductLinker$1.class
+lab\square\spltcoverage\model\ICoverageModelComponent.class
 lab\square\spltcoverage\model\ProductGraph.class
 lab\square\spltcoverage\core\antenna\model\ExpressionNode.class
 lab\square\spltcoverage\core\analysis\CoverageMerger.class
 lab\square\spltcoverage\core\analysis\ProductGraphAnalyzer$1.class
 lab\square\spltcoverage\core\analysis\IProductProvider.class
 lab\square\spltcoverage\test\FeatureLocatorTest.class
+lab\square\spltcoverage\model\ICoverageModelComposite.class
 lab\square\spltcoverage\core\analysis\SpltCoverageGenerator$1.class
 lab\square\spltcoverage\model\TestCaseCoverage.class
 lab\square\spltcoverage\report\VectorAdapter.class

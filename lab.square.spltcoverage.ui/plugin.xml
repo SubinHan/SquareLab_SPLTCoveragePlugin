@@ -93,6 +93,20 @@
          </command>
       </menuContribution>
       <menuContribution
+            locationURI="toolbar:lab.square.spltcoverage.ui.spltCoverageTree?after=additions">
+         <command
+               commandId="lab.square.spltplugin.ui.commands.importSessionCommand"
+               icon="icons/sample.png"
+               style="push">
+         </command>
+         <command
+               commandId="lab.square.spltplugin.ui.commands.openSessionCommand"
+               icon="icons/sample.png"
+               id="lab.squarte.spltplugin.ui.menus.sessionList"
+               style="pulldown">
+         </command>
+      </menuContribution>
+      <menuContribution
             allPopups="false"
             locationURI="menu:lab.squarte.spltplugin.ui.menus.sessionList">
          <dynamic
@@ -142,6 +156,14 @@
             class="lab.square.spltcoverage.ui.views.SpltCoverageTable"
             id="lab.square.spltcoverage.ui.spltCoverageTable"
             name="SPLTCoverageTable"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="lab.square.spltcoverage.ui.spltCoverageCategory"
+            class="lab.square.spltcoverage.ui.views.SpltCoverageTree"
+            id="lab.square.spltcoverage.ui.spltCoverageTree"
+            name="SPLTCoverageTree"
             restorable="true">
       </view>
    </extension>

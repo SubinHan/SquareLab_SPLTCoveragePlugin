@@ -8,6 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/selab/Downloads/jacoco-0.7.7.201606060606/lib/org.jacoco.core-0.7.7.201606060606.jar"/>
+	<classpathentry kind="lib" path="C:/Users/selab/Downloads/jacoco-0.7.7.201606060606/lib/org.jacoco.core-0.7.7.201606060606.jar" sourcepath="C:/Users/selab/.m2/repository/org/jacoco/org.jacoco.core/0.7.7.201606060606/org.jacoco.core-0.7.7.201606060606-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
