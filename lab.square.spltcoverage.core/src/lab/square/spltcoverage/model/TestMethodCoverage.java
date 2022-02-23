@@ -73,6 +73,14 @@ public class TestMethodCoverage {
 	}
 	
 	/**
+	 * Get the class coverages of the test method.
+	 * @return
+	 */
+	public Collection<IClassCoverage> getClassCoverages() {
+		return this.classCoverages;
+	}
+	
+	/**
 	 * Set target classes.
 	 * The target class is used when decide equality.
 	 * If the target class is not null,

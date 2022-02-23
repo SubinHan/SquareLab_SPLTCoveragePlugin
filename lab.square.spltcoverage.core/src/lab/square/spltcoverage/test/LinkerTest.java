@@ -143,7 +143,7 @@ public class LinkerTest {
 		pinrtNumOfNotEnoughs();
 	}
 	
-	@Test
+	//@Test
 	public void testLinkerChess() {		
 		String directory;
 		String classDirectory;

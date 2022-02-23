@@ -94,6 +94,14 @@ public class TestCaseCoverage {
 	public Class[] getTargetClasses() {
 		return targetClasses;
 	}
+	
+	/**
+	 * Get the class coverages of the test case.
+	 * @return
+	 */
+	public Collection<IClassCoverage> getClassCoverages() {
+		return this.classCoverages;
+	}
 
 	/**
 	 * Set target classes.
