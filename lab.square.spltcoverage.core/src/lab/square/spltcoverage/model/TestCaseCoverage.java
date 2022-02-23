@@ -12,9 +12,9 @@ import org.jacoco.core.analysis.IClassCoverage;
  * @author SQUARELAB
  *
  */
-public class TestCaseCoverage {
+public class TestCaseCoverage implements ICoverageModelComposite {
 	private Collection<IClassCoverage> classCoverages;
-	private Collection<TestMethodCoverage> testMethodCoverages;
+	private Collection<ICoverageModelComponent> testMethodCoverages;
 	private String testCaseName;
 	private Class[] targetClasses;
 	
@@ -23,7 +23,7 @@ public class TestCaseCoverage {
 	 * @param testCaseName
 	 */
 	public TestCaseCoverage(String testCaseName) {
-		testMethodCoverages = new HashSet<TestMethodCoverage>();
+		testMethodCoverages = new HashSet<ICoverageModelComponent>();
 		classCoverages = new HashSet<IClassCoverage>();
 		this.testCaseName = testCaseName;
 	}
@@ -45,9 +45,9 @@ public class TestCaseCoverage {
 	 * @param testMethodName
 	 * @return
 	 */
-	public TestMethodCoverage getTestMethodCoverage(String testMethodName) {
-		for(TestMethodCoverage tmc : testMethodCoverages) {
-			if(tmc.getMethodName().equals(testMethodName))
+	public ICoverageModelComponent getTestMethodCoverage(String testMethodName) {
+		for(ICoverageModelComponent tmc : testMethodCoverages) {
+			if(tmc.getName().equals(testMethodName))
 				return tmc;
 		}
 		return null;
@@ -57,7 +57,7 @@ public class TestCaseCoverage {
 	 * Get all the TestMethodCoverages.
 	 * @return
 	 */
-	public Collection<TestMethodCoverage> getTestMethodCoverages(){
+	public Collection<ICoverageModelComponent> getChildren(){
 		return testMethodCoverages;
 	}
 	
@@ -65,7 +65,7 @@ public class TestCaseCoverage {
 	 * Get the test case name.
 	 * @return
 	 */
-	public String getTestCaseName() {
+	public String getName() {
 		return testCaseName;
 	}
 	
@@ -73,7 +73,7 @@ public class TestCaseCoverage {
 	 * Add the TestMethodCoverage.
 	 * @param testMethodCoverage
 	 */
-	public void addTestMethodCoverage(TestMethodCoverage testMethodCoverage) {
+	public void addChild(ICoverageModelComponent testMethodCoverage) {
 		this.testMethodCoverages.add(testMethodCoverage);
 	}
 
@@ -118,7 +118,7 @@ public class TestCaseCoverage {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		for(TestMethodCoverage tmc : testMethodCoverages) {
+		for(ICoverageModelComponent tmc : testMethodCoverages) {
 			hash += tmc.hashCode();
 		}
 		hash += testCaseName.hashCode();
@@ -157,8 +157,9 @@ public class TestCaseCoverage {
 		if(!testCaseName.equals(compareTo.testCaseName))
 			return false;
 		
-		for(TestMethodCoverage tmc : testMethodCoverages) {
-			if(!tmc.equals(compareTo.getTestMethodCoverage(tmc.getMethodName()), classNames))
+		for(ICoverageModelComponent component : testMethodCoverages) {
+			TestMethodCoverage tmc = (TestMethodCoverage)component;
+			if(!tmc.equals(compareTo.getTestMethodCoverage(tmc.getName()), classNames))
 				return false;
 		}
 		
@@ -168,7 +169,7 @@ public class TestCaseCoverage {
 	public int getScore() {
 		int score = 0;
 		
-		for(TestMethodCoverage tmc : testMethodCoverages) {
+		for(ICoverageModelComponent tmc : testMethodCoverages) {
 			score += tmc.getScore();
 		}
 		

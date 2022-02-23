@@ -59,7 +59,7 @@ public class CoverageReader {
 
 				TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
 						load(testMethodCoverageFile));
-				testCaseCoverage.addTestMethodCoverage(testMethodCoverage);
+				testCaseCoverage.addChild(testMethodCoverage);
 			}
 		}
 		

@@ -10,10 +10,11 @@ import org.jacoco.core.analysis.IClassCoverage;
  * The ProductCoverage class is a class containing the coverage data of a product that had run by the test cases.
  * @author SQUARELAB
  */
-public class ProductCoverage {
+public class ProductCoverage implements ICoverageModelComposite {
 	private Collection<IClassCoverage> classCoverages;
-	private Collection<TestCaseCoverage> testCaseCoverages;
+	private Collection<ICoverageModelComponent> testCaseCoverages;
 	private Map<String, Boolean> featureSet;
+	private String productName;
 	private Class[] targetClasses;
 	
 	/**
@@ -21,9 +22,14 @@ public class ProductCoverage {
 	 * @param featureSet
 	 */
 	public ProductCoverage(Map<String, Boolean> featureSet) {
+		this(featureSet, "");
+	}
+	
+	public ProductCoverage(Map<String, Boolean> featureSet, String name) {
 		this.featureSet = featureSet;
-		this.testCaseCoverages = new HashSet<TestCaseCoverage>();
+		this.testCaseCoverages = new HashSet<ICoverageModelComponent>();
 		this.classCoverages = new HashSet<IClassCoverage>();
+		this.productName = name;
 	}
 	
 	/**
@@ -38,14 +44,18 @@ public class ProductCoverage {
 		this.targetClasses = targetClasses;
 	}
 	
+	public String getName() {
+		return this.productName;
+	}
+	
 	/**
 	 * Get the TestCaseCoverage of the given test case name.
 	 * @param testCaseName
 	 * @return
 	 */
-	public TestCaseCoverage getTestCaseCoverage(String testCaseName) {
-		for(TestCaseCoverage tcc : this.testCaseCoverages) {
-			if(tcc.getTestCaseName().equals(testCaseName))
+	public ICoverageModelComponent getTestCaseCoverage(String testCaseName) {
+		for(ICoverageModelComponent tcc : this.testCaseCoverages) {
+			if(tcc.getName().equals(testCaseName))
 				return tcc;
 		}
 		return null;
@@ -55,7 +65,7 @@ public class ProductCoverage {
 	 * Get all the TestCaseCoverages.
 	 * @return
 	 */
-	public Collection<TestCaseCoverage> getTestCaseCoverages() {
+	public Collection<ICoverageModelComponent> getChildren() {
 		return this.testCaseCoverages;
 	}
 	
@@ -78,7 +88,7 @@ public class ProductCoverage {
 	public int getScore() {
 		int score = 0;
 		
-		for(TestCaseCoverage tcc : testCaseCoverages) {
+		for(ICoverageModelComponent tcc : testCaseCoverages) {
 			score += tcc.getScore();
 		}
 		
@@ -89,7 +99,7 @@ public class ProductCoverage {
 	 * Add the TestCaseCoverage.
 	 * @param testCaseCoverage
 	 */
-	public void addTestCaseCoverage(TestCaseCoverage testCaseCoverage) {
+	public void addChild(ICoverageModelComponent testCaseCoverage) {
 		this.testCaseCoverages.add(testCaseCoverage);
 	}
 	
@@ -124,7 +134,7 @@ public class ProductCoverage {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		for(TestCaseCoverage tcc : testCaseCoverages) {
+		for(ICoverageModelComponent tcc : testCaseCoverages) {
 			hash += tcc.hashCode();
 		}
 		
@@ -166,8 +176,9 @@ public class ProductCoverage {
 
 		compareTo = (ProductCoverage) obj;
 		
-		for(TestCaseCoverage tcc : testCaseCoverages) {
-			if(!tcc.equals(compareTo.getTestCaseCoverage(tcc.getTestCaseName()), classNames))
+		for(ICoverageModelComponent component : testCaseCoverages) {
+			TestCaseCoverage tcc = (TestCaseCoverage) component;
+			if(!tcc.equals(compareTo.getTestCaseCoverage(tcc.getName()), classNames))
 				return false;
 		}
 		

@@ -83,7 +83,7 @@ public class SpltCoverageReader {
 			Map<String, Boolean> featureSet = findFeatureSet(testCaseFolders);
 			if (featureSet == null)
 				continue;
-			productCoverage = new ProductCoverage(featureSet);
+			productCoverage = new ProductCoverage(featureSet, productName);
 
 			// collect execution data.
 			for (File testCaseFolder : testCaseFolders) {
@@ -111,10 +111,10 @@ public class SpltCoverageReader {
 
 					TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
 							load(testMethodCoverageFile));
-					testCaseCoverage.addTestMethodCoverage(testMethodCoverage);
+					testCaseCoverage.addChild(testMethodCoverage);
 				}
 
-				productCoverage.addTestCaseCoverage(testCaseCoverage);
+				productCoverage.addChild(testCaseCoverage);
 			}
 			manager.addProductCoverage(productCoverage);
 		}

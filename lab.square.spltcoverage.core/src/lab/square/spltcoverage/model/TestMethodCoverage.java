@@ -11,7 +11,7 @@ import org.jacoco.core.analysis.ICounter;
  *
  */
 
-public class TestMethodCoverage {
+public class TestMethodCoverage implements ICoverageModelComponent {
 	private Collection<IClassCoverage> classCoverages;
 	private String testMethodName;
 	private Class[] targetClasses;
@@ -56,19 +56,10 @@ public class TestMethodCoverage {
 	}
 
 	/**
-	 * Get all the coverage data.
-	 * @param className
-	 * @return
-	 */
-	public Collection<IClassCoverage> getCoverages() {
-		return classCoverages;
-	}
-
-	/**
 	 * Get atomic test's name.
 	 * @return
 	 */
-	public String getMethodName() {
+	public String getName() {
 		return testMethodName;
 	}
 	
@@ -78,6 +69,10 @@ public class TestMethodCoverage {
 	 */
 	public Collection<IClassCoverage> getClassCoverages() {
 		return this.classCoverages;
+	}
+	
+	public void addClassCoverages(Collection<IClassCoverage> classCoverages) {
+		this.classCoverages.addAll(classCoverages);
 	}
 	
 	/**
@@ -144,11 +139,11 @@ public class TestMethodCoverage {
 
 		compareTo = (TestMethodCoverage) obj;
 
-		if (!testMethodName.equals(compareTo.getMethodName()))
+		if (!testMethodName.equals(compareTo.getName()))
 			return false;
 
 		for (String klass : classNames) {
-			for (IClassCoverage cc : compareTo.getCoverages()) {
+			for (IClassCoverage cc : compareTo.getClassCoverages()) {
 				if(klass.equals(cc.getName())) {
 					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
 						if(cc.getLine(i).getStatus() != this.getCoverage(cc.getName()).getLine(i).getStatus())
