@@ -15,6 +15,7 @@ import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltplugin.ui.model.SpltCoverageSession;
 import lab.square.spltplugin.ui.model.SpltCoverageSessionManager;
 import lab.square.spltplugin.ui.views.SpltCoverageTable;
+import lab.square.spltplugin.ui.views.SpltCoverageTree;
 
 public class ImportSessionHandler extends AbstractHandler {
 
@@ -42,6 +43,11 @@ public class ImportSessionHandler extends AbstractHandler {
 		if (part instanceof SpltCoverageTable) {
 			System.out.println("table found");
 			SpltCoverageTable view = (SpltCoverageTable) part;
+			view.setInput(session);
+		}
+		if (part instanceof SpltCoverageTree) {
+			System.out.println("tree found");
+			SpltCoverageTree view = (SpltCoverageTree) part;
 			view.setInput(session);
 		}
 

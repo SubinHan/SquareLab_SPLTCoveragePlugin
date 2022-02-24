@@ -185,12 +185,6 @@
             name="SPLTCoverageTree"
             restorable="true">
       </view>
-      <view
-            class="lab.square.spltplugin.ui.ViewPart2"
-            id="lab.square.spltplugin.ui.view2"
-            name="name"
-            restorable="true">
-      </view>
    </extension>
 
 </plugin>
