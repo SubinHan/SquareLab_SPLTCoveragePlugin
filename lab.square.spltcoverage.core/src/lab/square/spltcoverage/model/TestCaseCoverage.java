@@ -1,6 +1,5 @@
 package lab.square.spltcoverage.model;
 
-
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -128,8 +127,15 @@ public class TestCaseCoverage implements ICoverageModelComposite {
 	
 	@Override
 	public boolean equals(Object obj) throws IllegalStateException {
-		if(targetClasses == null)
-			throw new IllegalStateException("Cannot decide equailty. Set target classes before call equals().");
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
 		
 		String[] classNames = new String[targetClasses.length];
 		int i = 0;

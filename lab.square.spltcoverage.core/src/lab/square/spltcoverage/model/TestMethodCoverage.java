@@ -114,8 +114,16 @@ public class TestMethodCoverage implements ICoverageModelComponent {
 
 	@Override
 	public boolean equals(Object obj){
-		if(targetClasses == null)
-			return false;		
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
+		
 		String[] classNames = new String[targetClasses.length];
 		int i = 0;
 		for(Class klass : targetClasses) {
