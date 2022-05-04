@@ -14,7 +14,7 @@ import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 
-public class ProductLinker {
+public final class ProductLinker {
 	private static int min;
 
 	private ProductLinker() {
@@ -43,7 +43,7 @@ public class ProductLinker {
 	@Deprecated
 	public static Collection<ProductGraph> link(ProductCoverageManager manager) {
 		int min = getMinNumFeature(manager);
-		Collection<ProductCoverage> notGeneratedYet = new LinkedList<ProductCoverage>(manager.getProductCoverages());
+		Collection<ProductCoverage> notGeneratedYet = new LinkedList<>(manager.getProductCoverages());
 		Collection<ProductGraph> generatedGraph = new LinkedList<ProductGraph>();
 		List<ProductCoverage> baseProducts = findHaveNumFeatures(manager, min);
 		Collection<ProductGraph> heads = new HashSet<ProductGraph>();

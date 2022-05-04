@@ -12,7 +12,6 @@ import lab.square.spltcoverage.io.SpltCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.report.GraphVizGenerator;
-import lab.square.spltcoverage.report.HierarchySimplifier;
 
 public class VizGeneratorTest {
 

@@ -26,7 +26,7 @@ public class FeatureExpressionParser {
 	}
 
 	private Stack<String> stringToStack(String featureExpression) {
-
+		// TODO : Complete this.
 		List<String> tokens = FeatureExpressionTokenizer.tokenize(featureExpression);
 
 		for (String token : tokens) {
@@ -40,7 +40,7 @@ public class FeatureExpressionParser {
 		String toReturn = "";
 
 		for (String feature : featureExpressions) {
-			if (toReturn.isBlank())
+			if (toReturn.trim().isEmpty())
 				toReturn = feature;
 			else
 				toReturn = "(" + toReturn + ")&(" + feature + ")";
@@ -49,7 +49,7 @@ public class FeatureExpressionParser {
 		return toReturn;
 	}
 
-	public static ExpressionNode parse(String[] tokens) throws Exception {
+	public static ExpressionNode parse(String... tokens) throws Exception {
 		return parseExp(tokens, new WrapInt(0));
 	}
 

@@ -1,0 +1,751 @@
+Found a 32 line (186 tokens) duplication in the following files: 
+Starting at line 126 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java
+Starting at line 88 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java
+
+	}
+	
+	private void mergeExecs(String productDirectory) {
+		File productFolder = new File(productDirectory);
+		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		}).length];
+
+		int index = 0;
+		CoverageMerger merger = new CoverageMerger();
+		for (File testCaseFolder : productFolder.listFiles()) {
+			if (!testCaseFolder.isDirectory())
+				continue;
+			File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + SUFFIX_MERGED);
+			try {
+				merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			testCaseExecs[index++] = testCaseExec;
+		}
+		try {
+			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private class TestListener extends RunListener {
+=====================================================================
+Found a 32 line (131 tokens) duplication in the following files: 
+Starting at line 141 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java
+Starting at line 125 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java
+
+		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object obj) throws IllegalStateException {
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
+		
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
+	}
+	
+	/**
+	 * Checks equality within only given classes.
+	 * You can use also setTargetClasses() and equals().
+	 * @param obj
+	 * @param classes
+	 * @return
+	 */
+	public boolean equals(Object obj, String... classNames) {
+=====================================================================
+Found a 28 line (117 tokens) duplication in the following files: 
+Starting at line 145 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java
+Starting at line 129 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java
+Starting at line 116 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+
+	public boolean equals(Object obj) throws IllegalStateException {
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
+		
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
+	}
+	
+	/**
+	 * Checks equality within only given classes.
+	 * You can use also setTargetClasses() and equals().
+	 * @param obj
+	 * @param classes
+	 * @return
+	 */
+	public boolean equals(Object obj, String... classNames) {
+=====================================================================
+Found a 16 line (112 tokens) duplication in the following files: 
+Starting at line 111 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java
+Starting at line 237 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java
+
+	}
+
+	private String convertPathToClassName(String classPath) {
+		String filtered = classPath.replace('\\', '/').replace('/', '.').replaceFirst(".*bin.", "");
+
+		if (filtered.endsWith(".class"))
+			filtered = filtered.substring(0, filtered.length() - 6);
+
+		return filtered;
+	}
+
+	private Class loadClassByPath(String binPath, String name) throws MalformedURLException, ClassNotFoundException {
+		URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });
+
+		return loader.loadClass(name);
+	}
+=====================================================================
+Found a 16 line (105 tokens) duplication in the following files: 
+Starting at line 38 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageReader.java
+Starting at line 86 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\SpltCoverageReader.java
+
+		File[] testCaseFolders = folder.listFiles();
+		for (File testCaseFolder : testCaseFolders) {
+			final String testCaseName = testCaseFolder.getName();
+			
+			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
+			if (!testCaseFolder.isDirectory()) {
+				if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+					productCoverage.addClassCoverages(load(testCaseFolder));
+				}
+				continue;
+			}
+			
+			// load test method coverages.
+			File[] testMethodCoverages = testCaseFolder.listFiles();
+			for (File testMethodCoverageFile : testMethodCoverages) {
+				final String testMethodName = testMethodCoverageFile.getName().replaceAll("[.]exec", "");
+=====================================================================
+Found a 17 line (88 tokens) duplication in the following files: 
+Starting at line 67 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageReader.java
+Starting at line 121 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\SpltCoverageReader.java
+
+	}
+	
+	private Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
+		ExecFileLoader execFileLoader = new ExecFileLoader();
+
+		execFileLoader.load(testMethodCoverageFile);
+
+		final ExecutionDataStore execStore = execFileLoader.getExecutionDataStore();
+		final SessionInfoStore sessionStore = execFileLoader.getSessionInfoStore();
+
+		final CoverageBuilder coverageBuilder = new CoverageBuilder();
+		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
+
+		analyzer.analyzeAll(new File(classPath));
+
+		return new HashSet<IClassCoverage>(coverageBuilder.getClasses());
+	}
+=====================================================================
+Found a 14 line (79 tokens) duplication in the following files: 
+Starting at line 109 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java
+Starting at line 37 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\VectorAdapter.java
+
+	}
+
+	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
+		List<String> existsFeatures = new ArrayList<String>();
+		
+		for(Map<String, Boolean> product : products) {
+			for(String key : product.keySet()) {
+				if(!existsFeatures.contains(key))
+					existsFeatures.add(key);
+			}
+		}
+		
+		return existsFeatures;
+	}
+=====================================================================
+Found a 10 line (75 tokens) duplication in the following files: 
+Starting at line 15 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureLocatorTest.java
+Starting at line 27 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureLocatorTest.java
+
+		Collection<FeatureLocation> featureLocations = new FeatureLocator().analyze(
+				"D:\\workspace-featureide\\Elevator-feature01\\src\\de\\ovgu\\featureide\\examples\\elevator\\core\\controller\\Request.java");
+
+		for (FeatureLocation featureLocation : featureLocations) {
+			for (String feature : featureLocation.getFeatureExpression()) {
+				System.out.println(feature);
+			}
+			System.out.println(featureLocation.expressionToString());
+			System.out.println("line: " + featureLocation.getLineStart() + " ~ " + featureLocation.getLineEnd());
+		}
+=====================================================================
+Found a 10 line (73 tokens) duplication in the following files: 
+Starting at line 119 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java
+Starting at line 45 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java
+
+	private void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length - 1; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
+	}
+=====================================================================
+Found a 13 line (70 tokens) duplication in the following files: 
+Starting at line 174 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+Starting at line 89 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\VizGeneratorTest.java
+
+	private void testLinker(String directory, String classDirectory) {
+		ProductCoverageManager manager = new ProductCoverageManager();
+		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
+		try {
+			reader.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Collection<ProductGraph> heads = ProductLinker.link(manager);
+		if (heads.isEmpty())
+			fail();
+=====================================================================
+Found a 15 line (68 tokens) duplication in the following files: 
+Starting at line 162 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java
+Starting at line 139 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java
+
+		}
+
+		@Override
+		public void testStarted(Description description) throws Exception {
+		}
+
+		@Override
+		public void testFinished(Description description) throws Exception {
+			System.out.println(description.getTestClass().getSimpleName());
+			System.out.println(description.getMethodName());
+			System.out.println("//==============finished===========//");
+
+			String testCaseDirectory;
+			String testMethodDirectory;
+			testCaseDirectory = description.getTestClass().getSimpleName() + "/";
+=====================================================================
+Found a 17 line (68 tokens) duplication in the following files: 
+Starting at line 329 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 357 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+						getNumFeatures(pc.getFeatureSet()) - distanceToParent));
+			}
+
+			for (ProductGraph head : heads) {
+				Collection<ProductGraph> parents = findParents(generatedGraph, head);
+				for (ProductGraph parent : parents) {
+					parent.addChild(head);
+					head.addParent(parent);
+				}
+			}
+
+			oldCount = newCount;
+			newCount = notGeneratedYet.size();
+		} while (oldCount != newCount);
+	}
+	
+	private static void linkMoreRecur(Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,
+=====================================================================
+Found a 6 line (65 tokens) duplication in the following files: 
+Starting at line 222 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+Starting at line 229 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+
+			double different = cc.getLineCounter().getCoveredRatio() - findParentsLineRatio(graph, cc.getName());
+			if(different >= 0)
+				System.out.print("  (+" + String.format("%.1f", different * 100) + ")");
+			else
+				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
+			System.out.println();
+=====================================================================
+Found a 18 line (56 tokens) duplication in the following files: 
+Starting at line 139 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 264 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+				}
+			}
+
+			@Override
+			public void visit(ProductCoverageManager pcm) {
+				for (ProductCoverage pc : pcm.getProductCoverages()) {
+					this.visit(pc);
+				}
+			}
+
+			@Override
+			public void visit(TestCaseCoverage tcc) {
+			}
+
+			@Override
+			public void visit(TestMethodCoverage tmc) {
+			}
+		});
+=====================================================================
+Found a 12 line (55 tokens) duplication in the following files: 
+Starting at line 181 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java
+Starting at line 160 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java
+
+			resetData();
+		}
+
+		@Override
+		public void testFailure(Failure failure) throws Exception {
+			System.out.println(failure.getTestHeader());
+			System.out.println(failure.getTrace());
+			System.out.println(failure.getMessage());
+		}
+	}
+
+}
+=====================================================================
+Found a 11 line (53 tokens) duplication in the following files: 
+Starting at line 53 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageReader.java
+Starting at line 105 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\SpltCoverageReader.java
+
+				final String testMethodName = testMethodCoverageFile.getName().replaceAll("[.]exec", "");
+
+				if (testMethodName.endsWith("Merged") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+					testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
+					continue;
+				}
+
+				TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
+						load(testMethodCoverageFile));
+				testCaseCoverage.addChild(testMethodCoverage);
+			}
+=====================================================================
+Found a 9 line (53 tokens) duplication in the following files: 
+Starting at line 298 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+Starting at line 322 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+
+	private double findParentsLineRatio(ProductGraph graph, String name) {
+		if(graph.getParents() == null)
+			return 0.f;
+		if(graph.getParents().isEmpty())
+			return 0.f;
+		
+		for(ProductGraph parent : graph.getParents()) {
+			if(parent == null)
+				continue;
+=====================================================================
+Found a 10 line (49 tokens) duplication in the following files: 
+Starting at line 113 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java
+Starting at line 41 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java
+
+			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length - 1; i++) {
+=====================================================================
+Found a 9 line (47 tokens) duplication in the following files: 
+Starting at line 47 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java
+Starting at line 61 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java
+
+			} else if (line.contains("//#elif")) {
+				
+				int endLine = lineReader.getLineNumber();
+				LocationInfo popped = infoStack.pop();
+				featureLocations.add(
+						new FeatureLocation(javaSourceFile, stackedExpressions, popped.startLine + 1, endLine - 1));
+				stackedExpressions.pop();
+				
+				String featureExpression;
+=====================================================================
+Found a 9 line (47 tokens) duplication in the following files: 
+Starting at line 174 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+Starting at line 99 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\PGAnalyzerTest.java
+Starting at line 89 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\VizGeneratorTest.java
+
+	private void testLinker(String directory, String classDirectory) {
+		ProductCoverageManager manager = new ProductCoverageManager();
+		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
+		try {
+			reader.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+=====================================================================
+Found a 8 line (45 tokens) duplication in the following files: 
+Starting at line 130 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 255 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+		manager.accept(new ISpltCoverageVisitor() {
+
+			@Override
+			public void visit(ProductCoverage pc) {
+				int numFeatures = 0;
+				Map<String, Boolean> featureSet = pc.getFeatureSet();
+				numFeatures = getNumFeatures(featureSet);
+				if (numFeatures == targetNumFeatures) {
+=====================================================================
+Found a 3 line (44 tokens) duplication in the following files: 
+Starting at line 100 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+Starting at line 155 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+
+				if(klass.getCanonicalName().replace(".", "/").equals(cc.getName())) {
+					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+						if(cc.getLine(i).getStatus() == ICounter.FULLY_COVERED)
+=====================================================================
+Found a 6 line (42 tokens) duplication in the following files: 
+Starting at line 22 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 43 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+	public void testAnd() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", false);
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+=====================================================================
+Found a 7 line (41 tokens) duplication in the following files: 
+Starting at line 43 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerFeatureHierarchizeTest.java
+Starting at line 345 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java
+
+		for(String key : featureSet.keySet()) {
+			if(featureSet.get(key))
+				System.out.print(key + " ");
+		}
+		System.out.println();
+	}
+}
+=====================================================================
+Found a 3 line (40 tokens) duplication in the following files: 
+Starting at line 100 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+Starting at line 179 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+
+				if(klass.getCanonicalName().replace(".", "/").equals(cc.getName())) {
+					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+						if(cc.getLine(i).getStatus() == ICounter.FULLY_COVERED)
+=====================================================================
+Found a 9 line (39 tokens) duplication in the following files: 
+Starting at line 122 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java
+Starting at line 50 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java
+
+		for (int i = 0; i < splitted.length - 1; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
+	}
+	
+	private class TestListener extends RunListener {
+=====================================================================
+Found a 7 line (38 tokens) duplication in the following files: 
+Starting at line 48 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java
+Starting at line 50 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java
+
+		for (int i = 0; i < splitted.length - 1; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
+	}
+=====================================================================
+Found a 5 line (38 tokens) duplication in the following files: 
+Starting at line 69 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java
+Starting at line 89 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java
+
+		Map<String, Boolean> featureSet1 = new HashMap<String, Boolean>();
+		featureSet1.put("Elevator", true);
+		featureSet1.put("Behavior", true);
+		featureSet1.put("Modes", true);
+		featureSet1.put("ShortestPaht", true);
+=====================================================================
+Found a 6 line (37 tokens) duplication in the following files: 
+Starting at line 74 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 238 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+			for (String key : featureSet.keySet()) {
+				if (featureSet.get(key) != targetFeatureSet.get(key)) {
+					different++;
+				}
+			}
+			if (different == 1)
+=====================================================================
+Found a 4 line (37 tokens) duplication in the following files: 
+Starting at line 166 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 211 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+		Collection<Map<String, Boolean>> toReturn = new LinkedList<Map<String, Boolean>>();
+
+		for (Map<String, Boolean> featureSet : products) {
+			int numFeatures = 0;
+=====================================================================
+Found a 6 line (36 tokens) duplication in the following files: 
+Starting at line 41 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java
+Starting at line 49 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java
+Starting at line 62 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java
+
+					log.fine(String.valueOf(endLine));
+				LocationInfo popped = infoStack.pop();
+
+				featureLocations.add(
+						new FeatureLocation(javaSourceFile, stackedExpressions, popped.startLine + 1, endLine - 1));
+				stackedExpressions.pop();
+=====================================================================
+Found a 5 line (36 tokens) duplication in the following files: 
+Starting at line 93 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 109 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+		featureSet.put("Sabbath", true);
+		featureSet.put("Replace", false);
+		featureSet.put("Another", true);
+		featureSet.put("Other", true);
+		assertTrue(FeatureExpressionParser.evaluate("(!(CallButtons&DirectedCall)&Sabbath|(Replace|Another))&Other", featureSet));
+=====================================================================
+Found a 3 line (35 tokens) duplication in the following files: 
+Starting at line 155 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+Starting at line 179 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java
+
+				if(klass.equals(cc.getName())) {
+					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+						if(cc.getLine(i).getStatus() != this.getCoverage(cc.getName()).getLine(i).getStatus())
+=====================================================================
+Found a 28 line (34 tokens) duplication in the following files: 
+Starting at line 103 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java
+Starting at line 76 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java
+
+		this.testCaseCoverages.add(testCaseCoverage);
+	}
+	
+	/**
+	 * Add the IClassCoveerages.
+	 * It must be derived by the test cases' coverage containing.
+	 * @param classCoverages
+	 */
+	public void addClassCoverages(Collection<IClassCoverage> classCoverages) {
+		this.classCoverages.addAll(classCoverages);
+	}
+	
+	/**
+	 * Get the target classes.
+	 * @return
+	 */
+	public Class[] getTargetClasses() {
+		return targetClasses;
+	}
+
+	/**
+	 * Set the target classes.
+	 * The target class is used when decide equality.
+	 * If the target class is not null,
+	 * equals() checks if the target classes' coverage is the same only. 
+	 * @param targetClasses
+	 */
+	public void setTargetClasses(Class[] targetClasses) {
+=====================================================================
+Found a 5 line (34 tokens) duplication in the following files: 
+Starting at line 75 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 88 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+	public void testWeired() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", true);		
+=====================================================================
+Found a 2 line (33 tokens) duplication in the following files: 
+Starting at line 92 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 166 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 211 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+		Collection<Map<String, Boolean>> toReturn = new LinkedList<Map<String, Boolean>>();
+		for (Map<String, Boolean> featureSet : beforeFiltered) {
+=====================================================================
+Found a 4 line (33 tokens) duplication in the following files: 
+Starting at line 45 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java
+Starting at line 47 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java
+
+	private static void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length - 1; i++) {
+=====================================================================
+Found a 17 line (32 tokens) duplication in the following files: 
+Starting at line 121 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java
+Starting at line 103 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java
+
+	}
+
+	/**
+	 * Set the target classes.
+	 * The target class is used when decide equality.
+	 * If the target class is not null,
+	 * equals() checks if the target classes' coverage is the same only. 
+	 * @param targetClasses
+	 */
+	public void setTargetClasses(Class[] targetClasses) {
+		this.targetClasses = targetClasses;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		for(ICoverageModelComponent tcc : testCaseCoverages) {
+=====================================================================
+Found a 5 line (31 tokens) duplication in the following files: 
+Starting at line 74 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\GraphVizGenerator.java
+Starting at line 124 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\GraphVizGenerator.java
+
+			Graphviz.fromGraph(g).engine(Engine.DOT).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+=====================================================================
+Found a 3 line (30 tokens) duplication in the following files: 
+Starting at line 37 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\JacocoConnection.java
+Starting at line 156 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java
+
+		final JMXServiceURL url = new JMXServiceURL(SERVICE_URL);
+		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();
+=====================================================================
+Found a 2 line (29 tokens) duplication in the following files: 
+Starting at line 345 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 393 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+	private static void linkMoreRecur(Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,
+			Collection<Map<String, Boolean>> notGeneratedYet, int distanceToParent) {
+=====================================================================
+Found a 4 line (28 tokens) duplication in the following files: 
+Starting at line 22 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 43 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 64 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+	public void testAnd() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", false);
+=====================================================================
+Found a 7 line (27 tokens) duplication in the following files: 
+Starting at line 59 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java
+Starting at line 24 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java
+
+		System.out.println("Session: " + jacocoConnection.getSessionId());
+
+		final ExecutionDataStore execStore = new ExecutionDataStore();
+		final SessionInfoStore sessionStore = new SessionInfoStore();
+
+		final ExecutionDataReader reader = new ExecutionDataReader(
+				new ByteArrayInputStream(jacocoConnection.getExecutionData(false)));
+=====================================================================
+Found a 4 line (27 tokens) duplication in the following files: 
+Starting at line 13 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureSetGroupReaderTest.java
+Starting at line 16 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerFeatureHierarchizeTest.java
+
+	public void testRead() {
+		FeatureSetGroupReader reader = new FeatureSetGroupReader(
+				"D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\FeatureAMP2\\products");
+		Collection<Map<String, Boolean>> products = reader.readAll();
+=====================================================================
+Found a 4 line (26 tokens) duplication in the following files: 
+Starting at line 168 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+Starting at line 297 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java
+
+		for (Map<String, Boolean> featureSet : products) {
+			int numFeatures = 0;
+			numFeatures = getNumFeatures(featureSet);
+			if (numFeatures == targetNumFeatures) {
+=====================================================================
+Found a 4 line (26 tokens) duplication in the following files: 
+Starting at line 33 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\AntennaCoverageComparator.java
+Starting at line 210 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java
+
+		Collection<FeatureLocation> featureLocations = getFeature(path);
+		
+		for (int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+			System.out.print("Line " + i + " " + getColor(cc.getLine(i).getStatus()) + ", " + FeatureLocation.calculateFeatureExpressionOfLine(featureLocations, i));
+=====================================================================
+Found a 4 line (26 tokens) duplication in the following files: 
+Starting at line 22 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 43 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 64 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 75 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 88 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+	public void testAnd() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", false);
+=====================================================================
+Found a 5 line (26 tokens) duplication in the following files: 
+Starting at line 25 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 29 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+		featureSet.put("CallButtons", false);
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+=====================================================================
+Found a 5 line (26 tokens) duplication in the following files: 
+Starting at line 26 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 34 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", false);		
+=====================================================================
+Found a 5 line (26 tokens) duplication in the following files: 
+Starting at line 27 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 80 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+=====================================================================
+Found a 5 line (26 tokens) duplication in the following files: 
+Starting at line 35 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+Starting at line 56 of D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java
+
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", true);
+		assertTrue(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));

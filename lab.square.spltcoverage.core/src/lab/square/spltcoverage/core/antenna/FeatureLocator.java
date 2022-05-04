@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 public class FeatureLocator {
+	
+	final static Logger logger = Logger.getLogger(FeatureLocator.class.getName());
 	
 	public Collection<FeatureLocation> analyze(String javaSourceFilePath) throws IOException {
 
@@ -35,9 +37,8 @@ public class FeatureLocator {
 			} else if (line.contains("//#endif")) {
 				int endLine = lineReader.getLineNumber();
 				if(infoStack.size() == 0)
-					System.out.println(endLine);
+					logger.fine(String.valueOf(endLine));
 				LocationInfo popped = infoStack.pop();
-
 				featureLocations.add(
 						new FeatureLocation(javaSourceFile, stackedExpressions, popped.startLine + 1, endLine - 1));
 				stackedExpressions.pop();

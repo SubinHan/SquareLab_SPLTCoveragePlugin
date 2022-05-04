@@ -52,8 +52,8 @@ public class CoverageGeneratorTest {
 	private static final String SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:7777/jmxrmi";
 	
 	
-	private static final String CLASSPATH_1 = "D:\\workspace-featureide\\Elevator-feature01\\bin";
-	private static final String CLASSPATH_2 = "D:\\workspace-featureide\\Elevator-feature02\\bin";
+	private static final String CLASSPATH_1 = "D:\\workspace-featureide\\Elevator-Antenna-v1.2-home\\bin";
+	private static final String CLASSPATH_2 = "D:\\workspace-featureide\\Elevator-Antenna-v1.2-enterprise\\bin";
 	private static final String OUTPUT_PATH_SPLT = "D:/directorypath/elevatorantenna/";
 	
 	@Test
@@ -62,9 +62,9 @@ public class CoverageGeneratorTest {
 		productSourceInfos = new ArrayList<ProductSourceInfo>();
 		
 		Collection<String> testsPath1 = new ArrayList<String>();
-		testsPath1.add("D:\\workspace-featureide\\Elevator-feature01\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
+		testsPath1.add("D:\\workspace-featureide\\Elevator-Antenna-v1.2-home\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
 		Collection<String> testsPath2 = new ArrayList<String>();
-		testsPath2.add("D:\\workspace-featureide\\Elevator-feature02\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
+		testsPath2.add("D:\\workspace-featureide\\Elevator-Antenna-v1.2-enterprise\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
 		
 		Map<String, Boolean> featureSet1 = new HashMap<String, Boolean>();
 		featureSet1.put("Elevator", true);

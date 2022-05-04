@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
-import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductGraph;
 
 public class LinkerFeatureHierarchizeTest {

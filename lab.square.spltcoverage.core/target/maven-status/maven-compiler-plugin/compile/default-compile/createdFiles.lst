@@ -20,7 +20,6 @@ lab\square\spltcoverage\io\SpltCoverageReader.class
 lab\square\spltcoverage\core\antenna\FeatureExpressionTokenizer.class
 lab\square\spltcoverage\core\analysis\ProductGraphAnalyzer.class
 lab\square\spltcoverage\report\GraphVizGenerator.class
-lab\square\spltcoverage\test\FeatureExpressionParserrTest.class
 lab\square\spltcoverage\test\PGAnalyzerTest.class
 lab\square\spltcoverage\core\analysis\JacocoConnection.class
 lab\square\spltcoverage\core\antenna\FeatureExpressionParser$WrapInt.class

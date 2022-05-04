@@ -110,7 +110,7 @@ public class TestCaseCoverage implements ICoverageModelComposite {
 	 * 
 	 * @param targetClasses
 	 */
-	public void setTargetClasses(Class[] targetClasses) {
+	public void setTargetClasses(Class... targetClasses) {
 		this.targetClasses = targetClasses;
 	}
 

@@ -16,7 +16,6 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
 import lab.square.spltcoverage.io.CoverageWriter;
-import lab.square.spltcoverage.model.CoverageResult;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 
 public class SpltCoverageGenerator {

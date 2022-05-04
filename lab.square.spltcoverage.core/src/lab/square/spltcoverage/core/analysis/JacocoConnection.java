@@ -1,7 +1,6 @@
 package lab.square.spltcoverage.core.analysis;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
@@ -18,7 +17,7 @@ import org.jacoco.core.runtime.RuntimeData;
 
 import lab.square.spltcoverage.model.IProxy;
 
-public class JacocoConnection {
+public final class JacocoConnection {
 	private static final String SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:7777/jmxrmi";
 
 	private static JacocoConnection instance;

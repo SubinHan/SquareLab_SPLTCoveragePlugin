@@ -2,7 +2,6 @@ package lab.square.spltcoverage.report;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import lab.square.spltcoverage.model.ProductGraph;
@@ -19,7 +18,7 @@ public class HierarchySimplifier {
 		Collection<ProductGraph> toReturn = new HashSet<ProductGraph>();
 		
 		if(depth < 1)
-			return null;
+			return new HashSet<>();
 		
 		for(ProductGraph head : heads) {
 			toReturn.add(cutByDepth(head, depth, 1));

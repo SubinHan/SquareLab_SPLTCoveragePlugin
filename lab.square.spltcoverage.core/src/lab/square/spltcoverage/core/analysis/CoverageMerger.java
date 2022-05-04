@@ -2,11 +2,7 @@ package lab.square.spltcoverage.core.analysis;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.jacoco.core.analysis.Analyzer;
-import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.tools.ExecFileLoader;
 /**
  * The CoverageMerge class merges multiple *.exec files to one *.exec file.

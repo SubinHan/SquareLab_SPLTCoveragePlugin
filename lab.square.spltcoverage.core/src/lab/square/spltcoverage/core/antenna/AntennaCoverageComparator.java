@@ -26,7 +26,7 @@ public class AntennaCoverageComparator {
 	}
 
 	private void printStatus(IClassCoverage cc, String srcPath) {
-		System.out.println("===========" + cc.getSourceFileName() + "==========");
+		System.out.println("===========" + cc.getName() + "==========");
 		String path = findSourceFileInPath(cc.getSourceFileName(), srcPath);
 		if(path == null)
 			return;

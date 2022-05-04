@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="MS949"?>
+<pmd-cpd>
+   <duplication lines="32" tokens="186">
+      <file column="2" endcolumn="8" endline="157" line="126"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java"/>
+      <file column="2" endcolumn="8" endline="119" line="88"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java"/>
+      <codefragment><![CDATA[	}
+	
+	private void mergeExecs(String productDirectory) {
+		File productFolder = new File(productDirectory);
+		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		}).length];
+
+		int index = 0;
+		CoverageMerger merger = new CoverageMerger();
+		for (File testCaseFolder : productFolder.listFiles()) {
+			if (!testCaseFolder.isDirectory())
+				continue;
+			File testCaseExec = new File(testCaseFolder, testCaseFolder.getName() + SUFFIX_MERGED);
+			try {
+				merger.mergeExecs(testCaseExec, testCaseFolder.listFiles());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			testCaseExecs[index++] = testCaseExec;
+		}
+		try {
+			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private class TestListener extends RunListener {]]></codefragment>
+   </duplication>
+   <duplication lines="32" tokens="131">
+      <file column="3" endcolumn="58" endline="172" line="141"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java"/>
+      <file column="3" endcolumn="58" endline="156" line="125"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java"/>
+      <codefragment><![CDATA[		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object obj) throws IllegalStateException {
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
+		
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
+	}
+	
+	/**
+	 * Checks equality within only given classes.
+	 * You can use also setTargetClasses() and equals().
+	 * @param obj
+	 * @param classes
+	 * @return
+	 */
+	public boolean equals(Object obj, String... classNames) {]]></codefragment>
+   </duplication>
+   <duplication lines="28" tokens="117">
+      <file column="65" endcolumn="58" endline="172" line="145"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java"/>
+      <file column="65" endcolumn="58" endline="156" line="129"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java"/>
+      <file column="35" endcolumn="58" endline="143" line="116"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <codefragment><![CDATA[	public boolean equals(Object obj) throws IllegalStateException {
+		if(targetClasses == null) {	
+			String[] classNames = new String[classCoverages.size()];
+			int i = 0;
+			for(IClassCoverage cc : classCoverages) {
+				classNames[i++] = cc.getName();
+			}
+			
+			return equals(obj, classNames);
+		}
+		
+		String[] classNames = new String[targetClasses.length];
+		int i = 0;
+		for(Class klass : targetClasses) {
+			classNames[i++] = klass.getCanonicalName().replace(".", "/");
+		}
+		
+		return equals(obj, classNames);
+	}
+	
+	/**
+	 * Checks equality within only given classes.
+	 * You can use also setTargetClasses() and equals().
+	 * @param obj
+	 * @param classes
+	 * @return
+	 */
+	public boolean equals(Object obj, String... classNames) {]]></codefragment>
+   </duplication>
+   <duplication lines="16" tokens="112">
+      <file column="2" endcolumn="2" endline="126" line="111"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java"/>
+      <file column="2" endcolumn="2" endline="254" line="237"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java"/>
+      <codefragment><![CDATA[	}
+
+	private String convertPathToClassName(String classPath) {
+		String filtered = classPath.replace('\\', '/').replace('/', '.').replaceFirst(".*bin.", "");
+
+		if (filtered.endsWith(".class"))
+			filtered = filtered.substring(0, filtered.length() - 6);
+
+		return filtered;
+	}
+
+	private Class loadClassByPath(String binPath, String name) throws MalformedURLException, ClassNotFoundException {
+		URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });
+
+		return loader.loadClass(name);
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="16" tokens="105">
+      <file column="45" endcolumn="78" endline="53" line="38"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageReader.java"/>
+      <file column="65" endcolumn="79" endline="105" line="86"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\SpltCoverageReader.java"/>
+      <codefragment><![CDATA[		File[] testCaseFolders = folder.listFiles();
+		for (File testCaseFolder : testCaseFolders) {
+			final String testCaseName = testCaseFolder.getName();
+			
+			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
+			if (!testCaseFolder.isDirectory()) {
+				if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+					productCoverage.addClassCoverages(load(testCaseFolder));
+				}
+				continue;
+			}
+			
+			// load test method coverages.
+			File[] testMethodCoverages = testCaseFolder.listFiles();
+			for (File testMethodCoverageFile : testMethodCoverages) {
+				final String testMethodName = testMethodCoverageFile.getName().replaceAll("[.]exec", "");]]></codefragment>
+   </duplication>
+   <duplication lines="17" tokens="88">
+      <file column="2" endcolumn="2" endline="83" line="67"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageReader.java"/>
+      <file column="2" endcolumn="2" endline="137" line="121"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\SpltCoverageReader.java"/>
+      <codefragment><![CDATA[	}
+	
+	private Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
+		ExecFileLoader execFileLoader = new ExecFileLoader();
+
+		execFileLoader.load(testMethodCoverageFile);
+
+		final ExecutionDataStore execStore = execFileLoader.getExecutionDataStore();
+		final SessionInfoStore sessionStore = execFileLoader.getSessionInfoStore();
+
+		final CoverageBuilder coverageBuilder = new CoverageBuilder();
+		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
+
+		analyzer.analyzeAll(new File(classPath));
+
+		return new HashSet<IClassCoverage>(coverageBuilder.getClasses());
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="14" tokens="79">
+      <file column="2" endcolumn="2" endline="122" line="109"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java"/>
+      <file column="2" endcolumn="2" endline="50" line="37"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\VectorAdapter.java"/>
+      <codefragment><![CDATA[	}
+
+	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
+		List<String> existsFeatures = new ArrayList<String>();
+		
+		for(Map<String, Boolean> product : products) {
+			for(String key : product.keySet()) {
+				if(!existsFeatures.contains(key))
+					existsFeatures.add(key);
+			}
+		}
+		
+		return existsFeatures;
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="10" tokens="75">
+      <file column="31" endcolumn="3" endline="24" line="15"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureLocatorTest.java"/>
+      <file column="3" endcolumn="3" endline="36" line="27"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureLocatorTest.java"/>
+      <codefragment><![CDATA[		Collection<FeatureLocation> featureLocations = new FeatureLocator().analyze(
+				"D:\\workspace-featureide\\Elevator-feature01\\src\\de\\ovgu\\featureide\\examples\\elevator\\core\\controller\\Request.java");
+
+		for (FeatureLocation featureLocation : featureLocations) {
+			for (String feature : featureLocation.getFeatureExpression()) {
+				System.out.println(feature);
+			}
+			System.out.println(featureLocation.expressionToString());
+			System.out.println("line: " + featureLocation.getLineStart() + " ~ " + featureLocation.getLineEnd());
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="10" tokens="73">
+      <file column="10" endcolumn="2" endline="128" line="119"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java"/>
+      <file column="17" endcolumn="2" endline="54" line="45"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java"/>
+      <codefragment><![CDATA[	private void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length - 1; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="13" tokens="70">
+      <file column="25" endcolumn="9" endline="186" line="174"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <file column="47" endcolumn="9" endline="100" line="89"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\VizGeneratorTest.java"/>
+      <codefragment><![CDATA[	private void testLinker(String directory, String classDirectory) {
+		ProductCoverageManager manager = new ProductCoverageManager();
+		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
+		try {
+			reader.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Collection<ProductGraph> heads = ProductLinker.link(manager);
+		if (heads.isEmpty())
+			fail();]]></codefragment>
+   </duplication>
+   <duplication lines="15" tokens="68">
+      <file column="3" endcolumn="22" endline="176" line="162"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java"/>
+      <file column="3" endcolumn="22" endline="152" line="139"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java"/>
+      <codefragment><![CDATA[		}
+
+		@Override
+		public void testStarted(Description description) throws Exception {
+		}
+
+		@Override
+		public void testFinished(Description description) throws Exception {
+			System.out.println(description.getTestClass().getSimpleName());
+			System.out.println(description.getMethodName());
+			System.out.println("//==============finished===========//");
+
+			String testCaseDirectory;
+			String testMethodDirectory;
+			testCaseDirectory = description.getTestClass().getSimpleName() + "/";]]></codefragment>
+   </duplication>
+   <duplication lines="17" tokens="68">
+      <file column="40" endcolumn="15" endline="345" line="329"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="32" endcolumn="15" endline="373" line="357"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[						getNumFeatures(pc.getFeatureSet()) - distanceToParent));
+			}
+
+			for (ProductGraph head : heads) {
+				Collection<ProductGraph> parents = findParents(generatedGraph, head);
+				for (ProductGraph parent : parents) {
+					parent.addChild(head);
+					head.addParent(parent);
+				}
+			}
+
+			oldCount = newCount;
+			newCount = notGeneratedYet.size();
+		} while (oldCount != newCount);
+	}
+	
+	private static void linkMoreRecur(Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="65">
+      <file column="83" endcolumn="23" endline="227" line="222"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <file column="80" endcolumn="23" endline="234" line="229"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <codefragment><![CDATA[			double different = cc.getLineCounter().getCoveredRatio() - findParentsLineRatio(graph, cc.getName());
+			if(different >= 0)
+				System.out.print("  (+" + String.format("%.1f", different * 100) + ")");
+			else
+				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
+			System.out.println();]]></codefragment>
+   </duplication>
+   <duplication lines="18" tokens="56">
+      <file column="5" endcolumn="4" endline="156" line="139"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="5" endcolumn="4" endline="281" line="264"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[				}
+			}
+
+			@Override
+			public void visit(ProductCoverageManager pcm) {
+				for (ProductCoverage pc : pcm.getProductCoverages()) {
+					this.visit(pc);
+				}
+			}
+
+			@Override
+			public void visit(TestCaseCoverage tcc) {
+			}
+
+			@Override
+			public void visit(TestMethodCoverage tmc) {
+			}
+		});]]></codefragment>
+   </duplication>
+   <duplication lines="12" tokens="55">
+      <file column="4" endcolumn="1" endline="192" line="181"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java"/>
+      <file column="15" endcolumn="1" endline="170" line="160"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java"/>
+      <codefragment><![CDATA[			resetData();
+		}
+
+		@Override
+		public void testFailure(Failure failure) throws Exception {
+			System.out.println(failure.getTestHeader());
+			System.out.println(failure.getTrace());
+			System.out.println(failure.getMessage());
+		}
+	}
+
+}]]></codefragment>
+   </duplication>
+   <duplication lines="11" tokens="53">
+      <file column="88" endcolumn="4" endline="63" line="53"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageReader.java"/>
+      <file column="87" endcolumn="5" endline="115" line="105"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\SpltCoverageReader.java"/>
+      <codefragment><![CDATA[				final String testMethodName = testMethodCoverageFile.getName().replaceAll("[.]exec", "");
+
+				if (testMethodName.endsWith("Merged") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+					testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
+					continue;
+				}
+
+				TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
+						load(testMethodCoverageFile));
+				testCaseCoverage.addChild(testMethodCoverage);
+			}]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="53">
+      <file column="37" endcolumn="12" endline="306" line="298"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <file column="39" endcolumn="12" endline="330" line="322"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <codefragment><![CDATA[	private double findParentsLineRatio(ProductGraph graph, String name) {
+		if(graph.getParents() == null)
+			return 0.f;
+		if(graph.getParents().isEmpty())
+			return 0.f;
+		
+		for(ProductGraph parent : graph.getParents()) {
+			if(parent == null)
+				continue;]]></codefragment>
+   </duplication>
+   <duplication lines="10" tokens="49">
+      <file column="101" endcolumn="37" endline="122" line="113"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java"/>
+      <file column="17" endcolumn="37" endline="50" line="41"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java"/>
+      <codefragment><![CDATA[			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length - 1; i++) {]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="47">
+      <file column="38" endcolumn="10" endline="55" line="47"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java"/>
+      <file column="38" endcolumn="10" endline="67" line="61"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java"/>
+      <codefragment><![CDATA[			} else if (line.contains("//#elif")) {
+				
+				int endLine = lineReader.getLineNumber();
+				LocationInfo popped = infoStack.pop();
+				featureLocations.add(
+						new FeatureLocation(javaSourceFile, stackedExpressions, popped.startLine + 1, endLine - 1));
+				stackedExpressions.pop();
+				
+				String featureExpression;]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="47">
+      <file column="25" endcolumn="3" endline="182" line="174"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <file column="27" endcolumn="3" endline="107" line="99"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\PGAnalyzerTest.java"/>
+      <file column="47" endcolumn="3" endline="96" line="89"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\VizGeneratorTest.java"/>
+      <codefragment><![CDATA[	private void testLinker(String directory, String classDirectory) {
+		ProductCoverageManager manager = new ProductCoverageManager();
+		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
+		try {
+			reader.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="8" tokens="45">
+      <file column="3" endcolumn="19" endline="137" line="130"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="3" endcolumn="19" endline="262" line="255"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[		manager.accept(new ISpltCoverageVisitor() {
+
+			@Override
+			public void visit(ProductCoverage pc) {
+				int numFeatures = 0;
+				Map<String, Boolean> featureSet = pc.getFeatureSet();
+				numFeatures = getNumFeatures(featureSet);
+				if (numFeatures == targetNumFeatures) {]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="44">
+      <file column="50" endcolumn="34" endline="102" line="100"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <file column="13" endcolumn="34" endline="157" line="155"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <codefragment><![CDATA[				if(klass.getCanonicalName().replace(".", "/").equals(cc.getName())) {
+					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+						if(cc.getLine(i).getStatus() == ICounter.FULLY_COVERED)]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="42">
+      <file column="21" endcolumn="47" endline="27" line="22"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="20" endcolumn="47" endline="48" line="43"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[	public void testAnd() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", false);
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));]]></codefragment>
+   </duplication>
+   <duplication lines="7" tokens="41">
+      <file column="3" endcolumn="1" endline="49" line="43"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerFeatureHierarchizeTest.java"/>
+      <file column="3" endcolumn="1" endline="351" line="345"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerTest.java"/>
+      <codefragment><![CDATA[		for(String key : featureSet.keySet()) {
+			if(featureSet.get(key))
+				System.out.print(key + " ");
+		}
+		System.out.println();
+	}
+}]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="40">
+      <file column="71" endcolumn="61" endline="102" line="100"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <file column="41" endcolumn="59" endline="181" line="179"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <codefragment><![CDATA[				if(klass.getCanonicalName().replace(".", "/").equals(cc.getName())) {
+					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+						if(cc.getLine(i).getStatus() == ICounter.FULLY_COVERED)]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="39">
+      <file column="44" endcolumn="8" endline="130" line="122"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\SpltCoverageGenerator.java"/>
+      <file column="40" endcolumn="8" endline="58" line="50"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java"/>
+      <codefragment><![CDATA[		for (int i = 0; i < splitted.length - 1; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
+	}
+	
+	private class TestListener extends RunListener {]]></codefragment>
+   </duplication>
+   <duplication lines="7" tokens="38">
+      <file column="44" endcolumn="2" endline="54" line="48"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java"/>
+      <file column="40" endcolumn="2" endline="56" line="50"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java"/>
+      <codefragment><![CDATA[		for (int i = 0; i < splitted.length - 1; i++) {
+			checkDirectory = checkDirectory + splitted[i] + "/";
+			File file = new File(checkDirectory);
+			if (!file.exists())
+				file.mkdir();
+		}
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="38">
+      <file column="36" endcolumn="18" endline="73" line="69"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java"/>
+      <file column="36" endcolumn="18" endline="93" line="89"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java"/>
+      <codefragment><![CDATA[		Map<String, Boolean> featureSet1 = new HashMap<String, Boolean>();
+		featureSet1.put("Elevator", true);
+		featureSet1.put("Behavior", true);
+		featureSet1.put("Modes", true);
+		featureSet1.put("ShortestPaht", true);]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="37">
+      <file column="4" endcolumn="19" endline="79" line="74"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="5" endcolumn="20" endline="243" line="238"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[			for (String key : featureSet.keySet()) {
+				if (featureSet.get(key) != targetFeatureSet.get(key)) {
+					different++;
+				}
+			}
+			if (different == 1)]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="37">
+      <file column="3" endcolumn="6" endline="169" line="166"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="3" endcolumn="6" endline="214" line="211"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[		Collection<Map<String, Boolean>> toReturn = new LinkedList<Map<String, Boolean>>();
+
+		for (Map<String, Boolean> featureSet : products) {
+			int numFeatures = 0;]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="36">
+      <file column="38" endcolumn="28" endline="46" line="41"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java"/>
+      <file column="44" endcolumn="28" endline="53" line="49"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java"/>
+      <file column="44" endcolumn="28" endline="65" line="62"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\FeatureLocator.java"/>
+      <codefragment><![CDATA[					log.fine(String.valueOf(endLine));
+				LocationInfo popped = infoStack.pop();
+
+				featureLocations.add(
+						new FeatureLocation(javaSourceFile, stackedExpressions, popped.startLine + 1, endLine - 1));
+				stackedExpressions.pop();]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="36">
+      <file column="33" endcolumn="123" endline="97" line="93"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="34" endcolumn="123" endline="113" line="109"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[		featureSet.put("Sabbath", true);
+		featureSet.put("Replace", false);
+		featureSet.put("Another", true);
+		featureSet.put("Other", true);
+		assertTrue(FeatureExpressionParser.evaluate("(!(CallButtons&DirectedCall)&Sabbath|(Replace|Another))&Other", featureSet));]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="35">
+      <file column="34" endcolumn="34" endline="157" line="155"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <file column="41" endcolumn="32" endline="181" line="179"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestMethodCoverage.java"/>
+      <codefragment><![CDATA[				if(klass.equals(cc.getName())) {
+					for(int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+						if(cc.getLine(i).getStatus() != this.getCoverage(cc.getName()).getLine(i).getStatus())]]></codefragment>
+   </duplication>
+   <duplication lines="28" tokens="34">
+      <file column="46" endcolumn="7" endline="130" line="103"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java"/>
+      <file column="50" endcolumn="7" endline="101" line="76"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java"/>
+      <codefragment><![CDATA[		this.testCaseCoverages.add(testCaseCoverage);
+	}
+	
+	/**
+	 * Add the IClassCoveerages.
+	 * It must be derived by the test cases' coverage containing.
+	 * @param classCoverages
+	 */
+	public void addClassCoverages(Collection<IClassCoverage> classCoverages) {
+		this.classCoverages.addAll(classCoverages);
+	}
+	
+	/**
+	 * Get the target classes.
+	 * @return
+	 */
+	public Class[] getTargetClasses() {
+		return targetClasses;
+	}
+
+	/**
+	 * Set the target classes.
+	 * The target class is used when decide equality.
+	 * If the target class is not null,
+	 * equals() checks if the target classes' coverage is the same only. 
+	 * @param targetClasses
+	 */
+	public void setTargetClasses(Class[] targetClasses) {]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="34">
+      <file column="24" endcolumn="32" endline="79" line="75"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="25" endcolumn="32" endline="92" line="88"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[	public void testWeired() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", true);		]]></codefragment>
+   </duplication>
+   <duplication lines="2" tokens="33">
+      <file column="3" endcolumn="40" endline="93" line="92"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="3" endcolumn="40" endline="168" line="166"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="3" endcolumn="40" endline="213" line="211"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[		Collection<Map<String, Boolean>> toReturn = new LinkedList<Map<String, Boolean>>();
+		for (Map<String, Boolean> featureSet : beforeFiltered) {]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="33">
+      <file column="17" endcolumn="37" endline="48" line="45"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java"/>
+      <file column="10" endcolumn="37" endline="50" line="47"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\MarkdownSimilarityReporter.java"/>
+      <codefragment><![CDATA[	private static void makeDirectory(String directory) {
+		String[] splitted = directory.split("/");
+		String checkDirectory = "";
+		for (int i = 0; i < splitted.length - 1; i++) {]]></codefragment>
+   </duplication>
+   <duplication lines="17" tokens="32">
+      <file column="2" endcolumn="29" endline="137" line="121"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\ProductCoverage.java"/>
+      <file column="2" endcolumn="29" endline="120" line="103"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\model\TestCaseCoverage.java"/>
+      <codefragment><![CDATA[	}
+
+	/**
+	 * Set the target classes.
+	 * The target class is used when decide equality.
+	 * If the target class is not null,
+	 * equals() checks if the target classes' coverage is the same only. 
+	 * @param targetClasses
+	 */
+	public void setTargetClasses(Class[] targetClasses) {
+		this.targetClasses = targetClasses;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		for(ICoverageModelComponent tcc : testCaseCoverages) {]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="31">
+      <file column="65" endcolumn="2" endline="78" line="74"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\GraphVizGenerator.java"/>
+      <file column="36" endcolumn="2" endline="129" line="124"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\report\GraphVizGenerator.java"/>
+      <codefragment><![CDATA[			Graphviz.fromGraph(g).engine(Engine.DOT).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="3" tokens="30">
+      <file column="3" endcolumn="74" endline="39" line="37"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\JacocoConnection.java"/>
+      <file column="3" endcolumn="74" endline="158" line="156"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java"/>
+      <codefragment><![CDATA[		final JMXServiceURL url = new JMXServiceURL(SERVICE_URL);
+		final JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+		final MBeanServerConnection connection = jmxc.getMBeanServerConnection();]]></codefragment>
+   </duplication>
+   <duplication lines="2" tokens="29">
+      <file column="35" endcolumn="52" endline="346" line="345"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="44" endcolumn="93" endline="394" line="393"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[	private static void linkMoreRecur(Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,
+			Collection<Map<String, Boolean>> notGeneratedYet, int distanceToParent) {]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="28">
+      <file column="21" endcolumn="38" endline="25" line="22"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="20" endcolumn="38" endline="46" line="43"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="21" endcolumn="38" endline="67" line="64"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[	public void testAnd() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", false);]]></codefragment>
+   </duplication>
+   <duplication lines="7" tokens="27">
+      <file column="67" endcolumn="29" endline="65" line="59"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\CoverageGenerator.java"/>
+      <file column="66" endcolumn="86" endline="29" line="24"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\io\CoverageWriter.java"/>
+      <codefragment><![CDATA[		System.out.println("Session: " + jacocoConnection.getSessionId());
+
+		final ExecutionDataStore execStore = new ExecutionDataStore();
+		final SessionInfoStore sessionStore = new SessionInfoStore();
+
+		final ExecutionDataReader reader = new ExecutionDataReader(
+				new ByteArrayInputStream(jacocoConnection.getExecutionData(false)));]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="27">
+      <file column="22" endcolumn="62" endline="16" line="13"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureSetGroupReaderTest.java"/>
+      <file column="29" endcolumn="62" endline="18" line="16"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\LinkerFeatureHierarchizeTest.java"/>
+      <codefragment><![CDATA[	public void testRead() {
+		FeatureSetGroupReader reader = new FeatureSetGroupReader(
+				"D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\FeatureAMP2\\products");
+		Collection<Map<String, Boolean>> products = reader.readAll();]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="26">
+      <file column="3" endcolumn="18" endline="171" line="168"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <file column="3" endcolumn="18" endline="300" line="297"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\analysis\ProductLinker.java"/>
+      <codefragment><![CDATA[		for (Map<String, Boolean> featureSet : products) {
+			int numFeatures = 0;
+			numFeatures = getNumFeatures(featureSet);
+			if (numFeatures == targetNumFeatures) {]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="26">
+      <file column="65" endcolumn="14" endline="36" line="33"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\core\antenna\AntennaCoverageComparator.java"/>
+      <file column="60" endcolumn="15" endline="213" line="210"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\CoverageGeneratorTest.java"/>
+      <codefragment><![CDATA[		Collection<FeatureLocation> featureLocations = getFeature(path);
+		
+		for (int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
+			System.out.print("Line " + i + " " + getColor(cc.getLine(i).getStatus()) + ", " + FeatureLocation.calculateFeatureExpressionOfLine(featureLocations, i));]]></codefragment>
+   </duplication>
+   <duplication lines="4" tokens="26">
+      <file column="21" endcolumn="31" endline="25" line="22"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="20" endcolumn="31" endline="46" line="43"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="21" endcolumn="31" endline="67" line="64"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="24" endcolumn="31" endline="78" line="75"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="25" endcolumn="31" endline="91" line="88"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[	public void testAnd() {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		
+		featureSet.put("CallButtons", false);]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="26">
+      <file column="38" endcolumn="31" endline="29" line="25"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="37" endcolumn="31" endline="33" line="29"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[		featureSet.put("CallButtons", false);
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="26">
+      <file column="39" endcolumn="32" endline="30" line="26"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="38" endcolumn="32" endline="38" line="34"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", false);		]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="26">
+      <file column="74" endcolumn="47" endline="31" line="27"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="87" endcolumn="47" endline="84" line="80"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", false);		
+		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));]]></codefragment>
+   </duplication>
+   <duplication lines="5" tokens="26">
+      <file column="74" endcolumn="46" endline="39" line="35"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <file column="73" endcolumn="46" endline="60" line="56"
+            path="D:\workspace_experiment_challenge\lab.square.spltcoverage.core\src\lab\square\spltcoverage\test\FeatureExpressionParserTest.java"/>
+      <codefragment><![CDATA[		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
+		
+		featureSet.put("CallButtons", true);
+		featureSet.put("DirectedCall", true);
+		assertTrue(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));]]></codefragment>
+   </duplication>
+</pmd-cpd>

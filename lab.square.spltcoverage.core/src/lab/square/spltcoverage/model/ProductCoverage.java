@@ -127,7 +127,7 @@ public class ProductCoverage implements ICoverageModelComposite {
 	 * equals() checks if the target classes' coverage is the same only. 
 	 * @param targetClasses
 	 */
-	public void setTargetClasses(Class[] targetClasses) {
+	public void setTargetClasses(Class... targetClasses) {
 		this.targetClasses = targetClasses;
 	}
 

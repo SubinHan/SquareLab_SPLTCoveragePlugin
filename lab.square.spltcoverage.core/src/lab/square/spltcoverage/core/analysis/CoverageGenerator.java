@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
@@ -47,8 +46,7 @@ public class CoverageGenerator {
 		this.jacocoConnection = JacocoConnection.getInstance();
 	}
 
-	public CoverageGenerator(Class... targetClasses)
-			throws MalformedObjectNameException, IOException {
+	public CoverageGenerator(Class... targetClasses) throws MalformedObjectNameException, IOException {
 		this();
 		this.targetClasses = targetClasses;
 	}
@@ -101,11 +99,8 @@ public class CoverageGenerator {
 
 		for (String path : testClassesPath) {
 			Class forTest = null;
-			try {
-				forTest = loadClassByPath(classpath, convertPathToClassName(path));
-			} catch (MalformedURLException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+
+			forTest = loadClassByPath(classpath, convertPathToClassName(path));
 			junit.run(forTest);
 		}
 	}
@@ -119,12 +114,18 @@ public class CoverageGenerator {
 		return filtered;
 	}
 
-	private Class loadClassByPath(String binPath, String name) throws MalformedURLException, ClassNotFoundException {
-		URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });
+	private Class loadClassByPath(String binPath, String name) {
+		Class klass = null;
 
-		return loader.loadClass(name);
+		try (URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });) {
+			klass = loader.loadClass(name);
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return klass;
 	}
-	
+
 	private void mergeExecs(String productDirectory) {
 		File productFolder = new File(productDirectory);
 		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {

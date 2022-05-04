@@ -64,7 +64,7 @@ public class FeatureLocation {
 
 		while (!featureExpressions.isEmpty()) {
 			String popped = featureExpressions.pop();
-			if (toReturn.isBlank()) {
+			if (toReturn.trim().isEmpty()) {
 				toReturn = popped;
 			} else {
 				toReturn = and(popped, toReturn);
@@ -75,9 +75,9 @@ public class FeatureLocation {
 	}
 
 	private String and(String expression1, String expression2) {
-		if (expression1.isBlank())
+		if (expression1.trim().isEmpty())
 			return expression2;
-		if (expression2.isBlank())
+		if (expression2.trim().isEmpty())
 			return expression1;
 		return "(" + expression1 + ")&(" + expression2 + ")";
 	}

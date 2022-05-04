@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import lab.square.similaritymeasure.core.IVector;
 import lab.square.similaritymeasure.core.Vector;
 
 public class VectorAdapter extends Vector{

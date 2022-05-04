@@ -14,7 +14,6 @@ import org.jacoco.core.tools.ExecFileLoader;
 
 import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
-import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 

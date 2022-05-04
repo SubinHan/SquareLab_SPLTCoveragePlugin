@@ -92,9 +92,7 @@ public class MarkdownSimilarityReporter {
 			headers[i++] = toLightString(product);
 		}
 		
-		builder = builder.addHeader(headers);
-		
-		return builder;
+		return builder.addHeader(headers);
 	}
 	
 	private String toLightString(Map<String, Boolean> product) {

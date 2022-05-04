@@ -11,7 +11,6 @@ import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import org.jacoco.core.analysis.Analyzer;
@@ -104,7 +103,7 @@ public class SpltCoverageReader {
 				for (File testMethodCoverageFile : testMethodCoverages) {
 					final String testMethodName = testMethodCoverageFile.getName().replaceAll(".exec", "");
 
-					if (testMethodName.endsWith("Merged") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+					if (testMethodName.endsWith("Merged") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED.replaceAll(".exec",  ""))) {
 						testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
 						continue;
 					}
@@ -136,7 +135,7 @@ public class SpltCoverageReader {
 		return new HashSet<IClassCoverage>(coverageBuilder.getClasses());
 	}
 
-	private Map<String, Boolean> findFeatureSet(File[] testCaseFolders) throws FileNotFoundException, IOException {
+	private Map<String, Boolean> findFeatureSet(File... testCaseFolders) throws FileNotFoundException, IOException {
 		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
 
 		for (File isFeatureSet : testCaseFolders) {

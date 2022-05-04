@@ -2,8 +2,11 @@ package lab.square.spltcoverage.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import org.jacoco.core.data.ExecutionData;
 import org.jacoco.core.data.ExecutionDataReader;
@@ -16,9 +19,8 @@ public class CoverageWriter {
 	
 	public static void makeExecFile(String directory, final byte[] exeData) throws IOException {
 		makeDirectory(directory);
-		File execFile = new File(directory + ".exec");
-		execFile.createNewFile();
-		final FileOutputStream fileStream = new FileOutputStream(execFile, false);
+		String fileName = directory + ".exec";
+		final OutputStream fileStream = Files.newOutputStream(Paths.get(fileName), StandardOpenOption.CREATE_NEW);
 		ExecutionDataWriter writer = new ExecutionDataWriter(fileStream);
 
 		final ExecutionDataStore execStore = new ExecutionDataStore();
