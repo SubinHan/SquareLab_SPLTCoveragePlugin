@@ -1,7 +1,6 @@
 package lab.square.spltplugin.ui.views;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;

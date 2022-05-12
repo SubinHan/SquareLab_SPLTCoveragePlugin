@@ -23,12 +23,17 @@ public class ImportSessionHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		DirectoryDialog dialog = new DirectoryDialog(new Shell());
+		Shell shell = new Shell();
+		
+		DirectoryDialog dialog = new DirectoryDialog(shell);
 
+		shell.setText("*.exec file path");
 		String execPath = dialog.open();
+
+		shell.setText("bin file path");
 		String binPath = dialog.open();
 
-		ProductCoverageManager manager = new ProductCoverageManager();
+		ProductCoverageManager manager = new ProductCoverageManager("SPL");
 		SpltCoverageReader reader = new SpltCoverageReader(manager, execPath, binPath);
 		try {
 			reader.read();

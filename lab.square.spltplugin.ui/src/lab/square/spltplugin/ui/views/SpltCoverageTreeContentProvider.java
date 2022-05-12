@@ -23,7 +23,7 @@ public class SpltCoverageTreeContentProvider implements ITreeContentProvider {
 		session = (SpltCoverageSession) inputElement;
 
 		Collection<ProductCoverage> pcs = session.getManager().getProductCoverages();
-		return pcs.toArray(new ProductCoverage[pcs.size()]);
+		return new Object[] { session.getManager() };
 	}
 
 	@Override

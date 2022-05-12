@@ -66,7 +66,7 @@ public class SampleHandler extends AbstractHandler {
 							classFiles.add((IFile)resource);
 						
 						
-						ProductCoverageManager manager = new ProductCoverageManager();
+						ProductCoverageManager manager = new ProductCoverageManager("SPL");
 						SpltCoverageReader reader = new SpltCoverageReader(manager, resource.getLocation().toString());
 						
 						testPrintCvoerage(resource);
