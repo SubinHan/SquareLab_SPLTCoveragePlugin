@@ -9,12 +9,15 @@ lab\square\spltcoverage\model\ISpltCoverageVisitor.class
 lab\square\spltcoverage\core\analysis\ProductLinker$2.class
 lab\square\spltcoverage\model\ProductSourceInfo.class
 lab\square\spltcoverage\io\MarkdownTableBuilder.class
+lab\square\spltcoverage\core\analysis\SpltCoverageGenerator$3.class
 lab\square\spltcoverage\io\IFeatureSetReader.class
 lab\square\spltcoverage\core\antenna\AntennaCoverageComparator.class
 lab\square\spltcoverage\core\antenna\FeatureExpressionParser.class
 lab\square\spltcoverage\report\GraphVizGenerator$Config.class
+lab\square\spltcoverage\test\FeatureExpressionParserTest.class
 lab\square\spltcoverage\test\CoverageGeneratorTest$3.class
 lab\square\spltcoverage\core\antenna\FeatureLocator$LocationInfo.class
+lab\square\spltcoverage\core\launch\CoverageGeneratorLauncher.class
 lab\square\spltcoverage\core\antenna\model\AndNode.class
 lab\square\spltcoverage\io\SpltCoverageReader.class
 lab\square\spltcoverage\core\antenna\FeatureExpressionTokenizer.class

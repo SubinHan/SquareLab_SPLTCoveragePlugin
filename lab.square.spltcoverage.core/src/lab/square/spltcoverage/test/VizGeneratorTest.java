@@ -86,7 +86,8 @@ public class VizGeneratorTest {
 	}
 
 	private Collection<ProductGraph> createLinker(String directory, String classDirectory) {
-		ProductCoverageManager manager = new ProductCoverageManager();
+		String[] folders = directory.split("/");
+		ProductCoverageManager manager = new ProductCoverageManager(folders[folders.length-1]);
 		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
 		try {
 			reader.read();

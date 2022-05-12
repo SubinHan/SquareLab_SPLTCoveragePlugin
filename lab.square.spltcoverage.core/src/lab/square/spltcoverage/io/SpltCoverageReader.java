@@ -72,6 +72,13 @@ public class SpltCoverageReader {
 		File[] productFolders = folder.listFiles();
 
 		for (File productFolder : productFolders) {
+			if (!productFolder.isDirectory()) {
+				if (productFolder.getName().endsWith("Merged.exec") || productFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+					manager.addClassCoverages(load(productFolder));
+				}
+				continue;
+			}
+			
 			final String productName = productFolder.getName();
 
 			File[] testCaseFolders = productFolder.listFiles();
@@ -115,7 +122,7 @@ public class SpltCoverageReader {
 
 				productCoverage.addChild(testCaseCoverage);
 			}
-			manager.addProductCoverage(productCoverage);
+			manager.addChild(productCoverage);
 		}
 	}
 

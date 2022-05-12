@@ -37,9 +37,34 @@ public class SpltCoverageGenerator {
 			JUnitCore junit = new JUnitCore();
 			junit.addListener(new TestListener(provider, generator, productNum));
 			junit.run(provider.getTestClasses());
-
-			mergeExecs(provider.getBaseDirectory() + productDirectory);
 		}
+		mergeProducts(provider.getBaseDirectory());
+	}
+
+	private void mergeProducts(String baseDirectory) {
+		File splFolder = new File(baseDirectory);
+		File[] productExecs = new File[splFolder.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		}).length];
+
+		int index = 0;
+		CoverageMerger merger = new CoverageMerger();
+		for (File productFolder : splFolder.listFiles()) {
+			if (!productFolder.isDirectory())
+				continue;
+			File productExec = null;
+			productExec = mergeExecs(productFolder.getPath());
+			productExecs[index++] = productExec;
+		}
+		try {
+			merger.mergeExecs(new File(splFolder, splFolder.getName() + SUFFIX_MERGED), productExecs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void writeFeatureSet(String pathOfFeatureSet, String content) {
@@ -86,7 +111,8 @@ public class SpltCoverageGenerator {
 		}
 	}
 
-	private void mergeExecs(String productDirectory) {
+	private File mergeExecs(String productDirectory) {
+		File mergedExec = null;
 		File productFolder = new File(productDirectory);
 		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
 			@Override
@@ -109,10 +135,12 @@ public class SpltCoverageGenerator {
 			testCaseExecs[index++] = testCaseExec;
 		}
 		try {
-			merger.mergeExecs(new File(productFolder, productFolder.getName() + SUFFIX_MERGED), testCaseExecs);
+			mergedExec = new File(productFolder, productFolder.getName() + SUFFIX_MERGED);
+			merger.mergeExecs(mergedExec, testCaseExecs);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return mergedExec;
 	}
 	
 	private void makeDirectory(String directory) {

@@ -3,7 +3,6 @@ package lab.square.spltcoverage.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
@@ -12,15 +11,30 @@ import org.jacoco.core.analysis.IClassCoverage;
  * The ProductCoverageManager class is a class containing the ProductCoverages.
  * @author SQUARELAB
  */
-public class ProductCoverageManager {
-	private List<IClassCoverage> classCoverages;
-	private List<ProductCoverage> productCoverages;
+public class ProductCoverageManager implements ICoverageModelComposite {
+	private String name;
+	private Collection<IClassCoverage> classCoverages;
+	private Collection<ICoverageModelComponent> productCoverages;
 	
 	/**
 	 * Create an empty ProductCoverageManager.
 	 */
-	public ProductCoverageManager() {
-		productCoverages = new ArrayList<ProductCoverage>();
+	public ProductCoverageManager(String name) {
+		this.name = name;
+		classCoverages = new ArrayList<IClassCoverage>();
+		productCoverages = new ArrayList<ICoverageModelComponent>();
+	}
+	
+	/**
+	 * Get the ProductCoverages.
+	 * @return
+	 */
+	public Collection<ProductCoverage> getProductCoverages() {
+		Collection<ProductCoverage> result = new ArrayList<>();
+		for(ICoverageModelComponent pc : productCoverages) {
+			result.add((ProductCoverage)pc);
+		}
+		return result;
 	}
 	
 	/**
@@ -29,20 +43,13 @@ public class ProductCoverageManager {
 	 * @return
 	 */
 	public ProductCoverage getProductCoverage(Map<String, Boolean> featureSet) {
-		for(ProductCoverage pc : this.productCoverages) {
-			if(pc.getFeatureSet().equals(featureSet))
-				return pc;
+		for(ICoverageModelComponent pc : this.productCoverages) {
+			if(((ProductCoverage)pc).getFeatureSet().equals(featureSet))
+				return (ProductCoverage)pc;
 		}
 		return null;
 	}
 	
-	/**
-	 * Get all the ProductCoverage.
-	 * @return
-	 */
-	public List<ProductCoverage> getProductCoverages() {
-		return productCoverages;
-	}
 	
 	/**
 	 * Add the ProductCoverage.
@@ -62,9 +69,9 @@ public class ProductCoverageManager {
 		ArrayList<ProductCoverage> toReturn = new ArrayList<ProductCoverage>();
 		toCheck.add(targetProduct);
 		
-		for(ProductCoverage pc : productCoverages) {
-			if(toCheck.contains(pc))
-				toReturn.add(pc);
+		for(ICoverageModelComponent pc : productCoverages) {
+			if(toCheck.contains((ProductCoverage)pc))
+				toReturn.add((ProductCoverage)pc);
 		}
 		
 		if(toReturn.size() == 1)
@@ -79,6 +86,41 @@ public class ProductCoverageManager {
 	 */
 	public void accept(ISpltCoverageVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public Collection<IClassCoverage> getClassCoverages() {
+		return this.classCoverages;
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
+	public void addClassCoverages(Collection<IClassCoverage> classCoverages) {
+		this.classCoverages.addAll(classCoverages);
+	}
+
+	@Override
+	public Class[] getTargetClasses() {
+		return null;
+	}
+
+	@Override
+	public int getScore() {
+		return 0;
+	}
+
+	@Override
+	public Collection<ICoverageModelComponent> getChildren() {
+		return this.productCoverages;
+	}
+
+	@Override
+	public void addChild(ICoverageModelComponent component) {
+		productCoverages.add(component);
 	}
 	
 }
