@@ -57,7 +57,7 @@ public class GraphVizGenerator {
 	}
 
 	public static void generate(Collection<ProductGraph> roots, Config config, String outputPath) throws IOException {
-		if(outputPath.toLowerCase().endsWith(".png"))
+		if(!outputPath.toLowerCase().endsWith(".png"))
 			outputPath = outputPath + ".png";
 		
 		Graph g = Factory.graph("report").graphAttr()
