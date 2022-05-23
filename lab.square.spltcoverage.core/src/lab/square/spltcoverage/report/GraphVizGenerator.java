@@ -37,17 +37,29 @@ public class GraphVizGenerator {
 			LEFT_TO_RIGHT | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
 
 	private static final int RENDER_HEIGHT = 4096;
+	private static String DEFAULT_OUTPUT_PATH = "vizResult/result.png";
 
 	public GraphVizGenerator() {
 	}
 
 	public static void generate(ProductGraph root, Config config) throws IOException {
+		generate(root, config, DEFAULT_OUTPUT_PATH);
+	}
+	
+	public static void generate(ProductGraph root, Config config, String outputPath) throws IOException {
 		Collection<ProductGraph> roots = new ArrayList<ProductGraph>();
 		roots.add(root);
-		generate(roots, config);
+		generate(roots, config, outputPath);
+	}
+	
+	public static void generate(Collection<ProductGraph> roots, Config config) throws IOException {
+		generate(roots, config, DEFAULT_OUTPUT_PATH);
 	}
 
-	public static void generate(Collection<ProductGraph> roots, Config config) throws IOException {
+	public static void generate(Collection<ProductGraph> roots, Config config, String outputPath) throws IOException {
+		if(outputPath.toLowerCase().endsWith(".png"))
+			outputPath = outputPath + ".png";
+		
 		Graph g = Factory.graph("report").graphAttr()
 				.with(Rank.dir((TOP_TO_BOTTOM & config.config) != 0 ? RankDir.TOP_TO_BOTTOM : RankDir.LEFT_TO_RIGHT))
 				.linkAttr().with(Style.SOLID);
@@ -63,7 +75,7 @@ public class GraphVizGenerator {
 		g = g.with(node);
 
 		try {
-			Graphviz.fromGraph(g).engine(Engine.DOT).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File("example/ex1.png"));
+			Graphviz.fromGraph(g).engine(Engine.DOT).height(RENDER_HEIGHT).render(Format.PNG).toFile(new File(outputPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -115,7 +127,6 @@ public class GraphVizGenerator {
 		try {
 			Graphviz.fromGraph(g).height(200).render(Format.PNG).toFile(new File("example/ex1.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
