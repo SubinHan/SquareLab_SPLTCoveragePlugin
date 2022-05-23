@@ -4,10 +4,12 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
+import lab.square.spltcoverage.io.FeatureSetGroupReader;
 import lab.square.spltcoverage.io.SpltCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverageManager;
 import lab.square.spltcoverage.model.ProductGraph;
@@ -25,7 +27,7 @@ public class VizGeneratorTest {
 		generateViz(directory, classDirectory);
 	}
 
-	//@Test
+	// @Test
 	public void testGeneratorElevator() {
 		String directory;
 		String classDirectory;
@@ -33,6 +35,14 @@ public class VizGeneratorTest {
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/elevator/bin";
 
 		generateViz(directory, classDirectory);
+	}
+
+	//@Test
+	public void testGeneratorElevator2() {
+		String directory;
+		directory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\elevator\\products";
+
+		generateVizWithOnlyFeatureSets(directory);
 	}
 
 	// @Test
@@ -55,6 +65,19 @@ public class VizGeneratorTest {
 		}
 	}
 
+	private void generateVizWithOnlyFeatureSets(String directory) {
+		FeatureSetGroupReader reader = new FeatureSetGroupReader(directory);
+		Collection<Map<String, Boolean>> featureSets = reader.readAll();
+
+		Collection<ProductGraph> heads = ProductLinker.link(featureSets);
+
+		try {
+			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_SHOWPROBLEM_LEFTTORIGHT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	// @Test
 	public void testGeneratorMinepump() {
 		String directory;
@@ -63,6 +86,14 @@ public class VizGeneratorTest {
 		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/minepump/bin";
 
 		generateViz(directory, classDirectory);
+	}
+	
+	@Test
+	public void testGeneratorMinepump2() {
+		String directory;
+		directory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\MinePump\\products";
+
+		generateVizWithOnlyFeatureSets(directory);
 	}
 
 	// @Test
@@ -75,7 +106,7 @@ public class VizGeneratorTest {
 		generateViz(directory, classDirectory);
 	}
 
-	@Test
+	// @Test
 	public void testGeneratorVendingMachine() {
 		String directory;
 		String classDirectory;
@@ -87,7 +118,7 @@ public class VizGeneratorTest {
 
 	private Collection<ProductGraph> createLinker(String directory, String classDirectory) {
 		String[] folders = directory.split("/");
-		ProductCoverageManager manager = new ProductCoverageManager(folders[folders.length-1]);
+		ProductCoverageManager manager = new ProductCoverageManager(folders[folders.length - 1]);
 		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
 		try {
 			reader.read();

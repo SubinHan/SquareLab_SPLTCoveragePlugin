@@ -22,6 +22,7 @@ public final class ProductLinker {
 
 	public static Collection<ProductGraph> link(Collection<Map<String, Boolean>> products) {
 		int min = getMinNumFeatureInFeatureSets(products);
+		int max = getMaxNumFeatureInFeatureSets(products);
 		Collection<Map<String, Boolean>> notGeneratedYet = new LinkedList<Map<String, Boolean>>(products);
 		Collection<ProductGraph> generatedGraph = new LinkedList<ProductGraph>();
 		Collection<Map<String, Boolean>> baseProducts = findHaveNumFeatures(products, min);
@@ -32,13 +33,18 @@ public final class ProductLinker {
 			heads.add(makeGraphRecur(products, generatedGraph, notGeneratedYet, null, product, level));
 		}
 
-		int distance = 2;
+		int distance = 1;
 		while (!notGeneratedYet.isEmpty()) {
-			linkMoreRecur(products, generatedGraph, notGeneratedYet, distance++);
+			linkMoreRecur(heads, products, generatedGraph, notGeneratedYet, distance++);
+			if(distance > max) {
+				break;
+			}
 		}
 
 		return heads;
 	}
+
+	
 
 	@Deprecated
 	public static Collection<ProductGraph> link(ProductCoverageManager manager) {
@@ -53,7 +59,7 @@ public final class ProductLinker {
 			heads.add(makeGraphRecur(manager, generatedGraph, notGeneratedYet, null, pc, level));
 		}
 
-		int distance = 2;
+		int distance = 1;
 		while (!notGeneratedYet.isEmpty()) {
 			linkMoreRecur(manager, generatedGraph, notGeneratedYet, distance++);
 		}
@@ -92,7 +98,7 @@ public final class ProductLinker {
 		Collection<Map<String, Boolean>> toReturn = new LinkedList<Map<String, Boolean>>();
 		for (Map<String, Boolean> featureSet : beforeFiltered) {
 			int different = 0;
-			for (String key : target.keySet()) {
+			for (String key : featureSet.keySet()) {
 				if (target.get(key) != featureSet.get(key)) {
 					different++;
 				}
@@ -246,7 +252,7 @@ public final class ProductLinker {
 			}
 
 			distanceToParent++;
-		} while (toReturn.size() == 0 || distanceToParent > getNumFeatures(featureSet));
+		} while (toReturn.size() == 0 && distanceToParent <= getNumFeatures(featureSet));
 		return toReturn;
 	}
 
@@ -303,6 +309,18 @@ public final class ProductLinker {
 		}
 		return min;
 	}
+	
+	private static int getMaxNumFeatureInFeatureSets(Collection<Map<String, Boolean>> products) {
+		int max = Integer.MIN_VALUE;
+		for (Map<String, Boolean> featureSet : products) {
+			int numFeatures = 0;
+			numFeatures = getNumFeatures(featureSet);
+			if (numFeatures > max) {
+				max = numFeatures;
+			}
+		}
+		return max;
+	}
 
 	private static int getNumFeatures(Map<String, Boolean> featureSet) {
 		int numFeatures = 0;
@@ -342,7 +360,7 @@ public final class ProductLinker {
 		} while (oldCount != newCount);
 	}
 	
-	private static void linkMoreRecur(Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,
+	private static void linkMoreRecur(Collection<ProductGraph> heads, Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,
 			Collection<Map<String, Boolean>> notGeneratedYet, int distanceToParent) {
 		int oldCount;
 		int newCount = notGeneratedYet.size();
@@ -350,18 +368,21 @@ public final class ProductLinker {
 		do {
 			int min = getMinNumFeatureInFeatureSets(notGeneratedYet);
 			Collection<Map<String, Boolean>> baseProducts = findHaveNumFeaturesInFeatureSets(notGeneratedYet, min);
-			Collection<ProductGraph> heads = new HashSet<ProductGraph>();
+			Collection<ProductGraph> localHeads = new HashSet<ProductGraph>();
 
 			for (Map<String, Boolean> featureSet : baseProducts) {
-				heads.add(makeGraphRecur(products, generatedGraph, notGeneratedYet, null, featureSet,
+				localHeads.add(makeGraphRecur(products, generatedGraph, notGeneratedYet, null, featureSet,
 						getNumFeatures(featureSet) - distanceToParent));
 			}
 
-			for (ProductGraph head : heads) {
-				Collection<ProductGraph> parents = findParents(generatedGraph, head);
+			for (ProductGraph localHead : localHeads) {
+				Collection<ProductGraph> parents = findParents(generatedGraph, localHead);
+				if(parents.isEmpty()) {
+					heads.add(localHead);
+				}
 				for (ProductGraph parent : parents) {
-					parent.addChild(head);
-					head.addParent(parent);
+					parent.addChild(localHead);
+					localHead.addParent(parent);
 				}
 			}
 

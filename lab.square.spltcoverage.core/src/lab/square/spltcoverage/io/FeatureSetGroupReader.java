@@ -50,7 +50,6 @@ public class FeatureSetGroupReader implements IFeatureSetReader {
 				continue;
 
 			Map<String, Boolean> featureSet = readFeatureSet(featureSetFile);
-			
 			products.add(featureSet);
 		}
 

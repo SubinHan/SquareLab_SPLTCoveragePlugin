@@ -73,6 +73,8 @@ public class ProductGraph {
 			return false;
 		if(this.parents.isEmpty())
 			return false;
+		if(productCoverage == null)
+			return false;
 		
 		for(ProductGraph parent : this.parents) {
 			if(parent == null)
