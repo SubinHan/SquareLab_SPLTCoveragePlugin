@@ -22,10 +22,10 @@ import lab.square.spltcoverage.test.target.TestSpltProvider;
 
 public class CoverageGeneratorTest2 {
 
-	private static final int PRODUCT_COUNT = 4;
-	private static final int TESTCLASS_COUNT=2;
-	private static final int A_TESTMETHOD_COUNT=3;
-	private static final int B_TESTMETHOD_COUNT=5;
+	private static final int PRODUCT_COUNT = 5;
+	private static final int TESTCLASS_COUNT= 2;
+	private static final int A_TESTMETHOD_COUNT = 3;
+	private static final int B_TESTMETHOD_COUNT = 5;
 	
 	@Test
 	public void testCoverageGenerator() {
