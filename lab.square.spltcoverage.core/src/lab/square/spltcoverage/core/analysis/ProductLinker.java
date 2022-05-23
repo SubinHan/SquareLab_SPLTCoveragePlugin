@@ -166,7 +166,7 @@ public final class ProductLinker {
 
 	private static Collection<Map<String, Boolean>> findHaveNumFeatures(Collection<Map<String, Boolean>> products,
 			int targetNumFeatures) {
-		if (targetNumFeatures <= 0)
+		if (targetNumFeatures < 0)
 			return null;
 
 		Collection<Map<String, Boolean>> toReturn = new LinkedList<Map<String, Boolean>>();
