@@ -121,19 +121,13 @@ public class LinkerTest2 {
 	}
 
 	private boolean equals(Boolean boolean1, Boolean boolean2) {
-		if(boolean1 == null) {
-			if(boolean2 == null)
-				return true;
-			if(boolean2 == false)
-				return true;
-		}
-		if(boolean2 == null) {
-			if(boolean1 == null)
-				return true;
-			if(boolean2 == false)
-				return true;
-		}
-		return boolean1 == boolean2;
+		return getBooleanValue(boolean1) == getBooleanValue(boolean2);
+	}
+	
+	private boolean getBooleanValue(Boolean value) {
+		if(value == null)
+			return false;
+		return value;
 	}
 
 	private void printFeatures(Map<String, Boolean> featureSet) {
