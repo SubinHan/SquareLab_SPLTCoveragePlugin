@@ -36,7 +36,7 @@ public class GraphVizGenerator {
 	public static final Config CONFIG_SHOWPROBLEM_LEFTTORIGHT = new Config("product",
 			LEFT_TO_RIGHT | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
 
-	private static final int RENDER_HEIGHT = 4096;
+	private static final int RENDER_HEIGHT = 2048;
 	private static String DEFAULT_OUTPUT_PATH = "vizResult/result.png";
 
 	public GraphVizGenerator() {

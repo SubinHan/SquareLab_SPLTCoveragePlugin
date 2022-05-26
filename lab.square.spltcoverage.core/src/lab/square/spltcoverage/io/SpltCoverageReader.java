@@ -22,7 +22,7 @@ import org.jacoco.core.tools.ExecFileLoader;
 
 import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
-import lab.square.spltcoverage.model.ProductCoverageManager;
+import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 
@@ -37,9 +37,9 @@ public class SpltCoverageReader {
 
 	private String execFilesPath;
 	private String classPath;
-	private ProductCoverageManager manager;
+	private SplCoverage manager;
 
-	public SpltCoverageReader(ProductCoverageManager manager, String classPath) {
+	public SpltCoverageReader(SplCoverage manager, String classPath) {
 		this.manager = manager;
 		this.classPath = classPath;
 	}
@@ -50,12 +50,12 @@ public class SpltCoverageReader {
 	 * @param execFilesPath
 	 * @param classPath
 	 */
-	public SpltCoverageReader(ProductCoverageManager manager, String execFilesPath, String classPath) {
+	public SpltCoverageReader(SplCoverage manager, String execFilesPath, String classPath) {
 		this(manager, classPath);
 		this.execFilesPath = execFilesPath;
 	}
 
-	public ProductCoverageManager getManager() {
+	public SplCoverage getManager() {
 		return manager;
 	}
 	

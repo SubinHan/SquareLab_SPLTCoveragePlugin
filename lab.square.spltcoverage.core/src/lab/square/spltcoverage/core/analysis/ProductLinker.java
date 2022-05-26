@@ -9,7 +9,7 @@ import java.util.Map;
 
 import lab.square.spltcoverage.model.ISpltCoverageVisitor;
 import lab.square.spltcoverage.model.ProductCoverage;
-import lab.square.spltcoverage.model.ProductCoverageManager;
+import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
@@ -47,7 +47,7 @@ public final class ProductLinker {
 	
 
 	@Deprecated
-	public static Collection<ProductGraph> link(ProductCoverageManager manager) {
+	public static Collection<ProductGraph> link(SplCoverage manager) {
 		int min = getMinNumFeature(manager);
 		Collection<ProductCoverage> notGeneratedYet = new LinkedList<>(manager.getProductCoverages());
 		Collection<ProductGraph> generatedGraph = new LinkedList<ProductGraph>();
@@ -67,7 +67,7 @@ public final class ProductLinker {
 		return heads;
 	}
 
-	private static List<ProductCoverage> findChildProducts(ProductCoverageManager manager, ProductCoverage pc) {
+	private static List<ProductCoverage> findChildProducts(SplCoverage manager, ProductCoverage pc) {
 		int numFeatures = 1;
 		Map<String, Boolean> featureSet = pc.getFeatureSet();
 		numFeatures += getNumFeatures(featureSet);
@@ -128,7 +128,7 @@ public final class ProductLinker {
 		return null;
 	}
 
-	private static List<ProductCoverage> findHaveNumFeatures(ProductCoverageManager manager, int targetNumFeatures) {
+	private static List<ProductCoverage> findHaveNumFeatures(SplCoverage manager, int targetNumFeatures) {
 		if (targetNumFeatures < 0)
 			return null;
 
@@ -146,7 +146,7 @@ public final class ProductLinker {
 			}
 
 			@Override
-			public void visit(ProductCoverageManager pcm) {
+			public void visit(SplCoverage pcm) {
 				for (ProductCoverage pc : pcm.getProductCoverages()) {
 					this.visit(pc);
 				}
@@ -256,7 +256,7 @@ public final class ProductLinker {
 		return toReturn;
 	}
 
-	private static int getMinNumFeature(ProductCoverageManager manager) {
+	private static int getMinNumFeature(SplCoverage manager) {
 		min = Integer.MAX_VALUE;
 		manager.accept(new ISpltCoverageVisitor() {
 
@@ -271,7 +271,7 @@ public final class ProductLinker {
 			}
 
 			@Override
-			public void visit(ProductCoverageManager pcm) {
+			public void visit(SplCoverage pcm) {
 				for (ProductCoverage pc : pcm.getProductCoverages()) {
 					this.visit(pc);
 				}
@@ -332,7 +332,7 @@ public final class ProductLinker {
 		return numFeatures;
 	}
 
-	private static void linkMoreRecur(ProductCoverageManager manager, Collection<ProductGraph> generatedGraph,
+	private static void linkMoreRecur(SplCoverage manager, Collection<ProductGraph> generatedGraph,
 			Collection<ProductCoverage> notGeneratedYet, int distanceToParent) {
 		int oldCount;
 		int newCount = notGeneratedYet.size();
@@ -391,7 +391,7 @@ public final class ProductLinker {
 		} while (oldCount != newCount);
 	}
 
-	private static ProductGraph makeGraphRecur(ProductCoverageManager manager, Collection<ProductGraph> generatedGraph,
+	private static ProductGraph makeGraphRecur(SplCoverage manager, Collection<ProductGraph> generatedGraph,
 			Collection<ProductCoverage> notGeneratedYet, ProductGraph parent, ProductCoverage pc, int level) {
 		ProductGraph graph = findGraphEquals(generatedGraph, pc);
 		if (graph == null) {
