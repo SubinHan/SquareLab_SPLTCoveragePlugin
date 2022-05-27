@@ -12,7 +12,7 @@ import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
 import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.SplCoverage;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.report.GraphVizGenerator;
 
 public class VizGeneratorTest {
@@ -56,7 +56,7 @@ public class VizGeneratorTest {
 	}
 
 	private void generateViz(String directory, String classDirectory) {
-		Collection<ProductGraph> heads = createLinker(directory, classDirectory);
+		Collection<ProductNode> heads = createLinker(directory, classDirectory);
 
 		try {
 			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_SHOWPROBLEM_LEFTTORIGHT);
@@ -69,7 +69,7 @@ public class VizGeneratorTest {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader(directory);
 		Collection<Map<String, Boolean>> featureSets = reader.readAll();
 
-		Collection<ProductGraph> heads = ProductLinker.link(featureSets);
+		Collection<ProductNode> heads = ProductLinker.link(featureSets);
 
 		try {
 			GraphVizGenerator.generate(heads, GraphVizGenerator.CONFIG_SHOWPROBLEM_LEFTTORIGHT);
@@ -116,7 +116,7 @@ public class VizGeneratorTest {
 		generateViz(directory, classDirectory);
 	}
 
-	private Collection<ProductGraph> createLinker(String directory, String classDirectory) {
+	private Collection<ProductNode> createLinker(String directory, String classDirectory) {
 		String[] folders = directory.split("/");
 		SplCoverage manager = new SplCoverage(folders[folders.length - 1]);
 		SplCoverageReader reader = new SplCoverageReader(manager, directory, classDirectory);
@@ -126,7 +126,7 @@ public class VizGeneratorTest {
 			e.printStackTrace();
 		}
 
-		Collection<ProductGraph> heads = ProductLinker.link(manager);
+		Collection<ProductNode> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
 			fail();
 

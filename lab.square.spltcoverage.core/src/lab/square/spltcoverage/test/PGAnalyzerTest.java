@@ -11,7 +11,7 @@ import lab.square.spltcoverage.core.analysis.ProductGraphAnalyzer;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.SplCoverage;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 
 public class PGAnalyzerTest {
 	
@@ -109,12 +109,12 @@ public class PGAnalyzerTest {
 		
 		System.out.println(directory);
 		
-		Collection<ProductGraph> heads = ProductLinker.link(manager);
+		Collection<ProductNode> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
 			fail();
 		
 		ProductGraphAnalyzer analyzer = new ProductGraphAnalyzer(heads);
-		for(ProductGraph problem : analyzer.getProblemProducts()) {
+		for(ProductNode problem : analyzer.getProblemProducts()) {
 			System.out.println(problem.getProductCoverage().getFeatureSet());
 		}
 		

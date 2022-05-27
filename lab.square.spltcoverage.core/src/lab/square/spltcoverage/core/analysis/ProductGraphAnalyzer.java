@@ -6,18 +6,18 @@ import java.util.HashSet;
 import java.util.Map;
 
 import lab.square.spltcoverage.model.ProductCoverage;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 
 public class ProductGraphAnalyzer {
-	Collection<ProductGraph> heads;
-	Collection<ProductGraph> problemProducts;
-	Collection<ProductGraph> visited;
+	Collection<ProductNode> heads;
+	Collection<ProductNode> problemProducts;
+	Collection<ProductNode> visited;
 	Collection<Collection<String>> problemFeatures;
 
-	public ProductGraphAnalyzer(Collection<ProductGraph> heads) {
+	public ProductGraphAnalyzer(Collection<ProductNode> heads) {
 		this.heads = heads;
-		this.problemProducts = new ArrayList<ProductGraph>();
-		this.visited = new ArrayList<ProductGraph>();
+		this.problemProducts = new ArrayList<ProductNode>();
+		this.visited = new ArrayList<ProductNode>();
 		this.problemFeatures = new ArrayList<Collection<String>>();
 		init();
 	}
@@ -30,14 +30,14 @@ public class ProductGraphAnalyzer {
 		acceptGraph(new GraphVisitor() {
 
 			@Override
-			public void visit(ProductGraph graph) {
+			public void visit(ProductNode graph) {
 				if (visited.contains(graph))
 					return;
 				visited.add(graph);
 				System.out.println("Graph visited: " + graph.getFeatureSet());
 
 				ProductCoverage pc = graph.getProductCoverage();
-				for (ProductGraph parent : graph.getParents()) {
+				for (ProductNode parent : graph.getParents()) {
 					if (parent == null)
 						continue;
 
@@ -53,7 +53,7 @@ public class ProductGraphAnalyzer {
 					}
 				}
 
-				for (ProductGraph child : graph.getChildren()) {
+				for (ProductNode child : graph.getChildren()) {
 					visit(child);
 				}
 			}
@@ -73,7 +73,7 @@ public class ProductGraphAnalyzer {
 		return toReturn;
 	}
 
-	public Collection<ProductGraph> getProblemProducts() {
+	public Collection<ProductNode> getProblemProducts() {
 		return this.problemProducts;
 	}
 
@@ -83,11 +83,11 @@ public class ProductGraphAnalyzer {
 
 	private void acceptGraph(GraphVisitor visitor) {
 		visited.clear();
-		for (ProductGraph head : heads)
+		for (ProductNode head : heads)
 			visitor.visit(head);
 	}
 
 	private interface GraphVisitor {
-		public void visit(ProductGraph graph);
+		public void visit(ProductNode graph);
 	}
 }

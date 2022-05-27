@@ -14,7 +14,7 @@ import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 
 /*
  * Test 시: core의 plugin.xml dependency -> org.jacoco (0.8.6) 이어야 함.
@@ -22,7 +22,7 @@ import lab.square.spltcoverage.model.ProductGraph;
  */
 public class LinkerTest {
 
-	private Collection<ProductGraph> visited;
+	private Collection<ProductNode> visited;
 	private int count = 0;
 	private int notEnough = 0;
 	private final double criteria = .5f;
@@ -180,20 +180,20 @@ public class LinkerTest {
 			e.printStackTrace();
 		}
 
-		Collection<ProductGraph> heads = ProductLinker.link(manager);
+		Collection<ProductNode> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
 			fail();
 
-		visited = new HashSet<ProductGraph>();
+		visited = new HashSet<ProductNode>();
 
-		for (ProductGraph graph : heads) {
+		for (ProductNode graph : heads) {
 			visitGraphRecur(graph);
 		}
 		System.out.println(manager.getProductCoverages().size());
 		System.out.println(count);
 	}
 
-	private void visitGraphRecur(ProductGraph graph) {
+	private void visitGraphRecur(ProductNode graph) {
 		if (visited.contains(graph))
 			return;
 		visited.add(graph);
@@ -207,7 +207,7 @@ public class LinkerTest {
 		System.out.print("  ");
 		printFeatures(pc);
 		System.out.println("Parent's Feature Set:");
-		for (ProductGraph parent : graph.getParents()) {
+		for (ProductNode parent : graph.getParents()) {
 			if (parent == null)
 				continue;
 			System.out.print("  ");
@@ -250,18 +250,18 @@ public class LinkerTest {
 		if (isProblemProduct(graph))
 			notEnough++;
 
-		for (ProductGraph child : graph.getChildren()) {
+		for (ProductNode child : graph.getChildren()) {
 			visitGraphRecur(child);
 		}
 	}
 
-	private boolean isProblemProduct(ProductGraph graph) {
+	private boolean isProblemProduct(ProductNode graph) {
 		ProductCoverage pc = graph.getProductCoverage();
 
 		if (graph.getParents() == null)
 			return false;
 
-		for (ProductGraph parent : graph.getParents()) {
+		for (ProductNode parent : graph.getParents()) {
 			if (parent == null)
 				continue;
 			Collection<IClassCoverage> classCoverages = pc.getClassCoverages();
@@ -282,13 +282,13 @@ public class LinkerTest {
 		return false;
 	}
 
-	private int findParentsScore(ProductGraph graph) {
+	private int findParentsScore(ProductNode graph) {
 		if (graph.getParents() == null)
 			return 0;
 		if (graph.getParents().isEmpty())
 			return 0;
 
-		for (ProductGraph parent : graph.getParents()) {
+		for (ProductNode parent : graph.getParents()) {
 			if (parent != null)
 				return parent.getProductCoverage().getScore();
 		}
@@ -296,13 +296,13 @@ public class LinkerTest {
 		return 0;
 	}
 
-	private double findParentsLineRatio(ProductGraph graph, String name) {
+	private double findParentsLineRatio(ProductNode graph, String name) {
 		if (graph.getParents() == null)
 			return 0.f;
 		if (graph.getParents().isEmpty())
 			return 0.f;
 
-		for (ProductGraph parent : graph.getParents()) {
+		for (ProductNode parent : graph.getParents()) {
 			if (parent != null)
 				return getLineRatioOfClass(parent.getProductCoverage().getClassCoverages(), name);
 		}
@@ -318,13 +318,13 @@ public class LinkerTest {
 		return 0.f;
 	}
 
-	private double findParentsMethodRatio(ProductGraph graph, String name) {
+	private double findParentsMethodRatio(ProductNode graph, String name) {
 		if (graph.getParents() == null)
 			return 0.f;
 		if (graph.getParents().isEmpty())
 			return 0.f;
 
-		for (ProductGraph parent : graph.getParents()) {
+		for (ProductNode parent : graph.getParents()) {
 			if (parent == null)
 				continue;
 			Collection<IClassCoverage> parentClassCoverages = parent.getProductCoverage().getClassCoverages();

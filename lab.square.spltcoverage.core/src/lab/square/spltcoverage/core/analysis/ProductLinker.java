@@ -10,7 +10,7 @@ import java.util.Map;
 import lab.square.spltcoverage.model.ISpltCoverageVisitor;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 
@@ -20,13 +20,13 @@ public final class ProductLinker {
 	private ProductLinker() {
 	}
 
-	public static Collection<ProductGraph> link(Collection<Map<String, Boolean>> products) {
+	public static Collection<ProductNode> link(Collection<Map<String, Boolean>> products) {
 		int min = getMinNumFeatureInFeatureSets(products);
 		int max = getMaxNumFeatureInFeatureSets(products);
 		Collection<Map<String, Boolean>> notGeneratedYet = new LinkedList<Map<String, Boolean>>(products);
-		Collection<ProductGraph> generatedGraph = new LinkedList<ProductGraph>();
+		Collection<ProductNode> generatedGraph = new LinkedList<ProductNode>();
 		Collection<Map<String, Boolean>> baseProducts = findHaveNumFeatures(products, min);
-		Collection<ProductGraph> heads = new HashSet<ProductGraph>();
+		Collection<ProductNode> heads = new HashSet<ProductNode>();
 
 		int level = 0;
 		for (Map<String, Boolean> product : baseProducts) {
@@ -47,12 +47,12 @@ public final class ProductLinker {
 	
 
 	@Deprecated
-	public static Collection<ProductGraph> link(SplCoverage manager) {
+	public static Collection<ProductNode> link(SplCoverage manager) {
 		int min = getMinNumFeature(manager);
 		Collection<ProductCoverage> notGeneratedYet = new LinkedList<>(manager.getProductCoverages());
-		Collection<ProductGraph> generatedGraph = new LinkedList<ProductGraph>();
+		Collection<ProductNode> generatedGraph = new LinkedList<ProductNode>();
 		List<ProductCoverage> baseProducts = findHaveNumFeatures(manager, min);
-		Collection<ProductGraph> heads = new HashSet<ProductGraph>();
+		Collection<ProductNode> heads = new HashSet<ProductNode>();
 
 		int level = 0;
 		for (ProductCoverage pc : baseProducts) {
@@ -110,8 +110,8 @@ public final class ProductLinker {
 		return toReturn;
 	}
 
-	private static ProductGraph findGraphEquals(Collection<ProductGraph> collection, ProductCoverage toFind) {
-		for (ProductGraph graph : collection) {
+	private static ProductNode findGraphEquals(Collection<ProductNode> collection, ProductCoverage toFind) {
+		for (ProductNode graph : collection) {
 			if (graph.getProductCoverage().justEquals(toFind))
 				return graph;
 		}
@@ -119,8 +119,8 @@ public final class ProductLinker {
 		return null;
 	}
 	
-	private static ProductGraph findGraphEquals(Collection<ProductGraph> collection, Map<String, Boolean> toFind) {
-		for (ProductGraph graph : collection) {
+	private static ProductNode findGraphEquals(Collection<ProductNode> collection, Map<String, Boolean> toFind) {
+		for (ProductNode graph : collection) {
 			if (graph.getFeatureSet().equals(toFind))
 				return graph;
 		}
@@ -182,11 +182,11 @@ public final class ProductLinker {
 		return toReturn;
 	}
 
-	private static Collection<ProductGraph> findHaveNumFeaturesInGraphs(Collection<ProductGraph> graphs,
+	private static Collection<ProductNode> findHaveNumFeaturesInGraphs(Collection<ProductNode> graphs,
 			int numFeatures) {
-		Collection<ProductGraph> toReturn = new LinkedList<ProductGraph>();
+		Collection<ProductNode> toReturn = new LinkedList<ProductNode>();
 
-		for (ProductGraph graph : graphs) {
+		for (ProductNode graph : graphs) {
 			Map<String, Boolean> featureSet = graph.getFeatureSet();
 			int targetNumFeatures = getNumFeatures(featureSet);
 			if (targetNumFeatures == numFeatures) {
@@ -226,19 +226,19 @@ public final class ProductLinker {
 		return toReturn;
 	}
 
-	private static Collection<ProductGraph> findParents(Collection<ProductGraph> generatedGraph, ProductGraph head) {
+	private static Collection<ProductNode> findParents(Collection<ProductNode> generatedGraph, ProductNode head) {
 		Map<String, Boolean> featureSet = head.getFeatureSet();
 		int distanceToParent = 2;
 
-		Collection<ProductGraph> toReturn = new LinkedList<ProductGraph>();
+		Collection<ProductNode> toReturn = new LinkedList<ProductNode>();
 
 		do {
 			int numFeatures = -distanceToParent;
 			numFeatures += getNumFeatures(featureSet);
 
-			Collection<ProductGraph> beforeFilter = findHaveNumFeaturesInGraphs(generatedGraph, numFeatures);
+			Collection<ProductNode> beforeFilter = findHaveNumFeaturesInGraphs(generatedGraph, numFeatures);
 
-			for (ProductGraph graph : beforeFilter) {
+			for (ProductNode graph : beforeFilter) {
 				Map<String, Boolean> targetFeatureSet = graph.getFeatureSet();
 				int different = 0;
 				for (String key : featureSet.keySet()) {
@@ -332,7 +332,7 @@ public final class ProductLinker {
 		return numFeatures;
 	}
 
-	private static void linkMoreRecur(SplCoverage manager, Collection<ProductGraph> generatedGraph,
+	private static void linkMoreRecur(SplCoverage manager, Collection<ProductNode> generatedGraph,
 			Collection<ProductCoverage> notGeneratedYet, int distanceToParent) {
 		int oldCount;
 		int newCount = notGeneratedYet.size();
@@ -340,16 +340,16 @@ public final class ProductLinker {
 		do {
 			int min = getMinNumFeatureInProductCoverages(notGeneratedYet);
 			Collection<ProductCoverage> baseProducts = findHaveNumFeaturesInProducts(notGeneratedYet, min);
-			Collection<ProductGraph> heads = new HashSet<ProductGraph>();
+			Collection<ProductNode> heads = new HashSet<ProductNode>();
 
 			for (ProductCoverage pc : baseProducts) {
 				heads.add(makeGraphRecur(manager, generatedGraph, notGeneratedYet, null, pc,
 						getNumFeatures(pc.getFeatureSet()) - distanceToParent));
 			}
 
-			for (ProductGraph head : heads) {
-				Collection<ProductGraph> parents = findParents(generatedGraph, head);
-				for (ProductGraph parent : parents) {
+			for (ProductNode head : heads) {
+				Collection<ProductNode> parents = findParents(generatedGraph, head);
+				for (ProductNode parent : parents) {
 					parent.addChild(head);
 					head.addParent(parent);
 				}
@@ -360,7 +360,7 @@ public final class ProductLinker {
 		} while (oldCount != newCount);
 	}
 	
-	private static void linkMoreRecur(Collection<ProductGraph> heads, Collection<Map<String, Boolean>> products, Collection<ProductGraph> generatedGraph,
+	private static void linkMoreRecur(Collection<ProductNode> heads, Collection<Map<String, Boolean>> products, Collection<ProductNode> generatedGraph,
 			Collection<Map<String, Boolean>> notGeneratedYet, int distanceToParent) {
 		int oldCount;
 		int newCount = notGeneratedYet.size();
@@ -368,19 +368,19 @@ public final class ProductLinker {
 		do {
 			int min = getMinNumFeatureInFeatureSets(notGeneratedYet);
 			Collection<Map<String, Boolean>> baseProducts = findHaveNumFeaturesInFeatureSets(notGeneratedYet, min);
-			Collection<ProductGraph> localHeads = new HashSet<ProductGraph>();
+			Collection<ProductNode> localHeads = new HashSet<ProductNode>();
 
 			for (Map<String, Boolean> featureSet : baseProducts) {
 				localHeads.add(makeGraphRecur(products, generatedGraph, notGeneratedYet, null, featureSet,
 						getNumFeatures(featureSet) - distanceToParent));
 			}
 
-			for (ProductGraph localHead : localHeads) {
-				Collection<ProductGraph> parents = findParents(generatedGraph, localHead);
+			for (ProductNode localHead : localHeads) {
+				Collection<ProductNode> parents = findParents(generatedGraph, localHead);
 				if(parents.isEmpty()) {
 					heads.add(localHead);
 				}
-				for (ProductGraph parent : parents) {
+				for (ProductNode parent : parents) {
 					parent.addChild(localHead);
 					localHead.addParent(parent);
 				}
@@ -391,11 +391,11 @@ public final class ProductLinker {
 		} while (oldCount != newCount);
 	}
 
-	private static ProductGraph makeGraphRecur(SplCoverage manager, Collection<ProductGraph> generatedGraph,
-			Collection<ProductCoverage> notGeneratedYet, ProductGraph parent, ProductCoverage pc, int level) {
-		ProductGraph graph = findGraphEquals(generatedGraph, pc);
+	private static ProductNode makeGraphRecur(SplCoverage manager, Collection<ProductNode> generatedGraph,
+			Collection<ProductCoverage> notGeneratedYet, ProductNode parent, ProductCoverage pc, int level) {
+		ProductNode graph = findGraphEquals(generatedGraph, pc);
 		if (graph == null) {
-			graph = new ProductGraph(pc);
+			graph = new ProductNode(pc);
 			graph.setLevel(level);
 			generatedGraph.add(graph);
 			notGeneratedYet.remove(pc);
@@ -411,12 +411,12 @@ public final class ProductLinker {
 		return graph;
 	}
 
-	private static ProductGraph makeGraphRecur(Collection<Map<String, Boolean>> products,
-			Collection<ProductGraph> generatedGraph, Collection<Map<String, Boolean>> notGeneratedYet, ProductGraph parent,
+	private static ProductNode makeGraphRecur(Collection<Map<String, Boolean>> products,
+			Collection<ProductNode> generatedGraph, Collection<Map<String, Boolean>> notGeneratedYet, ProductNode parent,
 			Map<String, Boolean> targetProduct, int level) {
-		ProductGraph graph = findGraphEquals(generatedGraph, targetProduct);
+		ProductNode graph = findGraphEquals(generatedGraph, targetProduct);
 		if (graph == null) {
-			graph = new ProductGraph(targetProduct);
+			graph = new ProductNode(targetProduct);
 			graph.setLevel(level);
 			generatedGraph.add(graph);
 			notGeneratedYet.remove(targetProduct);

@@ -7,37 +7,37 @@ import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
 
-public class ProductGraph {
-	private Collection<ProductGraph> parents;
-	private Collection<ProductGraph> children;
+public class ProductNode {
+	private Collection<ProductNode> parents;
+	private Collection<ProductNode> children;
 	private Map<String, Boolean> featureSet;
 	private ProductCoverage productCoverage;
 	private int level;
 	
-	public ProductGraph() {
-		this.parents = new HashSet<ProductGraph>();
-		this.children = new HashSet<ProductGraph>();
+	public ProductNode() {
+		this.parents = new HashSet<ProductNode>();
+		this.children = new HashSet<ProductNode>();
 		this.featureSet = new HashMap<String, Boolean>();
 	}
 	
-	public ProductGraph(Map<String, Boolean> featureSet) {
+	public ProductNode(Map<String, Boolean> featureSet) {
 		this();
 		this.featureSet = featureSet;
 	}
 	
-	public ProductGraph(ProductCoverage product) {
+	public ProductNode(ProductCoverage product) {
 		this();
 		this.productCoverage = product;
 		if(product != null)
 			this.featureSet = product.getFeatureSet();
 	}
 	
-	public void addParent(ProductGraph parent) {
+	public void addParent(ProductNode parent) {
 		if(!parents.contains(parent))
 			parents.add(parent);
 	}
 	
-	public void addChild(ProductGraph child) {
+	public void addChild(ProductNode child) {
 		if(!children.contains(child))
 			children.add(child);
 	}
@@ -50,11 +50,11 @@ public class ProductGraph {
 		return this.productCoverage;
 	}
 	
-	public Collection<ProductGraph> getChildren(){
+	public Collection<ProductNode> getChildren(){
 		return this.children;
 	}
 	
-	public Collection<ProductGraph> getParents(){
+	public Collection<ProductNode> getParents(){
 		return this.parents;
 	}
 	
@@ -76,7 +76,7 @@ public class ProductGraph {
 		if(productCoverage == null)
 			return false;
 		
-		for(ProductGraph parent : this.parents) {
+		for(ProductNode parent : this.parents) {
 			if(parent == null)
 				continue;
 			
@@ -88,7 +88,7 @@ public class ProductGraph {
 		return true;
 	}
 
-	private double findLineRatioWtihClassName(ProductGraph parent, IClassCoverage cc) {
+	private double findLineRatioWtihClassName(ProductNode parent, IClassCoverage cc) {
 		Collection<IClassCoverage> parentClassCoverages = parent.getProductCoverage().getClassCoverages();
 		
 		for(IClassCoverage pcc : parentClassCoverages) {

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.test.target.Configuration;
 import lab.square.spltcoverage.utils.Tools;
 
@@ -23,13 +23,13 @@ import lab.square.spltcoverage.utils.Tools;
  */
 public class LinkerTest2 {
 
-	private Collection<ProductGraph> visited;
+	private Collection<ProductNode> visited;
 	
 	private Collection<Map<String,Boolean>> expected;
 
 	@Before
 	public void setUp() {
-		visited = new ArrayList<ProductGraph>();
+		visited = new ArrayList<ProductNode>();
 		expected = new ArrayList<>();
 		
 		Map<String, Boolean> featureSet1 = new HashMap<>();
@@ -68,16 +68,16 @@ public class LinkerTest2 {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader(directory);
 		Collection<Map<String, Boolean>> products = reader.readAll();
 
-		Collection<ProductGraph> heads = ProductLinker.link(products);
+		Collection<ProductNode> heads = ProductLinker.link(products);
 		if (heads.isEmpty())
 			fail();
 
 		
-		for (ProductGraph head : heads)
+		for (ProductNode head : heads)
 			visitGraphRecur(head);
 	}
 
-	private void visitGraphRecur(ProductGraph graph) {
+	private void visitGraphRecur(ProductNode graph) {
 		if (visited.contains(graph))
 			return;
 		visited.add(graph);
@@ -88,7 +88,7 @@ public class LinkerTest2 {
 		System.out.print("  ");
 		printFeatures(graph.getFeatureSet());
 		System.out.println("Parent's Feature Set:");
-		for (ProductGraph parent : graph.getParents()) {
+		for (ProductNode parent : graph.getParents()) {
 			if (parent == null)
 				continue;
 			System.out.print("  ");
@@ -97,7 +97,7 @@ public class LinkerTest2 {
 		
 		assertTrue(Tools.contains(expected, graph.getFeatureSet()));
 
-		for (ProductGraph child : graph.getChildren()) {
+		for (ProductNode child : graph.getChildren()) {
 			visitGraphRecur(child);
 		}
 	}

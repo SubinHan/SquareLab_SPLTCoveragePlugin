@@ -17,7 +17,7 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Factory;
 import guru.nidi.graphviz.model.Graph;
 import guru.nidi.graphviz.model.Node;
-import lab.square.spltcoverage.model.ProductGraph;
+import lab.square.spltcoverage.model.ProductNode;
 
 public class GraphVizGenerator {
 
@@ -42,21 +42,21 @@ public class GraphVizGenerator {
 	public GraphVizGenerator() {
 	}
 
-	public static void generate(ProductGraph root, Config config) throws IOException {
+	public static void generate(ProductNode root, Config config) throws IOException {
 		generate(root, config, DEFAULT_OUTPUT_PATH);
 	}
 	
-	public static void generate(ProductGraph root, Config config, String outputPath) throws IOException {
-		Collection<ProductGraph> roots = new ArrayList<ProductGraph>();
+	public static void generate(ProductNode root, Config config, String outputPath) throws IOException {
+		Collection<ProductNode> roots = new ArrayList<ProductNode>();
 		roots.add(root);
 		generate(roots, config, outputPath);
 	}
 	
-	public static void generate(Collection<ProductGraph> roots, Config config) throws IOException {
+	public static void generate(Collection<ProductNode> roots, Config config) throws IOException {
 		generate(roots, config, DEFAULT_OUTPUT_PATH);
 	}
 
-	public static void generate(Collection<ProductGraph> roots, Config config, String outputPath) throws IOException {
+	public static void generate(Collection<ProductNode> roots, Config config, String outputPath) throws IOException {
 		if(!outputPath.toLowerCase().endsWith(".png"))
 			outputPath = outputPath + ".png";
 		
@@ -68,7 +68,7 @@ public class GraphVizGenerator {
 
 		Map<String, Node> visited = new HashMap<String, Node>();
 
-		for (ProductGraph root : roots) {
+		for (ProductNode root : roots) {
 			node = node.link(linkChildrenRecur(root, node, visited, (DRAW_ALL_ARROW & config.config) != 0,
 					(HIGHLIGHT_PROBLEM_PRODUCTS & config.config) != 0));
 		}
@@ -81,7 +81,7 @@ public class GraphVizGenerator {
 		}
 	}
 
-	private static Node linkChildrenRecur(ProductGraph product, Node parent, Map<String, Node> visited, boolean drawAllArrow,
+	private static Node linkChildrenRecur(ProductNode product, Node parent, Map<String, Node> visited, boolean drawAllArrow,
 			boolean highlightProblemProducts) {
 		Node node;
 		
@@ -91,7 +91,7 @@ public class GraphVizGenerator {
 				node = node.with(Color.RED);
 			}
 			
-			for(ProductGraph child : product.getChildren()) {
+			for(ProductNode child : product.getChildren()) {
 				node = node.link(Factory.to(linkChildrenRecur(child, node, visited, drawAllArrow, highlightProblemProducts)));
 			}
 		}
