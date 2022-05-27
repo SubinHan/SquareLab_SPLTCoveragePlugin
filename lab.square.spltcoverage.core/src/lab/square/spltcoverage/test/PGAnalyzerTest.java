@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductGraphAnalyzer;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
-import lab.square.spltcoverage.io.SpltCoverageReader;
+import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.ProductGraph;
 
@@ -99,7 +99,7 @@ public class PGAnalyzerTest {
 	private void testAnalyzer(String directory, String classDirectory) {
 		String[] folders = directory.split("/");
 		SplCoverage manager = new SplCoverage(folders[folders.length-1]);
-		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
+		SplCoverageReader reader = new SplCoverageReader(manager, directory, classDirectory);
 		try {
 			reader.read();
 		} catch (IOException e) {

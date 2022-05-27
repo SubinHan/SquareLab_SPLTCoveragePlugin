@@ -11,7 +11,7 @@ import org.jacoco.core.analysis.IClassCoverage;
 import org.junit.Before;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
-import lab.square.spltcoverage.io.SpltCoverageReader;
+import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.ProductGraph;
@@ -172,7 +172,7 @@ public class LinkerTest {
 	private void testLinker(String directory, String classDirectory) {
 		String[] folders = directory.split("/");
 		SplCoverage manager = new SplCoverage(folders[folders.length-1]);
-		SpltCoverageReader reader = new SpltCoverageReader(manager, directory, classDirectory);
+		SplCoverageReader reader = new SplCoverageReader(manager, directory, classDirectory);
 		try {
 			reader.read();
 		} catch (IOException e) {

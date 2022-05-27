@@ -15,6 +15,7 @@ import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
 import lab.square.spltcoverage.model.ProductGraph;
 import lab.square.spltcoverage.test.target.Configuration;
+import lab.square.spltcoverage.utils.Tools;
 
 /*
  * Test 시: core의 plugin.xml dependency -> org.jacoco (0.8.6) 이어야 함.
@@ -58,7 +59,7 @@ public class LinkerTest2 {
 	@Test
 	public void testLinkerWithOnlyFeatureSets() {
 		String directory;
-		directory = "D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\src\\lab\\square\\spltcoverage\\test\\target\\productsNewer";
+		directory = "D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\productsNewer";
 
 		testLinker(directory);
 	}
@@ -94,40 +95,11 @@ public class LinkerTest2 {
 			printFeatures(parent.getFeatureSet());
 		}
 		
-		assertTrue(contains(expected, graph.getFeatureSet()));
+		assertTrue(Tools.contains(expected, graph.getFeatureSet()));
 
 		for (ProductGraph child : graph.getChildren()) {
 			visitGraphRecur(child);
 		}
-	}
-
-
-	private boolean contains(Collection<Map<String, Boolean>> featureSets, Map<String, Boolean> target) {
-		for(Map<String, Boolean> featureSet : featureSets) {
-			boolean flag = true;
-			for(String key : featureSet.keySet()) {
-				if(!equals(featureSet.get(key), target.get(key)))
-					flag = false;
-			}
-			for(String key : target.keySet()) {
-				if(!equals(featureSet.get(key), target.get(key)))
-					flag = false;
-			}
-			if(flag)
-				return true;
-		}
-		
-		return false;
-	}
-
-	private boolean equals(Boolean boolean1, Boolean boolean2) {
-		return getBooleanValue(boolean1) == getBooleanValue(boolean2);
-	}
-	
-	private boolean getBooleanValue(Boolean value) {
-		if(value == null)
-			return false;
-		return value;
 	}
 
 	private void printFeatures(Map<String, Boolean> featureSet) {
