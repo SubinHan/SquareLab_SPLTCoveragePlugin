@@ -1,6 +1,12 @@
 package lab.square.spltcoverage.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class Tools {
@@ -34,5 +40,22 @@ public class Tools {
 		}
 		
 		return false;
+	}
+	
+	public static List<String> getSourceByLine(File file) {
+		List<String> result = new ArrayList<>();
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			
+			String line;
+			while((line = br.readLine()) != null) {
+				result.add(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

@@ -9,6 +9,7 @@ import lab.square.spltcoverage.core.antenna.model.ExpressionNode;
 import lab.square.spltcoverage.core.antenna.model.FeatureNode;
 import lab.square.spltcoverage.core.antenna.model.NotNode;
 import lab.square.spltcoverage.core.antenna.model.OrNode;
+import lab.square.spltcoverage.utils.Tools;
 
 public class FeatureExpressionParser {
 
@@ -102,7 +103,7 @@ public class FeatureExpressionParser {
 		} else if (node.getValue().equals("!")) {
 			return !evaluate(node.getLeft(), featureSet);
 		} else {
-			return featureSet.get(node.getValue());
+			return Tools.getBooleanValue(featureSet.get(node.getValue()));
 		}
 	}
 

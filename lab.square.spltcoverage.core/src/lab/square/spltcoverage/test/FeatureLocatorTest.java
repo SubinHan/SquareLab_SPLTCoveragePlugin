@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.antenna.FeatureLocation;
-import lab.square.spltcoverage.core.antenna.FeatureLocator;
+import lab.square.spltcoverage.io.FeatureLocator;
 
 public class FeatureLocatorTest {
 	

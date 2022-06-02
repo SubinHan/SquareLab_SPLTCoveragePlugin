@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.antenna;
+package lab.square.spltcoverage.io;
 
 import java.io.File;
 import java.io.FileReader;
@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
+
+import lab.square.spltcoverage.core.antenna.FeatureLocation;
 
 public class FeatureLocator {
 	
@@ -70,7 +73,7 @@ public class FeatureLocator {
 				
 			}
 		}
-
+		
 		return featureLocations;
 	}
 

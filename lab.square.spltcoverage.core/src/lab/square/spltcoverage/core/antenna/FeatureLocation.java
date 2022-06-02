@@ -13,7 +13,6 @@ public class FeatureLocation {
 	private final Stack<String> featureExpressions;
 	private final int lineStart;
 	private final int lineEnd;
-	private List<String> sources;
 
 	/**
 	 * 
@@ -45,18 +44,14 @@ public class FeatureLocation {
 		return lineEnd;
 	}
 
-	public List<String> getSources() {
-		return sources;
-	}
-
-	public void setSources(List<String> sources) {
-		this.sources = sources;
-	}
-
 	public boolean isFeatureLocationOf(String feature) {
 		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
 		featureSet.put(feature, true);
 		return FeatureExpressionParser.evaluate(this.expressionToString(), featureSet);
+	}
+	
+	public boolean isFeatureLocationOf(Map<String, Boolean> featureSet) {
+		return FeatureExpressionParser.evaluate(this.expressionToString(), featureSet);		
 	}
 
 	public String expressionToString() {
