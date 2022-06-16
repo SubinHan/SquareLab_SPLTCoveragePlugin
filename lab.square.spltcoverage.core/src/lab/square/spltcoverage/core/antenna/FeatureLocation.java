@@ -45,20 +45,31 @@ public class FeatureLocation {
 	}
 
 	public boolean isFeatureLocationOf(String feature) {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
-		featureSet.put(feature, true);
-		return FeatureExpressionParser.evaluate(this.expressionToString(), featureSet);
+		return isFeatureLocationOf(feature, expressionToString(this.featureExpressions));
 	}
 	
 	public boolean isFeatureLocationOf(Map<String, Boolean> featureSet) {
-		return FeatureExpressionParser.evaluate(this.expressionToString(), featureSet);		
+		return isFeatureLocationOf(featureSet, expressionToString(this.featureExpressions));
 	}
+	
+	public static boolean isFeatureLocationOf(String feature, String expression) {
+		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		featureSet.put(feature, true);
+		return isFeatureLocationOf(featureSet, expression);
+	}
+	
+	public static boolean isFeatureLocationOf(Map<String, Boolean> featureSet, String expression) {
+		return FeatureExpressionParser.evaluate(expression, featureSet);		
+	}
+	
 
-	public String expressionToString() {
+	public static String expressionToString(Stack<String> featureExpressions) {
 		String toReturn = "";
-
-		while (!featureExpressions.isEmpty()) {
-			String popped = featureExpressions.pop();
+		Stack<String> featureExpressions0 = (Stack<String>)featureExpressions.clone();
+		
+		
+		while (!featureExpressions0.isEmpty()) {
+			String popped = featureExpressions0.pop();
 			if (toReturn.trim().isEmpty()) {
 				toReturn = popped;
 			} else {
@@ -69,7 +80,7 @@ public class FeatureLocation {
 		return toReturn;
 	}
 
-	private String and(String expression1, String expression2) {
+	private static String and(String expression1, String expression2) {
 		if (expression1.trim().isEmpty())
 			return expression2;
 		if (expression2.trim().isEmpty())

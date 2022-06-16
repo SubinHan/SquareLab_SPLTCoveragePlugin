@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import lab.square.spltcoverage.core.antenna.AntennaProductAnalysis.FeatureCoverage;
+
 public class Tools {
 	
 	public static boolean featureSetEquals(Map<String, Boolean> f1, Map<String, Boolean> f2) {
@@ -57,5 +59,13 @@ public class Tools {
 		}
 		
 		return result;
+	}
+	
+	public static String convertClassNameByConvention(String className) {
+		String converted = className.replace('/', '.');
+		if(className.contains("$"))
+			converted = converted.substring(0, className.lastIndexOf('$'));
+		
+		return converted;
 	}
 }

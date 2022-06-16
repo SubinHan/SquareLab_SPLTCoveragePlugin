@@ -36,7 +36,9 @@ public class AntennaProductCoverage extends ProductCoverage {
 	}
 	
 	public Collection<FeatureLocation> getFeatureLocationsOf(String className) {
-		return new ArrayList<>(productFeatureLocations.get(className));
+		if(productFeatureLocations.containsKey(className))
+			return new ArrayList<>(productFeatureLocations.get(className));
+		return new ArrayList<>();
 	}
 	
 	public Set<String> getClassNameSet(){
