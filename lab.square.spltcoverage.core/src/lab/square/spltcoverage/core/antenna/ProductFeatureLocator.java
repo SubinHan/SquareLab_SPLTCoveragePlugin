@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.io;
+package lab.square.spltcoverage.core.antenna;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import lab.square.spltcoverage.core.antenna.FeatureLocation;
 
 public class ProductFeatureLocator {
 	public ProductFeatureLocator() {
