@@ -16,6 +16,7 @@ public class FeatureExpressionParser {
 	private Stack<String> expressionStack;
 	private String featureExpression;
 
+	@Deprecated
 	public FeatureExpressionParser(String featureExpressions) {
 		this.featureExpression = featureExpressions;
 		this.expressionStack = stringToStack(featureExpressions);
@@ -50,7 +51,7 @@ public class FeatureExpressionParser {
 		return toReturn;
 	}
 
-	public static ExpressionNode parse(String... tokens) throws Exception {
+	public static ExpressionNode parseByTokens(String... tokens) throws Exception {
 		return parseExp(tokens, new WrapInt(0));
 	}
 
@@ -86,7 +87,7 @@ public class FeatureExpressionParser {
 		String[] stringTokens = new String[tokens.size()];
 		tokens.toArray(stringTokens);
 		try {
-			root = parse(stringTokens);
+			root = parseByTokens(stringTokens);
 			result = evaluate(root, featureSet);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,7 +96,7 @@ public class FeatureExpressionParser {
 		return result;
 	}
 
-	private static boolean evaluate(ExpressionNode node, Map<String, Boolean> featureSet) {
+	public static boolean evaluate(ExpressionNode node, Map<String, Boolean> featureSet) {
 		if (node.getValue().equals("&")) {
 			return evaluate(node.getLeft(), featureSet) && evaluate(node.getRight(), featureSet);
 		} else if (node.getValue().equals("|")) {
