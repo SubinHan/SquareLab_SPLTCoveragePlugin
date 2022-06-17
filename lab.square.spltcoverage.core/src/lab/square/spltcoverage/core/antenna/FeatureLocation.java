@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import lab.square.spltcoverage.core.antenna.model.ExpressionNode;
+
 public class FeatureLocation {
 	private final File sourceFile;
+	private final ExpressionNode featureExpressionNode;
 	private final Stack<String> featureExpressions;
 	private final int lineStart;
 	private final int lineEnd;
@@ -24,6 +27,7 @@ public class FeatureLocation {
 	public FeatureLocation(File sourceFile, Stack<String> featureExpressions, int lineStart, int lineEnd) {
 		this.sourceFile = sourceFile;
 		this.featureExpressions = (Stack<String>) featureExpressions.clone();
+		this.featureExpressionNode = FeatureExpressionParser.parseByExpressionStack(featureExpressions);
 		this.lineStart = lineStart;
 		this.lineEnd = lineEnd;
 	}
@@ -59,14 +63,12 @@ public class FeatureLocation {
 	}
 	
 	public static boolean isFeatureLocationOf(Map<String, Boolean> featureSet, String expression) {
-		return FeatureExpressionParser.evaluate(expression, featureSet);		
+		return FeatureExpressionParser.evaluate(expression, featureSet);
 	}
 	
-
 	public static String expressionToString(Stack<String> featureExpressions) {
 		String toReturn = "";
 		Stack<String> featureExpressions0 = (Stack<String>)featureExpressions.clone();
-		
 		
 		while (!featureExpressions0.isEmpty()) {
 			String popped = featureExpressions0.pop();

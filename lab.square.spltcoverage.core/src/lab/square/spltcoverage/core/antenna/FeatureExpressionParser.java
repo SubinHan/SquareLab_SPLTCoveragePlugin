@@ -13,42 +13,17 @@ import lab.square.spltcoverage.utils.Tools;
 
 public class FeatureExpressionParser {
 
-	private Stack<String> expressionStack;
-	private String featureExpression;
-
-	@Deprecated
-	public FeatureExpressionParser(String featureExpressions) {
-		this.featureExpression = featureExpressions;
-		this.expressionStack = stringToStack(featureExpressions);
-	}
-
-	public FeatureExpressionParser(Stack<String> featureExpressions) {
-		this.expressionStack = featureExpressions;
-		this.featureExpression = stackToString(featureExpressions);
-	}
-
-	private Stack<String> stringToStack(String featureExpression) {
-		// TODO : Complete this.
+	public static ExpressionNode parseByExpressionStack(Stack<String> featureExpressions) {
+		String featureExpression = FeatureLocation.expressionToString(featureExpressions);
 		List<String> tokens = FeatureExpressionTokenizer.tokenize(featureExpression);
-
-		for (String token : tokens) {
-			System.out.println(token);
+		ExpressionNode result = new ExpressionNode();
+		try {
+			result = parseByTokens(tokens.toArray(new String[tokens.size()]));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		return null;
-	}
-
-	private String stackToString(Stack<String> featureExpressions) {
-		String toReturn = "";
-
-		for (String feature : featureExpressions) {
-			if (toReturn.trim().isEmpty())
-				toReturn = feature;
-			else
-				toReturn = "(" + toReturn + ")&(" + feature + ")";
-		}
-
-		return toReturn;
+		
+		return result;
 	}
 
 	public static ExpressionNode parseByTokens(String... tokens) throws Exception {
