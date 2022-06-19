@@ -33,46 +33,19 @@ public class CoverageReader {
 	}
 	
 	public ProductCoverage read() throws IOException {
-		
 		File folder = new File(productPath);
 		if (!folder.exists())
 			return null;
 	
 		File[] testCaseFolders = folder.listFiles();
 		ProductCoverage productCoverage = new ProductCoverage(findFeatureSet(testCaseFolders));
-		for (File testCaseFolder : testCaseFolders) {
-			final String testCaseName = testCaseFolder.getName();
-			
-			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
-			if (!testCaseFolder.isDirectory()) {
-				if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
-					productCoverage.addClassCoverages(load(testCaseFolder));
-				}
-				continue;
-			}
-			
-			// load test method coverages.
-			File[] testMethodCoverages = testCaseFolder.listFiles();
-			for (File testMethodCoverageFile : testMethodCoverages) {
-				final String testMethodName = testMethodCoverageFile.getName();
-
-				if (testMethodName.endsWith("Merged.exec") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
-					testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
-					continue;
-				}
-
-				TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
-						load(testMethodCoverageFile));
-				testCaseCoverage.addChild(testMethodCoverage);
-			}
-			productCoverage.addChild(testCaseCoverage);
-		}
+		
+		read(productCoverage);
 		
 		return productCoverage;
 	}
 	
 	public void read(ProductCoverage productCoverage) throws IOException {
-		// TODO: Merge duplicated methods..
 		File folder = new File(productPath);
 		if (!folder.exists())
 			return;
@@ -125,7 +98,6 @@ public class CoverageReader {
 	}
 	
 	private Map<String, Boolean> findFeatureSet(File... testCaseFolders) throws FileNotFoundException, IOException {
-		// TODO: Remove duplicated methods in SpltCoverageGenerator
 		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
 
 		for (File isFeatureSet : testCaseFolders) {
