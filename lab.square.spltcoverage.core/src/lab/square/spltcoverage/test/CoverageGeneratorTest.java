@@ -165,7 +165,6 @@ public class CoverageGeneratorTest {
 		try {
 			forTest = loadClassByPath(BASE_DIRECTORY, convertPathToClassName(CLASS_PATH));
 		} catch (MalformedURLException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -198,10 +197,8 @@ public class CoverageGeneratorTest {
 		try {
 			analyzer.analyzeAll(BASE_DIRECTORY, null);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
