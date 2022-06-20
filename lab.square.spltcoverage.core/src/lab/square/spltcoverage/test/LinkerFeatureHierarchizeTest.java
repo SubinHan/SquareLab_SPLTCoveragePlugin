@@ -11,6 +11,7 @@ import lab.square.spltcoverage.model.ProductNode;
 
 public class LinkerFeatureHierarchizeTest {
 
+	// TODO: Automate this.
 	@Test
 	public void testHierarchize() {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader("D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\FeatureAMP2\\products");

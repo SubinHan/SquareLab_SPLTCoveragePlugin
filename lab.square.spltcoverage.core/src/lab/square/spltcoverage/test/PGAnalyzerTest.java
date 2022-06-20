@@ -15,6 +15,8 @@ import lab.square.spltcoverage.model.ProductNode;
 
 public class PGAnalyzerTest {
 	
+	// TODO: Automate this.
+	
 	//@Test
 	public void testBankaccount() {
 		String directory;

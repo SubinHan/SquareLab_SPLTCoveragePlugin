@@ -23,6 +23,8 @@ import lab.square.spltcoverage.utils.Tools;
  */
 public class LinkerTest2 {
 
+	// TODO: Automate this.
+	
 	private Collection<ProductNode> visited;
 	
 	private Collection<Map<String,Boolean>> expected;
