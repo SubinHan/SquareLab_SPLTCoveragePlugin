@@ -37,6 +37,7 @@ public class FeatureLocatorTest {
 			}
 			System.out.println(FeatureLocation.expressionToString(featureLocation.getFeatureExpression()));
 			System.out.println("line: " + featureLocation.getLineStart() + " ~ " + featureLocation.getLineEnd());
+			verify(featureLocation.getLineStart(), FeatureLocation.expressionToString(featureLocation.getFeatureExpression()));
 		}
 		
 		System.out.println("==========================");
@@ -52,8 +53,15 @@ public class FeatureLocatorTest {
 		}
 	}
 	
-	private boolean contains(int startLine, String featureExpression) {
-		// TODO complete this.
-		return false;
+	private boolean verify(int startLine, String featureExpression) {
+		if(!expectedFeatureLocation.containsKey(startLine))
+			return false;
+		
+		if(!expectedFeatureLocation.get(startLine).equals(featureExpression))
+			return false;
+		
+		expectedFeatureLocation.put(startLine, null);
+		
+		return true;
 	}
 }
