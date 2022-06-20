@@ -3,16 +3,21 @@ package lab.square.spltcoverage.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.management.MalformedObjectNameException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IIterableSpltProvider;
+import lab.square.spltcoverage.core.analysis.ISpltProvider;
 import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
+import lab.square.spltcoverage.test.antennatarget.TestProductProvider;
 import lab.square.spltcoverage.test.target.TestSpltProvider;
+import lab.square.spltcoverage.utils.Tools;
 
 /*
  * Set the VM arguments to enable the RMI connection!
@@ -27,10 +32,27 @@ public class CoverageGeneratorTest2 {
 	private static final int A_TESTMETHOD_COUNT = 3;
 	private static final int B_TESTMETHOD_COUNT = 5;
 	
+	private IIterableSpltProvider provider;
+	
+	@Before
+	public void setUp() {		
+		this.provider = new TestSpltProvider();
+		
+		deleteOutputDirectory(new File(provider.getBaseDirectory()));
+	}
+	
+	private void deleteOutputDirectory(File dir) {
+		if(dir.exists())
+			try {
+				Tools.deleteDirectoryRecursively(dir);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+	}
+	
 	@Test
 	public void testCoverageGenerator() {
 		SpltCoverageGenerator generator = new SpltCoverageGenerator();
-		IIterableSpltProvider provider = new TestSpltProvider();
 		try {
 			generator.generateCoverage(provider);
 		} catch (MalformedObjectNameException | IOException e) {

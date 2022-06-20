@@ -22,8 +22,6 @@ import lab.square.spltcoverage.utils.Tools;
  * Plug-in testing으로 수행할 것.
  */
 public class LinkerTest2 {
-
-	// TODO: Automate this.
 	
 	private Collection<ProductNode> visited;
 	

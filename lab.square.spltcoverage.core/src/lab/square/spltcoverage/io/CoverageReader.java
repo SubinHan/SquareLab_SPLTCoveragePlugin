@@ -76,6 +76,7 @@ public class CoverageReader {
 						load(testMethodCoverageFile));
 				testCaseCoverage.addChild(testMethodCoverage);
 			}
+			productCoverage.addChild(testCaseCoverage);
 		}
 		
 		return;
