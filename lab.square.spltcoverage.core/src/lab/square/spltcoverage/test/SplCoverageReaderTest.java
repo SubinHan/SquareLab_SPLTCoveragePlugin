@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.ICoverageModelComponent;
-import lab.square.spltcoverage.model.ISpltCoverageVisitor;
+import lab.square.spltcoverage.model.ISplCoverageVisitor;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
@@ -66,7 +66,7 @@ public class SplCoverageReaderTest {
 		SplCoverageReader reader = new SplCoverageReader(splCoverage, COVERAGES_PATH, CLASS_PATH);
 		reader.read();
 		
-		splCoverage.accept(new ISpltCoverageVisitor() {
+		splCoverage.accept(new ISplCoverageVisitor() {
 			@Override
 			public void visit(SplCoverage pcm) {
 				for (ProductCoverage pc : pcm.getProductCoverages()) {

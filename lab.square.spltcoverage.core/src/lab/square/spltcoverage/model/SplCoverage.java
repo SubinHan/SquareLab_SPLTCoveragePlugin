@@ -84,7 +84,7 @@ public class SplCoverage implements ICoverageModelComposite {
 	 * Visit to all subclasses with ISPLTCoverageVisitor.
 	 * @param visitor		The ISPLTCoverageVisitor defined what to do for each model.
 	 */
-	public void accept(ISpltCoverageVisitor visitor) {
+	public void accept(ISplCoverageVisitor visitor) {
 		visitor.visit(this);
 	}
 

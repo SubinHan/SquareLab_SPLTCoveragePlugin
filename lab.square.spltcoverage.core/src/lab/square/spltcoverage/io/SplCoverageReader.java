@@ -20,7 +20,7 @@ import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
-import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
+import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
@@ -73,7 +73,7 @@ public class SplCoverageReader {
 
 		for (File productFolder : productFolders) {
 			if (!productFolder.isDirectory()) {
-				if (productFolder.getName().endsWith("Merged.exec") || productFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+				if (productFolder.getName().endsWith("Merged.exec") || productFolder.getName().endsWith(SplCoverageGenerator.SUFFIX_MERGED)) {
 					splCoverage.addClassCoverages(load(productFolder));
 				}
 				continue;

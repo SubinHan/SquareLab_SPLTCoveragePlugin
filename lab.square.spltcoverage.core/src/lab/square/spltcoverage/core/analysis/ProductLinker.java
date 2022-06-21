@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import lab.square.spltcoverage.model.ISpltCoverageVisitor;
+import lab.square.spltcoverage.model.ISplCoverageVisitor;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.ProductNode;
@@ -133,7 +133,7 @@ public final class ProductLinker {
 			return null;
 
 		List<ProductCoverage> toReturn = new LinkedList<ProductCoverage>();
-		manager.accept(new ISpltCoverageVisitor() {
+		manager.accept(new ISplCoverageVisitor() {
 
 			@Override
 			public void visit(ProductCoverage pc) {
@@ -258,7 +258,7 @@ public final class ProductLinker {
 
 	private static int getMinNumFeature(SplCoverage manager) {
 		min = Integer.MAX_VALUE;
-		manager.accept(new ISpltCoverageVisitor() {
+		manager.accept(new ISplCoverageVisitor() {
 
 			@Override
 			public void visit(ProductCoverage pc) {

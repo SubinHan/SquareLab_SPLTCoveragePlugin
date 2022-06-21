@@ -38,7 +38,7 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IProductProvider;
 import lab.square.spltcoverage.core.analysis.ISpltProvider;
-import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
+import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.IProxy;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 
@@ -98,8 +98,8 @@ public class CoverageGeneratorTest {
 		productSourceInfos.add(new ProductSourceInfo(CLASSPATH_1, testsPath1, featureSet1));
 		productSourceInfos.add(new ProductSourceInfo(CLASSPATH_2, testsPath2, featureSet2));
 		
-		SpltCoverageGenerator generator;
-		generator = new SpltCoverageGenerator();
+		SplCoverageGenerator generator;
+		generator = new SplCoverageGenerator();
 		
 		try {
 			generator.generateCoverage(OUTPUT_PATH_SPLT, new ISpltProvider() {

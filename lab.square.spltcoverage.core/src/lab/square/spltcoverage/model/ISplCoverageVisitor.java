@@ -1,6 +1,6 @@
 package lab.square.spltcoverage.model;
 
-public interface ISpltCoverageVisitor {
+public interface ISplCoverageVisitor {
 	public void visit(SplCoverage pcm);
 	public void visit(ProductCoverage pc);
 	public void visit(TestCaseCoverage tcc);

@@ -18,7 +18,7 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 
-public class SpltCoverageGenerator {
+public class SplCoverageGenerator {
 	
 	public static final String SUFFIX_MERGED = "__merged__.exec";
 	public static final String PRODUCT_DIRECTORY_NAME = "product";

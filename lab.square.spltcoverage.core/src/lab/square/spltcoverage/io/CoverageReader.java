@@ -17,7 +17,7 @@ import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
-import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
+import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
@@ -56,7 +56,7 @@ public class CoverageReader {
 			
 			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
 			if (!testCaseFolder.isDirectory()) {
-				if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+				if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SplCoverageGenerator.SUFFIX_MERGED)) {
 					productCoverage.addClassCoverages(load(testCaseFolder));
 				}
 				continue;
@@ -67,7 +67,7 @@ public class CoverageReader {
 			for (File testMethodCoverageFile : testMethodCoverages) {
 				final String testMethodName = testMethodCoverageFile.getName();
 
-				if (testMethodName.endsWith("Merged.exec") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
+				if (testMethodName.endsWith("Merged.exec") || testMethodName.endsWith(SplCoverageGenerator.SUFFIX_MERGED)) {
 					testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
 					continue;
 				}

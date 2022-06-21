@@ -14,7 +14,7 @@ import org.junit.Test;
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IIterableSpltProvider;
 import lab.square.spltcoverage.core.analysis.ISpltProvider;
-import lab.square.spltcoverage.core.analysis.SpltCoverageGenerator;
+import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.test.antennatarget.TestProductProvider;
 import lab.square.spltcoverage.test.target.TestSpltProvider;
 import lab.square.spltcoverage.utils.Tools;
@@ -52,7 +52,7 @@ public class CoverageGeneratorTest2 {
 	
 	@Test
 	public void testCoverageGenerator() {
-		SpltCoverageGenerator generator = new SpltCoverageGenerator();
+		SplCoverageGenerator generator = new SplCoverageGenerator();
 		try {
 			generator.generateCoverage(provider);
 		} catch (MalformedObjectNameException | IOException e) {
