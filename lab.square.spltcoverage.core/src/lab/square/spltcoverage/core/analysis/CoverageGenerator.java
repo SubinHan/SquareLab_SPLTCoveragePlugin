@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import javax.management.MalformedObjectNameException;
 
@@ -28,6 +29,8 @@ import lab.square.spltcoverage.model.CoverageResult;
  * Dependes on jacoco 0.7.7!!!!!
  */
 public class CoverageGenerator {
+	
+	private final static Logger LOG = Logger.getGlobal();
 
 	private static final String DESTFILE = "mydata.exec";
 	public static final String SUFFIX_MERGED = "__merged__.exec";
@@ -42,7 +45,7 @@ public class CoverageGenerator {
 	 * @throws IOException
 	 * @throws MalformedObjectNameException
 	 */
-	public CoverageGenerator() throws IOException, MalformedObjectNameException {
+	public CoverageGenerator() {
 		this.jacocoConnection = JacocoConnection.getInstance();
 	}
 
@@ -92,6 +95,13 @@ public class CoverageGenerator {
 		runTestInPath(provider.getClasspath(), provider.getTestClassPaths(), provider);
 		mergeExecs(provider.getOutputPath());
 	}
+	
+	public void generateCoverage2(IProductProvider provider) {
+		// TODO
+		
+		
+		
+	}
 
 	private void runTestInPath(String classpath, Collection<String> testClassesPath, IProductProvider provider) {
 		JUnitCore junit = new JUnitCore();
@@ -117,6 +127,7 @@ public class CoverageGenerator {
 	private Class loadClassByPath(String binPath, String name) {
 		Class klass = null;
 
+		LOG.info("loading Classes by path: binPath=" + binPath + " className=" + name);
 		try (URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });) {
 			klass = loader.loadClass(name);
 		} catch (ClassNotFoundException | IOException e) {

@@ -123,11 +123,7 @@ public class CoverageGeneratorTest {
 	@Test
 	public void testCoverageGenerator() {
 		CoverageGenerator generator = null;
-		try {
-			generator = new CoverageGenerator();
-		} catch (MalformedObjectNameException | IOException e) {
-			e.printStackTrace();
-		}
+		generator = new CoverageGenerator();
 		
 		generator.generateCoverage(new IProductProvider() {
 

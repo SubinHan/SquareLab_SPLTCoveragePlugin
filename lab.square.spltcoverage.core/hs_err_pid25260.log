@@ -1,0 +1,213 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 268435456 bytes for G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3469), pid=25260, tid=20720
+#
+# JRE version:  (17.0.1+12) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (17.0.1+12-LTS-39, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: lab.square.spltcoverage.core.launch.CoverageGeneratorLauncher
+
+Host: AMD Ryzen 5 2600 Six-Core Processor            , 12 cores, 15G,  Windows 10 , 64 bit Build 19041 (10.0.19041.1741)
+Time: Tue Jun 21 10:24:16 2022  Windows 10 , 64 bit Build 19041 (10.0.19041.1741) elapsed time: 0.112805 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000022bf612ef50):  JavaThread "Unknown thread" [_thread_in_vm, id=20720, stack(0x000000f6f9f00000,0x000000f6fa000000)]
+
+Stack: [0x000000f6f9f00000,0x000000f6fa000000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x66fa1a]
+V  [jvm.dll+0x7ce5a4]
+V  [jvm.dll+0x7cfd4e]
+V  [jvm.dll+0x7d03b3]
+V  [jvm.dll+0x242b05]
+V  [jvm.dll+0x66ca39]
+V  [jvm.dll+0x661502]
+V  [jvm.dll+0x30081b]
+V  [jvm.dll+0x307da6]
+V  [jvm.dll+0x357a1e]
+V  [jvm.dll+0x357c4f]
+V  [jvm.dll+0x2d7ad8]
+V  [jvm.dll+0x2d8a44]
+V  [jvm.dll+0x7a01e1]
+V  [jvm.dll+0x365791]
+V  [jvm.dll+0x77f6cc]
+V  [jvm.dll+0x3e812f]
+V  [jvm.dll+0x3e9bd1]
+C  [jli.dll+0x527b]
+C  [ucrtbase.dll+0x21bb2]
+C  [KERNEL32.DLL+0x17034]
+C  [ntdll.dll+0x52651]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ffa15287818, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x0000022bf617e7b0 GCTaskThread "GC Thread#0" [stack: 0x000000f6fa000000,0x000000f6fa100000] [id=9388]
+  0x0000022bf618f630 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000f6fa100000,0x000000f6fa200000] [id=7036]
+  0x0000022bf61907e0 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000f6fa200000,0x000000f6fa300000] [id=10936]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffa14ad84b7]
+
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000022bf612a290] Heap_lock - owner thread: 0x0000022bf612ef50
+
+Heap address: 0x0000000700c00000, size: 4084 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+<Empty>
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x0000000700c00000, 0x0000000800000000)
+  region size 2048K, 0 young (0K), 0 survivors (0K)
+
+[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffa14eb8d89]
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Events (1 events):
+Event: 0.006 Loaded shared library C:\Program Files\Java\jdk-17.0.1\bin\java.dll
+
+
+Dynamic libraries:
+0x00007ff6776d0000 - 0x00007ff6776e0000 	C:\Program Files\Java\jdk-17.0.1\bin\java.exe
+0x00007ffa8f210000 - 0x00007ffa8f407000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffa8dcc0000 - 0x00007ffa8dd7d000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffa8ce40000 - 0x00007ffa8d10d000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffa8cd40000 - 0x00007ffa8ce40000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffa76240000 - 0x00007ffa76258000 	C:\Program Files\Java\jdk-17.0.1\bin\jli.dll
+0x00007ffa76220000 - 0x00007ffa7623a000 	C:\Program Files\Java\jdk-17.0.1\bin\VCRUNTIME140.dll
+0x00007ffa8dff0000 - 0x00007ffa8e09e000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffa8eca0000 - 0x00007ffa8ed3e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffa8ed40000 - 0x00007ffa8eddc000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffa8d6e0000 - 0x00007ffa8d805000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffa8ef00000 - 0x00007ffa8f0a0000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffa8cd10000 - 0x00007ffa8cd32000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffa7a950000 - 0x00007ffa7abea000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e\COMCTL32.dll
+0x00007ffa8de70000 - 0x00007ffa8de9a000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffa8c9d0000 - 0x00007ffa8cadb000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffa8c930000 - 0x00007ffa8c9cd000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffa86e60000 - 0x00007ffa86e6a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffa8dea0000 - 0x00007ffa8ded0000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffa76210000 - 0x00007ffa7621c000 	C:\Program Files\Java\jdk-17.0.1\bin\vcruntime140_1.dll
+0x00007ffa68d20000 - 0x00007ffa68dad000 	C:\Program Files\Java\jdk-17.0.1\bin\msvcp140.dll
+0x00007ffa147f0000 - 0x00007ffa153ae000 	C:\Program Files\Java\jdk-17.0.1\bin\server\jvm.dll
+0x00007ffa8d810000 - 0x00007ffa8d818000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ffa779c0000 - 0x00007ffa779c9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffa82e20000 - 0x00007ffa82e47000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffa8df80000 - 0x00007ffa8dfeb000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffa8a7c0000 - 0x00007ffa8a7d2000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffa76200000 - 0x00007ffa7620a000 	C:\Program Files\Java\jdk-17.0.1\bin\jimage.dll
+0x00007ffa851e0000 - 0x00007ffa853c4000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffa850f0000 - 0x00007ffa8511c000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffa8cc30000 - 0x00007ffa8ccb2000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffa76050000 - 0x00007ffa76075000 	C:\Program Files\Java\jdk-17.0.1\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\Java\jdk-17.0.1\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e;C:\Program Files\Java\jdk-17.0.1\bin\server
+
+VM Arguments:
+java_command: lab.square.spltcoverage.core.launch.CoverageGeneratorLauncher
+java_class_path (initial): D:\workspace_experiment_challenge\lab.square.spltcoverage.core\target\classes;D:\workspace-featureide\lab.square.similiaritymeasure\target\classes;C:\Users\selab\.m2\repository\guru\nidi\graphviz-java\0.18.1\graphviz-java-0.18.1.jar;C:\Users\selab\.m2\repository\org\webjars\npm\viz.js-graphviz-java\2.1.3\viz.js-graphviz-java-2.1.3.jar;C:\Users\selab\.m2\repository\guru\nidi\com\kitfox\svgSalamander\1.1.3\svgSalamander-1.1.3.jar;C:\Users\selab\.m2\repository\net\arnx\nashorn-promise\0.1.1\nashorn-promise-0.1.1.jar;C:\Users\selab\.m2\repository\org\apache\commons\commons-exec\1.3\commons-exec-1.3.jar;C:\Users\selab\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\selab\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.30\jcl-over-slf4j-1.7.30.jar;C:\Users\selab\.m2\repository\org\slf4j\jul-to-slf4j\1.7.30\jul-to-slf4j-1.7.30.jar;C:\Users\selab\.m2\repository\guru\nidi\com\eclipsesource\j2v8\j2v8_win32_x86_64\4.6.0\j2v8_win32_x86_64-4.6.0.jar;C:\Users\selab\.m2\repository\org\slf4j\slf4j-api\1.7.30\slf4j-api-1.7.30.jar;C:\Users\selab\.m2\repository\org\jacoco\org.jacoco.core\0.8.6\org.jacoco.core-0.8.6.jar;C:\Users\selab\.m2\repository\org\ow2\asm\asm\8.0.1\asm-8.0.1.jar;C:\Users\selab\.m2\repository\org\ow2\asm\asm-commons\8.0.1\asm-commons-8.0.1.jar;C:\Users\selab\.m2\repository\org\ow2\asm\asm-analysis\8.0.1\asm-analysis-8.0.1.jar;C:\Users\selab\.m2\repository\org\ow2\asm\asm-tree\8.0.1\asm-tree-8.0.1.jar;C:\Users\selab\.m2\repository\junit\junit\4.8.2\junit-4.8.2.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 3                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 10                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 268435456                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4282384384                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 4282384384                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=C:/Program Files/Java/jdk-13.0.2/bin/server;C:/Program Files/Java/jdk-13.0.2/bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\libnvvp;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\MATLAB\R2022a\bin;C:\Program Files\CMake\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2022.1.1\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\extras\CUPTI\lib64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\include;C:\Program Files\Java\jdk-13.0.2\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\selab\AppData\Local\Microsoft\WindowsApps;C:\Users\selab\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Bandizip\;C:\Users\selab\.dotnet\tools;D:\opencv\build_opengl_noopencl_withextra2\install\x64\vc17\bin;C:\apache-maven-3.8.5\bin;;D:\eclipse4.20.0committers-featureide3.8.2-win64\eclipse;
+USERNAME=selab
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 8 Stepping 2, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 10 , 64 bit Build 19041 (10.0.19041.1741)
+OS uptime: 4 days 10:58 hours
+
+CPU: total 12 (initial active 12) (12 cores per cpu, 2 threads per core) family 23 model 8 stepping 2 microcode 0x0, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4a, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, clmul, bmi1, bmi2, adx, sha, fma, vzeroupper, clflush, clflushopt
+
+Memory: 4k page, system-wide physical 16335M (3670M free)
+TotalPageFile size 45997M (AvailPageFile size 43M)
+current process WorkingSet (physical memory assigned to process): 10M, peak: 10M
+current process commit charge ("private bytes"): 64M, peak: 320M
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (17.0.1+12-LTS-39) for windows-amd64 JRE (17.0.1+12-LTS-39), built on Sep 27 2021 18:41:35 by "mach5one" with MS VC++ 16.8 (VS2019)
+
+END.

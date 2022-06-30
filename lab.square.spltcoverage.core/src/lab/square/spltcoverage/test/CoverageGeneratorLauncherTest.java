@@ -1,68 +1,44 @@
 package lab.square.spltcoverage.test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.util.Arrays;
 
-import javax.management.MalformedObjectNameException;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
-import lab.square.spltcoverage.test.antennatarget.TestProductProvider;
+import lab.square.spltcoverage.core.launch.CoverageGeneratorLauncher;
 import lab.square.spltcoverage.utils.Tools;
 
-/**
- * jacoco agent required.
- * @author selab
- *
- */
-
-public class AntennaCoverageGeneratorTest {
+public class CoverageGeneratorLauncherTest {
 	
-	private static final int A_TESTMETHOD_COUNT = 2;
-	private static final int B_TESTMETHOD_COUNT = 3;
+	private static final int A_TESTMETHOD_COUNT = 3;
+	private static final int B_TESTMETHOD_COUNT = 5;
 	private static final int TESTCLASS_COUNT = 2;
 
-	private TestProductProvider provider;
-	
-	@Before
-	public void setUp() {
-		this.provider = new TestProductProvider();
-		
-		deleteOutputDirectory(new File(provider.getOutputPath()));
-	}
-
-	private void deleteOutputDirectory(File dir) {
-		if(dir.exists())
-			try {
-				Tools.deleteDirectoryRecursively(dir);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-	}
+	private static final String TARGET_CLASSPATH = "target/classes/";
+	private static final String TARGET_TESTPATH1 = "lab/square/spltcoverage/test/target/ClassATest.class";
+	private static final String TARGET_TESTPATH2 = "lab/square/spltcoverage/test/target/ClassBTest.class";
+	private static final String OUTPUT_PATH = "testResources/CoverageGeneratorLauncherTestOutput/";
 	
 	@Test
-	public void testGenerate() {
-		CoverageGenerator generator = null;
-		generator = new CoverageGenerator();
+	public void testLaunch() {
+		try {
+			Tools.deleteDirectoryRecursively(new File(OUTPUT_PATH));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		
-		if(generator == null)
-			fail();		
+		try {
+			CoverageGeneratorLauncher.launch(TARGET_CLASSPATH, Arrays.asList(new String[] {TARGET_TESTPATH1, TARGET_TESTPATH2}), OUTPUT_PATH);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 		
-		generator.generateCoverage(provider);
-		
-		File product = new File(provider.getOutputPath());
-		
-		verifyTestClasses(product);		
-		
+		verifyTestClasses(new File(OUTPUT_PATH));
 	}
 	
 	private void verifyTestClasses(File product) {
