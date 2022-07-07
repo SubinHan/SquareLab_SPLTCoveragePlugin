@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Collection;
 
 public class CoverageGeneratorLauncher {
@@ -12,10 +14,17 @@ public class CoverageGeneratorLauncher {
 			throws IOException, InterruptedException {
 		String separator = System.getProperty("file.separator");
 		String cp = System.getProperty("java.class.path");
-		String java_home = "C:\\Program Files\\Java\\jdk1.8.0_202";
-		//String path = System.getProperty("java.home") + separator + "bin" + separator + "java";
+		String java_home = System.getProperty("java.home");
 		String path = java_home + separator + "bin" + separator + "java";
-		String javaagent = "-javaagent:resources\\jacocoagent.jar=jmx=true";
+		URL res = CoverageGeneratorLauncher.class.getClassLoader().getResource("jacocoagent.jar");
+		File jacocoFile = null;
+		try {
+			jacocoFile = new File(res.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		String jacocoPath = jacocoFile.getPath();
+		String javaagent = "-javaagent:" + jacocoPath + "=jmx=true";
 		String jmxarg1 = "-Dcom.sun.management.jmxremote";
 		String jmxarg2 = "-Dcom.sun.management.jmxremote.port=7777";
 		String jmxarg3 = "-Dcom.sun.management.jmxremote.authenticate=false";
@@ -37,7 +46,8 @@ public class CoverageGeneratorLauncher {
 
 		String convertedTestPath = convertToSingleLine(testPath);
 
-		ProcessBuilder processBuilder = new ProcessBuilder(path, javaagent, jmxarg1, jmxarg2, jmxarg3, jmxarg4, rmiarg,
+		ProcessBuilder processBuilder = new ProcessBuilder(
+				path, javaagent, jmxarg1, jmxarg2, jmxarg3, jmxarg4, rmiarg,
 				"-cp", cp, LauncherMain.class.getName(), classpath, convertedTestPath, outputPath);
 		processBuilder.directory(new File("./").getCanonicalFile());
 		Process process = processBuilder.start();
@@ -46,7 +56,7 @@ public class CoverageGeneratorLauncher {
 		while ((line = read.readLine()) != null) {
 			System.out.println("launcher: " + line);
 		}
-		
+
 	}
 
 	private static String convertToSingleLine(Collection<String> testPath) {
