@@ -6,12 +6,11 @@ import java.util.List;
 public class FeatureExpressionTokenizer {
 
 	public static List<String> tokenize(String featureExpression){
-		String bound = bindPrecedence(featureExpression);
-		return tokenize0(bound);
+		return tokenize0(featureExpression);
 	}
 	
-	public static List<String> tokenize0(String featureExpression) {
-		List<String> tokens = new ArrayList<String>();
+	private static List<String> tokenize0(String featureExpression) {
+		List<String> tokens = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < featureExpression.length(); i++) {
@@ -53,12 +52,6 @@ public class FeatureExpressionTokenizer {
 		}
 		
 		return tokens;
-	}
-	
-	private static String bindPrecedence(String expression) {
-		// TODO should code unimplemented method..
-		
-		return expression;
 	}
 	
 }
