@@ -1,5 +1,6 @@
 package lab.square.spltcoverage.core.antenna;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -27,7 +28,87 @@ public class FeatureExpressionParser {
 	}
 
 	public static ExpressionNode parseByTokens(String... tokens) throws Exception {
-		return parseExp(tokens, new WrapInt(0));
+		String[] postfix = shuntingYard(tokens);
+		return parseExp0(postfix, new WrapInt(postfix.length-1));
+		
+		//return parseExp(tokens, new WrapInt(0));
+	}
+	
+	private static String[] shuntingYard(String[] tokens) {
+		List<String> result = new ArrayList<>();
+		Stack<String> expressions = new Stack<>();
+		
+		for(String token : tokens) {
+			if(token.equals("!")) {
+				expressions.push(token);
+			} 
+			else if(token.equals("&")) {
+				while(!expressions.empty()) {
+					String expression = expressions.peek();
+					if(expression.equals("(") || expression.equals("|")) {
+						break;
+					}
+					result.add(expressions.pop());
+				}
+				expressions.push(token);
+			} 
+			else if(token.equals("|")) {
+				while(!expressions.empty()) {
+					if(expressions.peek().equals("(")) {
+						break;
+					}
+					result.add(expressions.pop());
+				}
+				expressions.push(token);
+			} 
+			else if(token.equals("(")) {
+				expressions.push(token);
+			} 
+			else if(token.equals(")")) {
+				while(!expressions.peek().equals("(")) {
+					assert !expressions.empty();
+					result.add(expressions.pop());
+				}
+				expressions.pop();
+			}
+			else {
+				result.add(token);
+			}
+		}
+		
+		while(!expressions.empty()) {
+			result.add(expressions.pop());
+		}
+		
+		String[] strArr = new String[result.size()];
+		return result.toArray(strArr);
+	}
+	
+	private static ExpressionNode parseExp0(String[] tokens, WrapInt index) throws Exception{
+		String exp = tokens[index.value];
+		
+		if(exp.equals("!")) {
+			index.value--;
+			ExpressionNode rightExp = parseExp0(tokens, index);
+			return new NotNode(rightExp);
+		} 
+		else if(exp.equals("&")) {
+			index.value--;
+			ExpressionNode rightExp = parseExp0(tokens, index);
+			index.value--;
+			ExpressionNode leftExp = parseExp0(tokens, index);
+			return new AndNode(leftExp, rightExp);
+		} 
+		else if(exp.equals("|")) {
+			index.value--;
+			ExpressionNode rightExp = parseExp0(tokens, index);
+			index.value--;
+			ExpressionNode leftExp = parseExp0(tokens, index);
+			return new OrNode(leftExp, rightExp);
+		}
+		else {
+			return new FeatureNode(exp);
+		}
 	}
 
 	private static ExpressionNode parseExp(String[] tokens, WrapInt index) throws Exception {
