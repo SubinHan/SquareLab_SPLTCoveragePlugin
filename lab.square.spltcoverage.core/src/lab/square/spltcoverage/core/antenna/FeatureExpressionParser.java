@@ -33,10 +33,12 @@ public class FeatureExpressionParser {
 	}
 	
 	private static String[] shuntingYard(String[] tokens) {
+		// Create output queue, operator stack
 		List<String> result = new ArrayList<>();
 		Stack<String> expressions = new Stack<>();
 		
 		for(String token : tokens) {
+			// Precedence: ! > & > |
 			if(token.equals("!")) {
 				expressions.push(token);
 			} 
@@ -82,7 +84,7 @@ public class FeatureExpressionParser {
 		return result.toArray(strArr);
 	}
 	
-	private static ExpressionNode parseExp0(String[] tokens, WrapInt index) throws Exception{
+	private static ExpressionNode parseExp0(String[] tokens, WrapInt index) {
 		String exp = tokens[index.value];
 		
 		if(exp.equals("!")) {

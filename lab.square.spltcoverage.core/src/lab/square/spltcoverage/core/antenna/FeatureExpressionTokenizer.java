@@ -24,13 +24,6 @@ public class FeatureExpressionTokenizer {
 
 			case '(':
 			case ')':
-				if (sb.length() > 0) {
-					tokens.add(sb.toString());
-					sb.setLength(0);
-				}
-				tokens.add(c + "");
-				break; 
-
 			case '!':
 			case '&':
 			case '|':
