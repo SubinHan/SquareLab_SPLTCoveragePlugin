@@ -1,11 +1,14 @@
 package lab.square.spltcoverage.core.antenna.model;
 
+import java.util.Map;
 import java.util.Objects;
 
-public class ExpressionNode {
+public abstract class ExpressionNode {
 	protected ExpressionNode left;
 	protected ExpressionNode right;
 	protected String value;
+	
+	abstract public boolean evaluate(Map<String, Boolean> featureSet);
 	
 	public String getValue() {
 		return this.value;

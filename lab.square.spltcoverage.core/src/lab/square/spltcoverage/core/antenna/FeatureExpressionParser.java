@@ -17,7 +17,7 @@ public class FeatureExpressionParser {
 	public static ExpressionNode parseByExpressionStack(Stack<String> featureExpressions) {
 		String featureExpression = FeatureLocation.expressionToString(featureExpressions);
 		List<String> tokens = FeatureExpressionTokenizer.tokenize(featureExpression);
-		ExpressionNode result = new ExpressionNode();
+		ExpressionNode result = null;
 		try {
 			result = parseByTokens(tokens.toArray(new String[tokens.size()]));
 		} catch (Exception e) {
@@ -128,15 +128,7 @@ public class FeatureExpressionParser {
 	}
 
 	public static boolean evaluate(ExpressionNode node, Map<String, Boolean> featureSet) {
-		if (node.getValue().equals("&")) {
-			return evaluate(node.getLeft(), featureSet) && evaluate(node.getRight(), featureSet);
-		} else if (node.getValue().equals("|")) {
-			return evaluate(node.getLeft(), featureSet) || evaluate(node.getRight(), featureSet);
-		} else if (node.getValue().equals("!")) {
-			return !evaluate(node.getLeft(), featureSet);
-		} else {
-			return Tools.getBooleanValue(featureSet.get(node.getValue()));
-		}
+		return node.evaluate(featureSet);
 	}
 
 	private static class WrapInt {

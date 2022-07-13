@@ -1,5 +1,7 @@
 package lab.square.spltcoverage.core.antenna.model;
 
+import java.util.Map;
+
 public class OrNode extends ExpressionNode {
 
 	public OrNode(ExpressionNode leftExp, ExpressionNode rightExp) {
@@ -7,5 +9,10 @@ public class OrNode extends ExpressionNode {
 		this.right = rightExp;
 		this.value = "|";
 	}
-
+	
+	@Override
+	public boolean evaluate(Map<String, Boolean> featureSet) {
+		return this.left.evaluate(featureSet) || this.right.evaluate(featureSet);
+	}
 }
+
