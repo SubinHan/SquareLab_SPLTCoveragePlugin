@@ -34,26 +34,4 @@ public interface IIterableSpltProvider {
 	 * @return
 	 */
 	public String getBaseDirectory();
-	
-	/**
-	 * It should return the relative directory to store product coverage files in [BaseDirectory].
-	 * If nothing, then just return "/".
-	 *  * The generator will generate products by the name '1', '2', '3', ... on the end of the return value.
-	 * @return productDirectory
-	 */
-	public String getProductDirectory();
-	
-	/**
-	 * It should return the relative directory to store test case coverage files in [ProductDirectory].
-	 * If nothing, then just return "/".
-	 * @return testMethodDirectory
-	 */
-	public String getTestCaseDirectory();
-	
-	/**
-	 * It should return the relative directory to store test method coverage files in [testCaseDirectory].
-	 * If nothing, then just return "/".
-	 * @return testMethodDirectory
-	 */
-	public String getTestMethodDirectory();
 }

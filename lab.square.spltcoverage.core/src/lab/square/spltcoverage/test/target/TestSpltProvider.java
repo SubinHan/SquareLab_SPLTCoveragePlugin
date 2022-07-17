@@ -46,19 +46,4 @@ public class TestSpltProvider implements IIterableSpltProvider {
 		return "testResources/GeneratedCoverages";
 	}
 
-	@Override
-	public String getProductDirectory() {
-		return "/Product";
-	}
-
-	@Override
-	public String getTestCaseDirectory() {
-		return "/";
-	}
-
-	@Override
-	public String getTestMethodDirectory() {
-		return "/";
-	}
-
 }

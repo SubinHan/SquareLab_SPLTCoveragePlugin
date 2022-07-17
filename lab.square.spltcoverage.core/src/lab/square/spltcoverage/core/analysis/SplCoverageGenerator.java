@@ -30,7 +30,7 @@ public class SplCoverageGenerator {
 		while (provider.makeNextProduct()) {
 			productNum++;
 			String productDirectory;
-			productDirectory = provider.getProductDirectory() + productNum;
+			productDirectory = "/" + PRODUCT_DIRECTORY_NAME + productNum;
 			String pathOfFeatureSet = provider.getBaseDirectory() + productDirectory + "/featureset.txt";
 			writeFeatureSet(pathOfFeatureSet, provider.getFeatureSet().toString());
 
@@ -176,9 +176,9 @@ public class SplCoverageGenerator {
 			System.out.println("//==============finished===========//");
 			String testCaseDirectory;
 			String testMethodDirectory;
-			testCaseDirectory = provider.getTestCaseDirectory() + description.getTestClass().getSimpleName();
-			testMethodDirectory = provider.getTestMethodDirectory() + description.getMethodName();
-			String directory = provider.getBaseDirectory() + provider.getProductDirectory() + productNumber + testCaseDirectory
+			testCaseDirectory = "/" + description.getTestClass().getSimpleName();
+			testMethodDirectory = "/" + description.getMethodName();
+			String directory = provider.getBaseDirectory() + "/" + PRODUCT_DIRECTORY_NAME + productNumber + testCaseDirectory
 					+ testMethodDirectory;
 			
 			JacocoConnection connection = JacocoConnection.getInstance();
