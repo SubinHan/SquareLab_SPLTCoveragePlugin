@@ -15,3 +15,4 @@ public class FeatureNode extends ExpressionNode {
 		return Tools.getBooleanValue(featureSet.get(this.value));
 	}
 }
+

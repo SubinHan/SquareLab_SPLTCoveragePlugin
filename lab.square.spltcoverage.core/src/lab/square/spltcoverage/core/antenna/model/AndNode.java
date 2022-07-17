@@ -15,3 +15,4 @@ public class AndNode extends ExpressionNode {
 		return this.left.evaluate(featureSet) && this.right.evaluate(featureSet);
 	}
 }
+
