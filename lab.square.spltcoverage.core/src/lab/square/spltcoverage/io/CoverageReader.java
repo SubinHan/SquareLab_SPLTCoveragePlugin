@@ -98,29 +98,39 @@ public class CoverageReader {
 		return new HashSet<IClassCoverage>(coverageBuilder.getClasses());
 	}
 	
-	private Map<String, Boolean> findFeatureSet(File... testCaseFolders) throws FileNotFoundException, IOException {
+	public static Map<String, Boolean> findFeatureSet(File... files) throws FileNotFoundException, IOException {
 		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
 
-		for (File isFeatureSet : testCaseFolders) {
-			final String testCaseName = isFeatureSet.getName();
-			if (isFeatureSet.getName().equalsIgnoreCase(SplCoverageReader.FEATURESET_FILENAME)) {
+		for (File file : files) {
+			final String testCaseName = file.getName();
+			if (file.getName().equalsIgnoreCase(SplCoverageGenerator.FEATURESET_FILE_NAME)) {
 
-				FileReader fr = new FileReader(isFeatureSet);
+				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
-				String given = br.readLine();
-				given = given.replace("{", "");
-				given = given.replace("}", "");
-				String[] pairs = given.split(",");
-
-				for (String pair : pairs) {
-					String[] splitted = pair.split("=");
-					String key = splitted[0].trim();
-					String value = splitted[1].trim();
-
-					featureSet.put(key, value.equals("true") ? true : false);
-				}
+				featureSet = makeMap(br.readLine());
 			}
 		}
 		return featureSet;
+	}
+
+	public static Map<String, Boolean> makeMap(String given) {
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		
+		given = given.replace("{", "");
+		given = given.replace("}", "");
+		String[] pairs = given.split(",");
+
+		if(pairs[0].isEmpty())
+			return map;
+		
+		for (String pair : pairs) {
+			String[] splitted = pair.split("=");
+			String key = splitted[0].trim();
+			String value = splitted[1].trim();
+
+			map.put(key, value.equals("true") ? true : false);
+		}
+		
+		return map;
 	}
 }

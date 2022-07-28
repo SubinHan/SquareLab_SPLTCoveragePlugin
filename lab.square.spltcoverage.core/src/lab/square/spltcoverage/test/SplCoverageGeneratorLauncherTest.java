@@ -1,9 +1,13 @@
 package lab.square.spltcoverage.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +18,7 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.launch.SplCoverageGeneratorLauncher;
+import lab.square.spltcoverage.io.CoverageReader;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 import lab.square.spltcoverage.utils.Tools;
 
@@ -35,8 +40,6 @@ public class SplCoverageGeneratorLauncherTest {
 	private static final String P2_TARGET_CLASSPATH = "target/classes/";
 	private static final String P2_TARGET_TESTPATH1 = "lab/square/spltcoverage/test/antennatarget2/ClassATest.class";
 	private static final String P2_TARGET_TESTPATH2 = "lab/square/spltcoverage/test/antennatarget2/ClassBTest.class";
-
-	
 	
 	@Test
 	public void testLaunch() {
@@ -70,6 +73,27 @@ public class SplCoverageGeneratorLauncherTest {
 		assertEquals(getNumTestMethods(new File(OUTPUT_PATH + "/product1/ClassBTest")), P1_B_TESTMETHOD_COUNT);
 		assertEquals(getNumTestMethods(new File(OUTPUT_PATH + "/product2/ClassATest")), P2_A_TESTMETHOD_COUNT);
 		assertEquals(getNumTestMethods(new File(OUTPUT_PATH + "/product2/ClassBTest")), P2_B_TESTMETHOD_COUNT);
+		
+		File readFeatureSet1 = new File(OUTPUT_PATH + "/product1/featureset.txt");
+		FileReader fr = null;
+		try {
+			fr = new FileReader(readFeatureSet1);
+			BufferedReader br = new BufferedReader(fr);
+			assertTrue(Tools.featureSetEquals(featureSet1, CoverageReader.makeMap(br.readLine())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		File readFeatureSet2 = new File(OUTPUT_PATH + "/product2/featureset.txt");
+		try {
+			fr = new FileReader(readFeatureSet2);
+			BufferedReader br = new BufferedReader(fr);
+			assertTrue(Tools.featureSetEquals(featureSet2, CoverageReader.makeMap(br.readLine())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	private int getNumTestClasses(File product) {
