@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -25,11 +27,8 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.CoverageResult;
 
-/*
- * Dependes on jacoco 0.7.7!!!!!
- */
 public class CoverageGenerator {
-	
+
 	private final static Logger LOG = Logger.getGlobal();
 
 	private static final String DESTFILE = "mydata.exec";
@@ -92,15 +91,19 @@ public class CoverageGenerator {
 	}
 
 	public void generateCoverage(IProductProvider provider) {
+		try {
+			Files.createDirectories(Paths.get(provider.getOutputPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		runTestInPath(provider.getClasspath(), provider.getTestClassPaths(), provider);
 		mergeExecs(provider.getOutputPath());
 	}
-	
+
 	public void generateCoverage2(IProductProvider provider) {
 		// TODO
-		
-		
-		
+
 	}
 
 	private void runTestInPath(String classpath, Collection<String> testClassesPath, IProductProvider provider) {
@@ -187,8 +190,9 @@ public class CoverageGenerator {
 			String testMethodDirectory;
 			testCaseDirectory = description.getTestClass().getSimpleName() + "/";
 			testMethodDirectory = description.getMethodName();
-			String directory = provider.getOutputPath() + testCaseDirectory + testMethodDirectory;
 
+			String directory = Paths.get(provider.getOutputPath()).resolve(testCaseDirectory + testMethodDirectory)
+					.toString();
 			CoverageWriter.makeExecFile(directory, jacocoConnection.getExecutionData(false));
 			resetData();
 		}

@@ -5,9 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.management.MalformedObjectNameException;
 
@@ -23,6 +24,7 @@ public class SplCoverageGenerator {
 	
 	public static final String SUFFIX_MERGED = "__merged__.exec";
 	public static final String PRODUCT_DIRECTORY_NAME = "product";
+	public static final String FEATURESET_FILE_NAME = "featureset.txt";
 
 	public void generateCoverage(IIterableSpltProvider provider) throws MalformedObjectNameException, IOException {
 		int productNum = 0;
@@ -32,8 +34,8 @@ public class SplCoverageGenerator {
 			productNum++;
 			String productDirectory;
 			productDirectory = "/" + PRODUCT_DIRECTORY_NAME + productNum;
-			String pathOfFeatureSet = provider.getBaseDirectory() + productDirectory + "/featureset.txt";
-			writeFeatureSet(pathOfFeatureSet, provider.getFeatureSet().toString());
+			String pathOfFeatureSet = provider.getBaseDirectory() + productDirectory + "/" + FEATURESET_FILE_NAME;
+			writeFile(pathOfFeatureSet, provider.getFeatureSet().toString());
 
 			JUnitCore junit = new JUnitCore();
 			junit.addListener(new TestListener(provider, generator, productNum));
@@ -68,9 +70,13 @@ public class SplCoverageGenerator {
 		
 	}
 
-	private void writeFeatureSet(String pathOfFeatureSet, String content) {
-		File featureSet = new File(pathOfFeatureSet);
-		makeDirectory(pathOfFeatureSet);
+	public static void writeFile(String filePath, String content) {
+		File featureSet = new File(filePath);
+		try {
+			Files.createDirectories(Paths.get(featureSet.getParent()));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			// write file containing the current featureSet in the product folder.
 			BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet));
@@ -112,7 +118,7 @@ public class SplCoverageGenerator {
 		}
 	}
 
-	private File mergeExecs(String productDirectory) {
+	public static File mergeExecs(String productDirectory) {
 		File mergedExec = null;
 		File productFolder = new File(productDirectory);
 		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
@@ -142,17 +148,6 @@ public class SplCoverageGenerator {
 			e.printStackTrace();
 		}
 		return mergedExec;
-	}
-	
-	private void makeDirectory(String directory) {
-		String[] splitted = directory.split("/");
-		String checkDirectory = "";
-		for (int i = 0; i < splitted.length - 1; i++) {
-			checkDirectory = checkDirectory + splitted[i] + "/";
-			File file = new File(checkDirectory);
-			if (!file.exists())
-				file.mkdir();
-		}
 	}
 	
 	private class TestListener extends RunListener {

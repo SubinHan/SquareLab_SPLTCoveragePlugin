@@ -13,7 +13,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
-import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
+import lab.square.spltcoverage.core.launch.SplCoverageGeneratorLauncher;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 import lab.square.spltcoverage.utils.Tools;
 
@@ -25,7 +25,6 @@ public class SplCoverageGeneratorLauncherTest {
 	private static final String P1_TARGET_CLASSPATH = "target/classes/";
 	private static final String P1_TARGET_TESTPATH1 = "lab/square/spltcoverage/test/antennatarget/ClassATest.class";
 	private static final String P1_TARGET_TESTPATH2 = "lab/square/spltcoverage/test/antennatarget/ClassBTest.class";
-	private static final String P1_OUTPUT_PATH = "testResources/SplCoverageGeneratorLauncherTestOutput/";
 	
 	private static final String OUTPUT_PATH = "testResources/SplCoverageGeneratorLauncherTestOutput/";
 	
@@ -36,7 +35,6 @@ public class SplCoverageGeneratorLauncherTest {
 	private static final String P2_TARGET_CLASSPATH = "target/classes/";
 	private static final String P2_TARGET_TESTPATH1 = "lab/square/spltcoverage/test/antennatarget2/ClassATest.class";
 	private static final String P2_TARGET_TESTPATH2 = "lab/square/spltcoverage/test/antennatarget2/ClassBTest.class";
-	private static final String P2_OUTPUT_PATH = "testResources/SplCoverageGeneratorLauncherTestOutput/";
 
 	
 	
@@ -64,7 +62,7 @@ public class SplCoverageGeneratorLauncherTest {
 		productSourceInfos.add(info1);
 		productSourceInfos.add(info2);
 		
-		SplCoverageGenerator.launch(OUTPUT_PATH, productSourceInfos);
+		SplCoverageGeneratorLauncher.launch(OUTPUT_PATH, productSourceInfos);
 
 		assertEquals(getNumTestClasses(new File(OUTPUT_PATH + "/product1")), P1_TESTCLASS_COUNT);
 		assertEquals(getNumTestClasses(new File(OUTPUT_PATH + "/product2")), P2_TESTCLASS_COUNT);

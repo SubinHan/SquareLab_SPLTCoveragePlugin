@@ -18,7 +18,7 @@ import org.jacoco.core.data.SessionInfoStore;
 public class CoverageWriter {
 	
 	public static void makeExecFile(String directory, final byte[] exeData) throws IOException {
-		makeDirectory(directory);
+		Files.createDirectories(Paths.get(directory).getParent());
 		String fileName = directory + ".exec";
 		final OutputStream fileStream = Files.newOutputStream(Paths.get(fileName), StandardOpenOption.CREATE_NEW);
 		ExecutionDataWriter writer = new ExecutionDataWriter(fileStream);
