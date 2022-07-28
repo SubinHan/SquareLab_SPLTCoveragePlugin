@@ -7,6 +7,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.management.MalformedObjectNameException;
 
@@ -194,4 +195,5 @@ public class SplCoverageGenerator {
 			System.out.println(failure.getMessage());
 		}
 	}
+
 }
