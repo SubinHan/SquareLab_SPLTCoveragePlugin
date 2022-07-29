@@ -30,7 +30,7 @@ import lab.square.spltcoverage.model.CoverageResult;
 
 public class CoverageGenerator {
 
-	private final static Logger LOG = Logger.getGlobal();
+	private static final Logger LOG = Logger.getGlobal();
 
 	public static final String SUFFIX_MERGED = "__merged__.exec";
 
