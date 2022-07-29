@@ -27,9 +27,9 @@ public class SplCoverageReaderTest {
 	private static final String COVERAGES_PATH = "testResources/SplCoverage/";
 	private static final String CLASS_PATH = "src/lab/square/spltcoverage/test/target/";
 	private static List<Map<String, Boolean>> expected;
-	public static int pcCount = 0;
-	public static int tccCount = 0;
-	public static int tmcCount = 0;
+	private static int pcCount = 0;
+	private static int tccCount = 0;
+	private static int tmcCount = 0;
 	
 	@Before
 	public void setUp() {

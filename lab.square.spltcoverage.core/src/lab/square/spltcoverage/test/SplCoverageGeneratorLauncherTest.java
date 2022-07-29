@@ -50,7 +50,7 @@ public class SplCoverageGeneratorLauncherTest {
 		}
 		
 		List<ProductSourceInfo> productSourceInfos;
-		productSourceInfos = new ArrayList<ProductSourceInfo>();
+		productSourceInfos = new ArrayList<>();
 		
 		Map<String, Boolean> featureSet1 = new HashMap<>();
 		featureSet1.put("A", true);

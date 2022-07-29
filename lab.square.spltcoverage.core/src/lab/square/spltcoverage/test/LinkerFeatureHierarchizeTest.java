@@ -42,7 +42,7 @@ public class LinkerFeatureHierarchizeTest {
 	
 	private void printFeatures(Map<String, Boolean> featureSet) {
 		for(Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if(entry.getValue())
+			if(Boolean.TRUE.equals(entry.getValue()))
 				System.out.print(entry.getKey() + " ");
 		}
 		System.out.println();

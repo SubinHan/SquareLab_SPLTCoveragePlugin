@@ -3,7 +3,6 @@ package lab.square.spltcoverage.test;
 import java.util.Collection;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.FeatureSetGroupReader;

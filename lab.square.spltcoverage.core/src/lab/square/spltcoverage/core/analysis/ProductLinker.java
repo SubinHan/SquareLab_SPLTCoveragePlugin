@@ -327,7 +327,7 @@ public final class ProductLinker {
 	private static int getNumFeatures(Map<String, Boolean> featureSet) {
 		int numFeatures = 0;
 		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if (entry.getValue()) {
+			if (Boolean.TRUE.equals(entry.getValue())) {
 				numFeatures++;
 			}
 		}

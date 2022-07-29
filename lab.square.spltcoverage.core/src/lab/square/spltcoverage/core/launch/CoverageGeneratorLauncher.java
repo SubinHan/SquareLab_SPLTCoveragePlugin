@@ -39,18 +39,19 @@ public final class CoverageGeneratorLauncher {
 		String jmxarg4 = "-Dcom.sun.management.jmxremote.ssl=false";
 		String rmiarg = "-Djava.rmi.server.hostname=localhost";
 
+		StringBuilder classpathBuilder = new StringBuilder(cp);
 		if (!classpath.isEmpty()) {
-			cp = cp.concat(";");
-			cp = cp.concat(classpath);
+			classpathBuilder.append(";");
+			classpathBuilder.append(classpath);
 		}
 		if (testPath.isEmpty()) {
 			// TODO: Throw exception or log
 			return;
 		}
 
-		logger.info("Separator is: " + separator);
-		logger.info("Classpath is: " + cp);
-		logger.info("Bin path is: " + path);
+		logger.info(() -> "Separator is: " + separator);
+		logger.info(() -> "Classpath is: " + classpathBuilder.toString());
+		logger.info(() -> "Bin path is: " + path);
 
 		String convertedTestPath = convertToSingleLine(testPath);
 

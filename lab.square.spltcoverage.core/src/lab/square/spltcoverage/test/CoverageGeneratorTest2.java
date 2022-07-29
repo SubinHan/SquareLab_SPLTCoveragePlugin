@@ -4,18 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.management.MalformedObjectNameException;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IIterableSpltProvider;
-import lab.square.spltcoverage.core.analysis.ISpltProvider;
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
-import lab.square.spltcoverage.test.antennatarget.TestProductProvider;
 import lab.square.spltcoverage.test.target.TestSpltProvider;
 import lab.square.spltcoverage.utils.Tools;
 

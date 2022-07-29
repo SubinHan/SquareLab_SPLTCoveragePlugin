@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -24,9 +25,10 @@ public class FeatureSetGroupReaderTest {
 		int numConfigC = 0;
 		
 		for(Map<String, Boolean> featureSet : products) {
-			for(String feature : featureSet.keySet()) {
-				if(!featureSet.get(feature))
+			for(Entry<String, Boolean> entry : featureSet.entrySet()) {
+				if(Boolean.FALSE.equals(entry.getValue()))
 					continue;
+				String feature = entry.getKey();
 				if(feature.equalsIgnoreCase(Configuration.CONFIG_A)) {
 					numConfigA++;
 				}
@@ -61,9 +63,10 @@ public class FeatureSetGroupReaderTest {
 		int numConfigC = 0;
 		
 		for(Map<String, Boolean> featureSet : products) {
-			for(String feature : featureSet.keySet()) {
-				if(!featureSet.get(feature))
+			for(Entry<String, Boolean> entry : featureSet.entrySet()) {
+				if(Boolean.FALSE.equals(entry.getValue()))
 					continue;
+				String feature = entry.getKey();
 				if(feature.equalsIgnoreCase(Configuration.CONFIG_A)) {
 					numConfigA++;
 				}

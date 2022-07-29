@@ -5,12 +5,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-
-import javax.management.MalformedObjectNameException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,11 +45,7 @@ public class AntennaCoverageGeneratorTest {
 	
 	@Test
 	public void testGenerate() {
-		CoverageGenerator generator = null;
-		generator = new CoverageGenerator();
-		
-		if(generator == null)
-			fail();		
+		CoverageGenerator generator = new CoverageGenerator();
 		
 		generator.generateCoverage(provider);
 		

@@ -87,7 +87,7 @@ public class MarkdownSimilarityReporter {
 		StringBuilder builder = new StringBuilder();
 		
 		for(Entry<String, Boolean> entry : product.entrySet()) {
-			if(entry.getValue()) {
+			if(Boolean.TRUE.equals(entry.getValue())) {
 				builder.append(entry.getKey() + " ");
 			}
 		}

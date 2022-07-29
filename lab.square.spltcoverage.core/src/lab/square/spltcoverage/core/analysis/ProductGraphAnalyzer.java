@@ -69,7 +69,7 @@ public class ProductGraphAnalyzer {
 		HashSet<String> toReturn = new HashSet<>();
 
 		for (Entry<String, Boolean> entry : smaller.entrySet()) {
-			if (!entry.getValue() && bigger.get(entry.getKey())) {
+			if (Boolean.FALSE.equals(entry.getValue()) && Boolean.TRUE.equals(bigger.get(entry.getKey()))) {
 				toReturn.add(entry.getKey());
 			}
 		}

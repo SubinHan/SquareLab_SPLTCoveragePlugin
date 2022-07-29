@@ -18,14 +18,12 @@ import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.data.ExecutionDataReader;
 import org.jacoco.core.data.ExecutionDataStore;
-import org.jacoco.core.data.IncompatibleExecDataVersionException;
 import org.jacoco.core.data.SessionInfoStore;
 import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
-import lab.square.spltcoverage.core.antenna.AntennaCoverageComparator;
 import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.CoverageResult;
 
@@ -54,7 +52,7 @@ public class CoverageGenerator {
 		this.targetClasses = targetClasses;
 	}
 
-	public CoverageResult analyze() throws IncompatibleExecDataVersionException, IOException {
+	public CoverageResult analyze() throws IOException {
 
 		logger.info("Version: " + jacocoConnection.getVersion());
 		logger.info("Session: " + jacocoConnection.getSessionId());

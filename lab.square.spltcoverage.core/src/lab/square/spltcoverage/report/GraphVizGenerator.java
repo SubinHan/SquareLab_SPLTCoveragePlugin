@@ -113,7 +113,7 @@ public class GraphVizGenerator {
 		StringBuilder builder = new StringBuilder();
 
 		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if (entry.getValue()) {
+			if (Boolean.TRUE.equals(entry.getValue())) {
 				builder.append(entry.getKey());
 				builder.append(" ");
 			}

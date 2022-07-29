@@ -183,7 +183,7 @@ public class LinkerTest {
 		if (heads.isEmpty())
 			fail();
 
-		visited = new HashSet<ProductNode>();
+		visited = new HashSet<>();
 
 		for (ProductNode graph : heads) {
 			visitGraphRecur(graph);
@@ -197,7 +197,6 @@ public class LinkerTest {
 			return;
 		visited.add(graph);
 		count++;
-		double ratioSum = 0;
 
 		ProductCoverage pc = graph.getProductCoverage();
 		System.out.println("//============================//");
@@ -232,8 +231,6 @@ public class LinkerTest {
 			else
 				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
 			System.out.println();
-
-			ratioSum += cc.getLineCounter().getCoveredRatio();
 		}
 
 		int different = pc.getScore() - findParentsScore(graph);
@@ -243,8 +240,6 @@ public class LinkerTest {
 		else
 			System.out.print(" (" + different + ")");
 		System.out.println();
-
-		Map<String, IClassCoverage> parentMap;
 
 		if (isProblemProduct(graph))
 			notEnough++;
@@ -340,7 +335,7 @@ public class LinkerTest {
 	private void printFeatures(ProductCoverage pc) {
 		Map<String, Boolean> featureSet = pc.getFeatureSet();
 		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if (entry.getValue())
+			if (Boolean.TRUE.equals(entry.getValue()))
 				System.out.print(entry.getKey() + " ");
 		}
 		System.out.println();
