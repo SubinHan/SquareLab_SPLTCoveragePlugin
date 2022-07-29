@@ -42,17 +42,6 @@ public class MarkdownSimilarityReporter {
 			e.printStackTrace();
 		}
 	}
-	
-	private void makeDirectory(String directory) {
-		String[] splitted = directory.split("/");
-		StringBuilder checkDirectory = new StringBuilder();
-		for (int i = 0; i < splitted.length; i++) {
-			checkDirectory.append(splitted[i]).append("/");
-			File file = new File(checkDirectory.toString());
-			if (!file.exists())
-				file.mkdir();
-		}
-	}
 
 	private MarkdownTableBuilder buildContents(MarkdownTableBuilder builder) {
 		List<VectorAdapter> vectors = adaptVectors();
