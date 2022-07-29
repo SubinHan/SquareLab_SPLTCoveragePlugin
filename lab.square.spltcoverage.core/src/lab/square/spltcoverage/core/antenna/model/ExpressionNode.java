@@ -8,7 +8,7 @@ public abstract class ExpressionNode {
 	protected ExpressionNode right;
 	protected String value;
 	
-	abstract public boolean evaluate(Map<String, Boolean> featureSet);
+	public abstract boolean evaluate(Map<String, Boolean> featureSet);
 	
 	public String getValue() {
 		return this.value;
@@ -33,6 +33,9 @@ public abstract class ExpressionNode {
 	@Override
 	public boolean equals(Object o) {
 		if(o == null)
+			return false;
+		
+		if(!(o instanceof ExpressionNode))
 			return false;
 		
 		ExpressionNode node;

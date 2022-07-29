@@ -2,6 +2,7 @@ package lab.square.spltcoverage.test;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -40,9 +41,9 @@ public class LinkerFeatureHierarchizeTest {
 	}
 	
 	private void printFeatures(Map<String, Boolean> featureSet) {
-		for(String key : featureSet.keySet()) {
-			if(featureSet.get(key))
-				System.out.print(key + " ");
+		for(Entry<String, Boolean> entry : featureSet.entrySet()) {
+			if(entry.getValue())
+				System.out.print(entry.getKey() + " ");
 		}
 		System.out.println();
 	}

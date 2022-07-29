@@ -11,11 +11,11 @@ public class HierarchySimplifier {
 	Set<ProductNode> generatedClones;
 	
 	public HierarchySimplifier() {
-		generatedClones = new HashSet<ProductNode>();
+		generatedClones = new HashSet<>();
 	}
 	
 	public Collection<ProductNode> cutByDepth(Collection<ProductNode> heads, int depth) {
-		Collection<ProductNode> toReturn = new HashSet<ProductNode>();
+		Collection<ProductNode> toReturn = new HashSet<>();
 		
 		if(depth < 1)
 			return new HashSet<>();

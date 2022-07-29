@@ -27,42 +27,48 @@ public class AntennaProductAnalysis {
 		for (IClassCoverage cc : pc.getClassCoverages()) {
 			String name = Tools.convertClassNameByConvention(cc.getName());
 			Collection<FeatureLocation> fls = pc.getFeatureLocationsOf(name);
-			List<FeatureCoverageMut> fcms = new ArrayList<>();
-			for (FeatureLocation fl : fls) {
-				try {
-					String featureExpression = FeatureLocation.expressionToString(fl.getFeatureExpression());
-					List<String> tokens = FeatureExpressionTokenizer.tokenize(featureExpression);
-					
-					ExpressionNode node = FeatureExpressionParser.parseByTokens(tokens.toArray(new String[tokens.size()]));
-					if (!fl.isFeatureLocationOf(pc.getFeatureSet()))
-						continue;
-
-					for (int i = fl.getLineStart(); i <= fl.getLineEnd(); i++) {
-						if (cc.getLine(i).getStatus() == ICounter.EMPTY) {
-							continue;
-						}
-
-						FeatureCoverageMut fc = findFeatureCoverage(fcms, node);
-						if (fc == null) {
-							fc = new FeatureCoverageMut(node);
-							fcms.add(fc);
-						}
-
-						if (cc.getLine(i).getStatus() == ICounter.FULLY_COVERED) {
-							fc.numCoveredLines++;
-						}
-						if (cc.getLine(i).getStatus() == ICounter.PARTLY_COVERED) {
-							fc.numPartlyCoveredLines++;
-						}
-						fc.numLines++;
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			List<FeatureCoverageMut> fcms = createFeatureCoveragesOfClass(cc, fls);
 
 			this.fcs.put(name, convertFeatureCoverageMutToImmut(fcms));
 		}
+	}
+
+	private List<FeatureCoverageMut> createFeatureCoveragesOfClass(IClassCoverage cc, Collection<FeatureLocation> fls) {
+		List<FeatureCoverageMut> fcms = new ArrayList<>();
+		for (FeatureLocation fl : fls) {
+			try {
+				String featureExpression = FeatureLocation.expressionToString(fl.getFeatureExpression());
+				List<String> tokens = FeatureExpressionTokenizer.tokenize(featureExpression);
+
+				ExpressionNode node = FeatureExpressionParser
+						.parseByTokens(tokens.toArray(new String[tokens.size()]));
+				if (!fl.isFeatureLocationOf(pc.getFeatureSet()))
+					continue;
+
+				for (int i = fl.getLineStart(); i <= fl.getLineEnd(); i++) {
+					if (cc.getLine(i).getStatus() == ICounter.EMPTY) {
+						continue;
+					}
+
+					FeatureCoverageMut fc = findFeatureCoverage(fcms, node);
+					if (fc == null) {
+						fc = new FeatureCoverageMut(node);
+						fcms.add(fc);
+					}
+
+					if (cc.getLine(i).getStatus() == ICounter.FULLY_COVERED) {
+						fc.numCoveredLines++;
+					}
+					if (cc.getLine(i).getStatus() == ICounter.PARTLY_COVERED) {
+						fc.numPartlyCoveredLines++;
+					}
+					fc.numLines++;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return fcms;
 	}
 
 	private FeatureCoverageMut findFeatureCoverage(List<FeatureCoverageMut> fcs, ExpressionNode node) {

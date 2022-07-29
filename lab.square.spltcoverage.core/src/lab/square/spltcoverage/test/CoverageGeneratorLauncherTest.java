@@ -34,7 +34,7 @@ public class CoverageGeneratorLauncherTest {
 		
 		try {
 			CoverageGeneratorLauncher.launch(TARGET_CLASSPATH, Arrays.asList(new String[] {TARGET_TESTPATH1, TARGET_TESTPATH2}), OUTPUT_PATH);
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

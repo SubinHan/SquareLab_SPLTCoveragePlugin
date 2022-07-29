@@ -36,7 +36,7 @@ public class VectorAdapter extends Vector{
 	}
 
 	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
-		List<String> existsFeatures = new ArrayList<String>();
+		List<String> existsFeatures = new ArrayList<>();
 		
 		for(Map<String, Boolean> product : products) {
 			for(String key : product.keySet()) {

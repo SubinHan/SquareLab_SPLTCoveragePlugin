@@ -1,6 +1,5 @@
 package lab.square.spltcoverage.core.launch;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,8 +9,11 @@ import java.util.List;
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 
-public class SplCoverageGeneratorLauncher {
+public final class SplCoverageGeneratorLauncher {
 
+	private SplCoverageGeneratorLauncher() {
+	}
+	
 	public static void launch(String outputPath, List<ProductSourceInfo> productSourceInfos) {
 		Path output = Paths.get(outputPath);
 		try {
@@ -31,7 +33,7 @@ public class SplCoverageGeneratorLauncher {
 						productSourceInfos.get(i).classpath, 
 						productSourceInfos.get(i).testClassPaths,
 						productOutputPath.toString());
-			} catch (IOException | InterruptedException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}

@@ -1,6 +1,5 @@
 package lab.square.spltcoverage.core.antenna;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -13,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class ProductFeatureLocator {
-	public ProductFeatureLocator() {
-		;
+public final class ProductFeatureLocator {
+	
+	private ProductFeatureLocator() {
 	}
 
 	public static Map<String, Collection<FeatureLocation>> analyze(String srcPath) throws IOException {
@@ -62,38 +61,4 @@ public class ProductFeatureLocator {
 		return result;
 
 	}
-
-	private static Collection<FeatureLocation> getFeature(String javaSourcePath) {
-		FeatureLocator locator = new FeatureLocator();
-		try {
-			return locator.analyze(javaSourcePath);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	private static String findSourceFileInPath(String sourceFileName, String srcPath) {
-		File src = new File(srcPath);
-		if (src.isDirectory())
-			return findSourceFileRecur(sourceFileName, src);
-
-		return null;
-	}
-
-	private static String findSourceFileRecur(String sourceFileName, File directory) {
-		File[] files = directory.listFiles();
-		for (File file : files) {
-			if (file.isDirectory()) {
-				String result = findSourceFileRecur(sourceFileName, file);
-				if (result != null)
-					return result;
-			}
-
-			if (file.getName().equals(sourceFileName))
-				return file.getPath();
-		}
-		return null;
-	}
-
 }

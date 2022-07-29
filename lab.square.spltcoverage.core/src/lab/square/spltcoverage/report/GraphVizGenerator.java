@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Rank;
@@ -21,25 +22,27 @@ import lab.square.spltcoverage.model.ProductNode;
 
 public class GraphVizGenerator {
 
-	public static int LEFT_TO_RIGHT = 0x00000000;
-	public static int TOP_TO_BOTTOM = 0x00000001;
-	public static int DRAW_ALL_ARROW = 0x00000002;
-	public static int DIRECTED = 0x00000004;
-	public static int HIGHLIGHT_PROBLEM_PRODUCTS = 0x00000008;
-
-	public static final Config CONFIG_DEFAULT_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM | DRAW_ALL_ARROW);
-	public static final Config CONFIG_DEFAULT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT | DRAW_ALL_ARROW);
-	public static final Config CONFIG_LIGHT_TOPTOBOTTOM = new Config("product", TOP_TO_BOTTOM);
-	public static final Config CONFIG_LIGHT_LEFTTORIGHT = new Config("product", LEFT_TO_RIGHT);
-	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config("product",
+	private static final String ROOT_NAME = "product";
+	
+	public static final int LEFT_TO_RIGHT = 0x00000000;
+	public static final int TOP_TO_BOTTOM = 0x00000001;
+	public static final int DRAW_ALL_ARROW = 0x00000002;
+	public static final int DIRECTED = 0x00000004;
+	public static final int HIGHLIGHT_PROBLEM_PRODUCTS = 0x00000008;
+	public static final Config CONFIG_DEFAULT_TOPTOBOTTOM = new Config(ROOT_NAME, TOP_TO_BOTTOM | DRAW_ALL_ARROW);
+	public static final Config CONFIG_DEFAULT_LEFTTORIGHT = new Config(ROOT_NAME, LEFT_TO_RIGHT | DRAW_ALL_ARROW);
+	public static final Config CONFIG_LIGHT_TOPTOBOTTOM = new Config(ROOT_NAME, TOP_TO_BOTTOM);
+	public static final Config CONFIG_LIGHT_LEFTTORIGHT = new Config(ROOT_NAME, LEFT_TO_RIGHT);
+	public static final Config CONFIG_SHOWPROBLEM_TOPTOBOTTOM = new Config(ROOT_NAME,
 			TOP_TO_BOTTOM | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
-	public static final Config CONFIG_SHOWPROBLEM_LEFTTORIGHT = new Config("product",
+	public static final Config CONFIG_SHOWPROBLEM_LEFTTORIGHT = new Config(ROOT_NAME,
 			LEFT_TO_RIGHT | DRAW_ALL_ARROW | HIGHLIGHT_PROBLEM_PRODUCTS);
 
 	private static final int RENDER_HEIGHT = 2048;
-	private static String DEFAULT_OUTPUT_PATH = "vizResult/result.png";
+	private static final String DEFAULT_OUTPUT_PATH = "vizResult/result.png";
 
 	public GraphVizGenerator() {
+		// TODO: Make the constructor to config the graph drawing
 	}
 
 	public static void generate(ProductNode root, Config config) throws IOException {
@@ -47,7 +50,7 @@ public class GraphVizGenerator {
 	}
 	
 	public static void generate(ProductNode root, Config config, String outputPath) throws IOException {
-		Collection<ProductNode> roots = new ArrayList<ProductNode>();
+		Collection<ProductNode> roots = new ArrayList<>();
 		roots.add(root);
 		generate(roots, config, outputPath);
 	}
@@ -66,7 +69,7 @@ public class GraphVizGenerator {
 
 		Node node = Factory.node(config.rootName);
 
-		Map<String, Node> visited = new HashMap<String, Node>();
+		Map<String, Node> visited = new HashMap<>();
 
 		for (ProductNode root : roots) {
 			node = node.link(linkChildrenRecur(root, node, visited, (DRAW_ALL_ARROW & config.config) != 0,
@@ -85,7 +88,9 @@ public class GraphVizGenerator {
 			boolean highlightProblemProducts) {
 		Node node;
 		
-		if(visited.get(product.getFeatureSet()) == null){
+		String key = toLightString(product.getFeatureSet());
+		
+		if(!visited.containsKey(key)){
 			node = Factory.node(toLightString(product.getFeatureSet()));
 			if(highlightProblemProducts && !product.isCoveredMoreThanParent()) {
 				node = node.with(Color.RED);
@@ -93,10 +98,11 @@ public class GraphVizGenerator {
 			
 			for(ProductNode child : product.getChildren()) {
 				node = node.link(Factory.to(linkChildrenRecur(child, node, visited, drawAllArrow, highlightProblemProducts)));
+				visited.put(key, node);
 			}
 		}
 		else {
-			node = visited.get(product.getFeatureSet());
+			node = visited.get(key);
 		}
 		
 		return node;
@@ -106,14 +112,14 @@ public class GraphVizGenerator {
 	private static String toLightString(Map<String, Boolean> featureSet) {
 		StringBuilder builder = new StringBuilder();
 
-		for (String feature : featureSet.keySet()) {
-			if (featureSet.get(feature)) {
-				builder.append(feature);
+		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
+			if (entry.getValue()) {
+				builder.append(entry.getKey());
 				builder.append(" ");
 			}
 		}
 
-		return builder.toString();
+		return builder.toString().trim();
 	}
 
 	public static void main(String[] args) {

@@ -42,7 +42,7 @@ public class FeatureSetGroupReader implements IFeatureSetReader {
 	@Override
 	public Collection<Map<String, Boolean>> readAll() {
 		File groupFolder = new File(directory);
-		Collection<Map<String, Boolean>> products = new LinkedList<Map<String, Boolean>>();
+		Collection<Map<String, Boolean>> products = new LinkedList<>();
 
 		for (File productFolder : groupFolder.listFiles()) {
 			File featureSetFile = findFeatureSetFile(productFolder);
@@ -57,7 +57,7 @@ public class FeatureSetGroupReader implements IFeatureSetReader {
 	}
 
 	private Map<String, Boolean> readFeatureSet(File featureSetFile) {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		if(isOlderVersionFeatureSet(featureSetFile.getName())) {
 			readFeatureSetOld(featureSetFile, featureSet);
 		}
@@ -87,14 +87,11 @@ public class FeatureSetGroupReader implements IFeatureSetReader {
 	}
 
 	private void readFeatureSetOld(File featureSetFile, Map<String, Boolean> featureSet) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(featureSetFile));
+		try (BufferedReader reader = new BufferedReader(new FileReader(featureSetFile));){
 			String line = null;
 			while((line = reader.readLine()) != null){
 				featureSet.put(line, true);
 			}
-			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

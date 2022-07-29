@@ -1,30 +1,19 @@
 package lab.square.spltcoverage.io;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.data.ExecutionDataStore;
-import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
-import lab.square.spltcoverage.model.TestCaseCoverage;
-import lab.square.spltcoverage.model.TestMethodCoverage;
 
 /**
  * The CoverageReader class is the class reading the product coverages.
@@ -33,7 +22,7 @@ import lab.square.spltcoverage.model.TestMethodCoverage;
  */
 public class SplCoverageReader {
 
-	public final static String FEATURESET_FILENAME = "featureset.txt";
+	public static final String FEATURESET_FILENAME = "featureset.txt";
 
 	private String execFilesPath;
 	private String classPath;
@@ -135,13 +124,12 @@ public class SplCoverageReader {
 		execFileLoader.load(testMethodCoverageFile);
 
 		final ExecutionDataStore execStore = execFileLoader.getExecutionDataStore();
-		final SessionInfoStore sessionStore = execFileLoader.getSessionInfoStore();
 
 		final CoverageBuilder coverageBuilder = new CoverageBuilder();
 		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
 
 		analyzer.analyzeAll(new File(classPath));
 
-		return new HashSet<IClassCoverage>(coverageBuilder.getClasses());
+		return new HashSet<>(coverageBuilder.getClasses());
 	}
 }

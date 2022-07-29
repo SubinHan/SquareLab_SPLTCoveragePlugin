@@ -3,6 +3,7 @@ package lab.square.spltcoverage.core.antenna;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.analysis.ICounter;
@@ -18,6 +19,7 @@ public class AntennaCoverageComparator {
 			coverage = reader.read();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
 		}
 
 		for (IClassCoverage cc : coverage.getClassCoverages()) {
@@ -40,12 +42,7 @@ public class AntennaCoverageComparator {
 
 	private Collection<FeatureLocation> getFeature(String javaSourcePath) {
 		FeatureLocator locator = new FeatureLocator();
-		try {
-			return locator.analyze(javaSourcePath);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return locator.analyze(javaSourcePath);
 	}
 
 	private String findSourceFileInPath(String sourceFileName, String srcPath) {

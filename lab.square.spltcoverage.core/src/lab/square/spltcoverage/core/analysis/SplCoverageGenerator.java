@@ -26,7 +26,7 @@ public class SplCoverageGenerator {
 	public static final String PRODUCT_DIRECTORY_NAME = "product";
 	public static final String FEATURESET_FILE_NAME = "featureset.txt";
 
-	public void generateCoverage(IIterableSpltProvider provider) throws MalformedObjectNameException, IOException {
+	public void generateCoverage(IIterableSpltProvider provider) {
 		int productNum = 0;
 		Class[] targetClasses = provider.getTargetClasses();
 		CoverageGenerator generator = new CoverageGenerator(targetClasses);
@@ -46,12 +46,8 @@ public class SplCoverageGenerator {
 
 	private void mergeProducts(String baseDirectory) {
 		File splFolder = new File(baseDirectory);
-		File[] productExecs = new File[splFolder.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File current, String name) {
-				return new File(current, name).isDirectory();
-			}
-		}).length];
+		FilenameFilter filter = (current, name) -> new File(current, name).isDirectory();
+		File[] productExecs = new File[splFolder.list(filter).length];
 
 		int index = 0;
 		CoverageMerger merger = new CoverageMerger();
@@ -74,21 +70,19 @@ public class SplCoverageGenerator {
 		File featureSet = new File(filePath);
 		try {
 			Files.createDirectories(Paths.get(featureSet.getParent()));
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		try {
+		try (BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet))) {
 			// write file containing the current featureSet in the product folder.
-			BufferedWriter localFile = new BufferedWriter(new FileWriter(featureSet));
 			localFile.write(content);
-			localFile.close();
 		} catch (Exception e) {
-			;
+			e.printStackTrace();
 		}
 	}
 	
-	public void generateCoverage(String outputPath, ISpltProvider provider) throws MalformedObjectNameException, IOException {
-		Collection<String> productPaths = new ArrayList<String>();
+	public void generateCoverage(String outputPath, ISpltProvider provider) {
+		Collection<String> productPaths = new ArrayList<>();
 		
 		for(int i = 0; i < provider.getNumProducts(); i++) {
 			ProductSourceInfo info = provider.getProductInfo(i);
@@ -121,12 +115,8 @@ public class SplCoverageGenerator {
 	public static File mergeExecs(String productDirectory) {
 		File mergedExec = null;
 		File productFolder = new File(productDirectory);
-		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File current, String name) {
-				return new File(current, name).isDirectory();
-			}
-		}).length];
+		FilenameFilter filter = (current, name) -> new File(current, name).isDirectory();
+		File[] testCaseExecs = new File[productFolder.list(filter).length];
 
 		int index = 0;
 		CoverageMerger merger = new CoverageMerger();

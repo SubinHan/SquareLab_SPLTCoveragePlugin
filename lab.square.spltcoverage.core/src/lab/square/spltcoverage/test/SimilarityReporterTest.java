@@ -11,10 +11,6 @@ import lab.square.spltcoverage.report.MarkdownSimilarityReporter;
 
 public class SimilarityReporterTest {
 	
-	@Before
-	public void setUp() {
-		
-	}
 	
 	@Test
 	public void testReport() {

@@ -15,7 +15,7 @@ public class MarkdownTableBuilder {
 	
 	public MarkdownTableBuilder addHeader(String... headers) {
 		if(headers.length != column) {
-			// throws exception;
+			// TODO: throws exception;
 			;
 		}
 		
@@ -27,7 +27,7 @@ public class MarkdownTableBuilder {
 		content.append(System.lineSeparator());
 		
 		content.append(SEPARATOR);
-		for(String header : headers) {
+		for(int i = 0; i < headers.length; i++) {
 			content.append(TABLE_DIIVDER);
 			content.append(SEPARATOR);
 		}
@@ -38,7 +38,7 @@ public class MarkdownTableBuilder {
 	
 	public MarkdownTableBuilder addRow(String... columns) {
 		if(columns.length != column) {
-			// throws exception;
+			// TODO: throws exception;
 			;
 		}
 		

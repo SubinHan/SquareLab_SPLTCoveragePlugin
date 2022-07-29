@@ -2,6 +2,7 @@ package lab.square.spltcoverage.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -21,8 +22,8 @@ public class SplCoverage implements ICoverageModelComposite {
 	 */
 	public SplCoverage(String name) {
 		this.name = name;
-		classCoverages = new ArrayList<IClassCoverage>();
-		productCoverages = new ArrayList<ICoverageModelComponent>();
+		classCoverages = new ArrayList<>();
+		productCoverages = new ArrayList<>();
 	}
 	
 	/**
@@ -65,17 +66,17 @@ public class SplCoverage implements ICoverageModelComposite {
 	 * @return					The collection of the duplicated products included given target product.
 	 */
 	public Collection<ProductCoverage> getDuplicatedProducts(ProductCoverage targetProduct) {
-		HashSet<ProductCoverage> toCheck = new HashSet<ProductCoverage>();
-		ArrayList<ProductCoverage> toReturn = new ArrayList<ProductCoverage>();
+		HashSet<ProductCoverage> toCheck = new HashSet<>();
+		ArrayList<ProductCoverage> toReturn = new ArrayList<>();
 		toCheck.add(targetProduct);
 		
 		for(ICoverageModelComponent pc : productCoverages) {
-			if(toCheck.contains((ProductCoverage)pc))
+			if(toCheck.contains(pc))
 				toReturn.add((ProductCoverage)pc);
 		}
 		
 		if(toReturn.size() == 1)
-			return null;
+			return Collections.emptyList();
 		
 		return toReturn;
 	}
@@ -105,7 +106,7 @@ public class SplCoverage implements ICoverageModelComposite {
 
 	@Override
 	public Class[] getTargetClasses() {
-		return null;
+		return new Class[] {};
 	}
 
 	@Override

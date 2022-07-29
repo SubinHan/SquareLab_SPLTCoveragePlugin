@@ -15,9 +15,9 @@ public class ProductNode {
 	private int level;
 	
 	public ProductNode() {
-		this.parents = new HashSet<ProductNode>();
-		this.children = new HashSet<ProductNode>();
-		this.featureSet = new HashMap<String, Boolean>();
+		this.parents = new HashSet<>();
+		this.children = new HashSet<>();
+		this.featureSet = new HashMap<>();
 	}
 	
 	public ProductNode(Map<String, Boolean> featureSet) {
@@ -67,8 +67,6 @@ public class ProductNode {
 	}
 	
 	public boolean isCoveredMoreThanParent() {
-		double different = 0;
-		
 		if(this.parents == null)
 			return false;
 		if(this.parents.isEmpty())

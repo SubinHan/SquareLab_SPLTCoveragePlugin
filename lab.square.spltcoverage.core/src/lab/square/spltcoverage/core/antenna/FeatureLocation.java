@@ -57,7 +57,7 @@ public class FeatureLocation {
 	}
 	
 	public static boolean isFeatureLocationOf(String feature, String expression) {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		featureSet.put(feature, true);
 		return isFeatureLocationOf(featureSet, expression);
 	}
@@ -91,7 +91,7 @@ public class FeatureLocation {
 	}
 
 	public static Stack<String> calculateFeatureExpressionOfLine(Collection<FeatureLocation> featureLocations, int lineNumber) {
-		List<Stack<String>> featureExpressions = new ArrayList<Stack<String>>();
+		List<Stack<String>> featureExpressions = new ArrayList<>();
 		
 		for(FeatureLocation fl : featureLocations) {
 			if(fl.getLineStart() <= lineNumber && lineNumber <= fl.getLineEnd())

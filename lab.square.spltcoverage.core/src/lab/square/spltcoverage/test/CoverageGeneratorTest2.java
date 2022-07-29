@@ -28,113 +28,103 @@ import lab.square.spltcoverage.utils.Tools;
 public class CoverageGeneratorTest2 {
 
 	private static final int PRODUCT_COUNT = 5;
-	private static final int TESTCLASS_COUNT= 2;
+	private static final int TESTCLASS_COUNT = 2;
 	private static final int A_TESTMETHOD_COUNT = 3;
 	private static final int B_TESTMETHOD_COUNT = 5;
-	
+
 	private IIterableSpltProvider provider;
-	
+
 	@Before
-	public void setUp() {		
+	public void setUp() {
 		this.provider = new TestSpltProvider();
-		
+
 		deleteOutputDirectory(new File(provider.getBaseDirectory()));
 	}
-	
+
 	private void deleteOutputDirectory(File dir) {
-		if(dir.exists())
+		if (dir.exists())
 			try {
 				Tools.deleteDirectoryRecursively(dir);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 	}
-	
+
 	@Test
 	public void testCoverageGenerator() {
 		SplCoverageGenerator generator = new SplCoverageGenerator();
-		try {
-			generator.generateCoverage(provider);
-		} catch (MalformedObjectNameException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		
+		generator.generateCoverage(provider);
+
 		File base = new File(provider.getBaseDirectory());
 		assertTrue(base.exists());
-		
+
 		verifyProducts(base);
 	}
 
 	private void verifyProducts(File base) {
 		int productCount = 0;
-		for(File product : base.listFiles()) {
-			if(product.isDirectory()) {
+		for (File product : base.listFiles()) {
+			if (product.isDirectory()) {
 				productCount++;
 				verifyTestClasses(product);
-			}
-			else {
+			} else {
 				;
 			}
 		}
-		
+
 		assertTrue(productCount == PRODUCT_COUNT);
 	}
 
 	private void verifyTestClasses(File product) {
 		int classCount = 0;
-		for(File klass : product.listFiles()) {
-			if(klass.isDirectory()) {
+		for (File klass : product.listFiles()) {
+			if (klass.isDirectory()) {
 				classCount++;
 				verifyTestMethods(klass);
-			}
-			else if(klass.getName().equalsIgnoreCase("featureset.txt")) {
+			} else if (klass.getName().equalsIgnoreCase("featureset.txt")) {
 				;
-			}
-			else {
+			} else {
 				;
 			}
 		}
-		
+
 		assertTrue(classCount == TESTCLASS_COUNT);
 	}
 
 	private void verifyTestMethods(File klass) {
-		
-		if(klass.getName().equalsIgnoreCase("ClassATest"))
+
+		if (klass.getName().equalsIgnoreCase("ClassATest"))
 			verifyTestMethodsA(klass);
-		
-		if(klass.getName().equalsIgnoreCase("ClassBTest"))
+
+		if (klass.getName().equalsIgnoreCase("ClassBTest"))
 			verifyTestMethodsB(klass);
 	}
 
 	private void verifyTestMethodsA(File klass) {
 		int methodCount = 0;
-		
-		for(File method : klass.listFiles()) {
-			if(method.getName().endsWith(CoverageGenerator.SUFFIX_MERGED)) {
+
+		for (File method : klass.listFiles()) {
+			if (method.getName().endsWith(CoverageGenerator.SUFFIX_MERGED)) {
 				;
-			}
-			else {
+			} else {
 				methodCount++;
 			}
 		}
-		
+
 		assertTrue(methodCount == A_TESTMETHOD_COUNT);
 	}
-	
+
 	private void verifyTestMethodsB(File klass) {
 		int methodCount = 0;
-		
-		for(File method : klass.listFiles()) {
-			if(method.getName().endsWith(CoverageGenerator.SUFFIX_MERGED)) {
+
+		for (File method : klass.listFiles()) {
+			if (method.getName().endsWith(CoverageGenerator.SUFFIX_MERGED)) {
 				;
-			}
-			else {
+			} else {
 				methodCount++;
 			}
 		}
-		
+
 		assertTrue(methodCount == B_TESTMETHOD_COUNT);
 	}
 }

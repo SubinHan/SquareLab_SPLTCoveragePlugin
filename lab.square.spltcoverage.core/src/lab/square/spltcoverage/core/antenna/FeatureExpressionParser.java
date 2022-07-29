@@ -10,9 +10,11 @@ import lab.square.spltcoverage.core.antenna.model.ExpressionNode;
 import lab.square.spltcoverage.core.antenna.model.FeatureNode;
 import lab.square.spltcoverage.core.antenna.model.NotNode;
 import lab.square.spltcoverage.core.antenna.model.OrNode;
-import lab.square.spltcoverage.utils.Tools;
 
-public class FeatureExpressionParser {
+public final class FeatureExpressionParser {
+	
+	private FeatureExpressionParser() {
+	}
 
 	public static ExpressionNode parseByExpressionStack(Stack<String> featureExpressions) {
 		String featureExpression = FeatureLocation.expressionToString(featureExpressions);
@@ -27,7 +29,7 @@ public class FeatureExpressionParser {
 		return result;
 	}
 
-	public static ExpressionNode parseByTokens(String... tokens) throws Exception {
+	public static ExpressionNode parseByTokens(String... tokens) {
 		String[] postfix = shuntingYard(tokens);
 		return parseExp0(postfix, new WrapInt(postfix.length-1));
 	}

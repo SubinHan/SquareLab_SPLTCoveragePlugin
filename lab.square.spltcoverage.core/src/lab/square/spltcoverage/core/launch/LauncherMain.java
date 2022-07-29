@@ -1,11 +1,8 @@
 package lab.square.spltcoverage.core.launch;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-
-import javax.management.MalformedObjectNameException;
-
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IProductProvider;
 
@@ -49,14 +46,8 @@ public class LauncherMain {
 	}
 
 	private static Collection<String> convertToCollection(String args) {
-		String[] splitted = args.split(";");
-		Collection<String> result = new ArrayList<String>();
-		
-		for(int i = 0; i < splitted.length; i++) {
-			result.add(splitted[i]);
-		}
-		
-		return result;
+		String[] splitted = args.split(";");		
+		return Arrays.asList(splitted);
 	}
 
 }

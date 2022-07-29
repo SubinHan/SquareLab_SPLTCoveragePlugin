@@ -22,8 +22,8 @@ public class TestCaseCoverage implements ICoverageModelComposite {
 	 * @param testCaseName
 	 */
 	public TestCaseCoverage(String testCaseName) {
-		testMethodCoverages = new HashSet<ICoverageModelComponent>();
-		classCoverages = new HashSet<IClassCoverage>();
+		testMethodCoverages = new HashSet<>();
+		classCoverages = new HashSet<>();
 		this.testCaseName = testCaseName;
 	}
 	

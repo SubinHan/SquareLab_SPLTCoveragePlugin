@@ -8,20 +8,25 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 
-public class CoverageGeneratorLauncher {
+public final class CoverageGeneratorLauncher {
+	
+	private CoverageGeneratorLauncher() {
+		
+	}
 
 	public static void launch(String classpath, Collection<String> testPath, String outputPath)
-			throws IOException, InterruptedException {
+			throws IOException {
 		String separator = System.getProperty("file.separator");
 		String cp = System.getProperty("java.class.path");
-		String java_home = System.getProperty("java.home");
-		String path = java_home + separator + "bin" + separator + "java";
+		String javaHome = System.getProperty("java.home");
+		String path = javaHome + separator + "bin" + separator + "java";
 		URL res = CoverageGeneratorLauncher.class.getClassLoader().getResource("jacocoagent.jar");
 		File jacocoFile = null;
 		try {
 			jacocoFile = new File(res.toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
+			return;
 		}
 		String jacocoPath = jacocoFile.getPath();
 		String javaagent = "-javaagent:" + jacocoPath + "=jmx=true";
@@ -60,12 +65,13 @@ public class CoverageGeneratorLauncher {
 	}
 
 	private static String convertToSingleLine(Collection<String> testPath) {
-		String result = "";
+		StringBuilder builder = new StringBuilder();
+		
 		for (String tp : testPath) {
-			result += tp;
-			result += ";";
+			builder.append(tp);
+			builder.append(";");
 		}
 
-		return result;
+		return builder.toString();
 	}
 }

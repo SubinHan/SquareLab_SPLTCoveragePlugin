@@ -11,10 +11,10 @@ public class FeatureGraph {
 	private Collection<FeatureGraph> or;
 	
 	public FeatureGraph() {
-		mandatory = new HashSet<FeatureGraph>();
-		optional = new HashSet<FeatureGraph>();
-		alter = new HashSet<FeatureGraph>();
-		or = new HashSet<FeatureGraph>();
+		mandatory = new HashSet<>();
+		optional = new HashSet<>();
+		alter = new HashSet<>();
+		or = new HashSet<>();
 	}
 	
 	public FeatureGraph(FeatureGraph parent) {

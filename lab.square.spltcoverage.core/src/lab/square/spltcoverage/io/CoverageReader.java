@@ -2,10 +2,10 @@ package lab.square.spltcoverage.io;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,7 +14,6 @@ import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.data.ExecutionDataStore;
-import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
@@ -78,8 +77,6 @@ public class CoverageReader {
 			}
 			productCoverage.addChild(testCaseCoverage);
 		}
-		
-		return;
 	}
 	
 	private Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
@@ -88,33 +85,34 @@ public class CoverageReader {
 		execFileLoader.load(testMethodCoverageFile);
 
 		final ExecutionDataStore execStore = execFileLoader.getExecutionDataStore();
-		final SessionInfoStore sessionStore = execFileLoader.getSessionInfoStore();
 
 		final CoverageBuilder coverageBuilder = new CoverageBuilder();
 		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
 
 		analyzer.analyzeAll(new File(classPath));
 
-		return new HashSet<IClassCoverage>(coverageBuilder.getClasses());
+		return new HashSet<>(coverageBuilder.getClasses());
 	}
 	
-	public static Map<String, Boolean> findFeatureSet(File... files) throws FileNotFoundException, IOException {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+	public static Map<String, Boolean> findFeatureSet(File... files) {
+		Map<String, Boolean> featureSet = new HashMap<>();
 
 		for (File file : files) {
-			final String testCaseName = file.getName();
 			if (file.getName().equalsIgnoreCase(SplCoverageGenerator.FEATURESET_FILE_NAME)) {
-
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				featureSet = makeMap(br.readLine());
+				try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)){
+					String content = br.readLine();
+					featureSet = makeMap(content);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return Collections.emptyMap();
+				}
 			}
 		}
 		return featureSet;
 	}
 
 	public static Map<String, Boolean> makeMap(String given) {
-		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		Map<String, Boolean> map = new HashMap<>();
 		
 		given = given.replace("{", "");
 		given = given.replace("}", "");
@@ -128,7 +126,7 @@ public class CoverageReader {
 			String key = splitted[0].trim();
 			String value = splitted[1].trim();
 
-			map.put(key, value.equals("true") ? true : false);
+			map.put(key, value.equals("true"));
 		}
 		
 		return map;

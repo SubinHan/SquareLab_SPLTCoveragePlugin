@@ -14,13 +14,8 @@ import lab.square.spltcoverage.core.antenna.model.ExpressionNode;
 public class FeatureExpressionParserTest {
 	
 	@Test
-	public void print() {
-		
-	}
-	
-	@Test
 	public void testAnd() {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		
 		featureSet.put("CallButtons", false);
 		featureSet.put("DirectedCall", false);		
@@ -41,7 +36,7 @@ public class FeatureExpressionParserTest {
 	
 	@Test
 	public void testOr() {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		
 		featureSet.put("CallButtons", false);
 		featureSet.put("DirectedCall", false);		
@@ -62,7 +57,7 @@ public class FeatureExpressionParserTest {
 	
 	@Test
 	public void testNot() {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		
 		featureSet.put("CallButtons", false);
 		assertTrue(FeatureExpressionParser.evaluate("!CallButtons", featureSet));
@@ -73,7 +68,7 @@ public class FeatureExpressionParserTest {
 	
 	@Test
 	public void testWeired() {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		
 		featureSet.put("CallButtons", true);
 		featureSet.put("DirectedCall", true);		
@@ -86,7 +81,7 @@ public class FeatureExpressionParserTest {
 	
 	@Test
 	public void testComplex() {
-		Map<String, Boolean> featureSet = new HashMap<String, Boolean>();
+		Map<String, Boolean> featureSet = new HashMap<>();
 		
 		featureSet.put("CallButtons", true);
 		featureSet.put("DirectedCall", false);
@@ -100,7 +95,7 @@ public class FeatureExpressionParserTest {
 		featureSet.put("DirectedCall", false);
 		featureSet.put("Sabbath", true);
 		featureSet.put("Replace", true);
-		featureSet.put("Another", true);;
+		featureSet.put("Another", true);
 		featureSet.put("Other", false);
 		assertFalse(FeatureExpressionParser.evaluate("(!(CallButtons&DirectedCall)&Sabbath|(Replace|Another))&Other", featureSet));
 		

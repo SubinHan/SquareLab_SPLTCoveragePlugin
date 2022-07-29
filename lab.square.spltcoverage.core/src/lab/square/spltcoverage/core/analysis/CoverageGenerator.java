@@ -18,6 +18,7 @@ import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.data.ExecutionDataReader;
 import org.jacoco.core.data.ExecutionDataStore;
+import org.jacoco.core.data.IncompatibleExecDataVersionException;
 import org.jacoco.core.data.SessionInfoStore;
 import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
@@ -31,7 +32,6 @@ public class CoverageGenerator {
 
 	private final static Logger LOG = Logger.getGlobal();
 
-	private static final String DESTFILE = "mydata.exec";
 	public static final String SUFFIX_MERGED = "__merged__.exec";
 
 	private Class[] targetClasses;
@@ -48,12 +48,12 @@ public class CoverageGenerator {
 		this.jacocoConnection = JacocoConnection.getInstance();
 	}
 
-	public CoverageGenerator(Class... targetClasses) throws MalformedObjectNameException, IOException {
+	public CoverageGenerator(Class... targetClasses) {
 		this();
 		this.targetClasses = targetClasses;
 	}
 
-	public CoverageResult analyze() throws Exception {
+	public CoverageResult analyze() throws IncompatibleExecDataVersionException, IOException {
 
 		System.out.println("Version: " + jacocoConnection.getVersion());
 		System.out.println("Session: " + jacocoConnection.getSessionId());
@@ -75,8 +75,7 @@ public class CoverageGenerator {
 			analyzer.analyzeClass(getTargetClass(targetName), targetName);
 		}
 
-		final CoverageResult result = new CoverageResult(analyzer, coverageBuilder);
-		return result;
+		return new CoverageResult(analyzer, coverageBuilder);
 	}
 
 	private InputStream getTargetClass(final String name) {
@@ -86,7 +85,7 @@ public class CoverageGenerator {
 		return getClass().getResourceAsStream(resource);
 	}
 
-	public void resetData() throws IOException, MalformedObjectNameException {
+	public void resetData() {
 		jacocoConnection.resetData();
 	}
 
@@ -96,7 +95,7 @@ public class CoverageGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		runTestInPath(provider.getClasspath(), provider.getTestClassPaths(), provider);
 		mergeExecs(provider.getOutputPath());
 	}
@@ -142,12 +141,8 @@ public class CoverageGenerator {
 
 	private void mergeExecs(String productDirectory) {
 		File productFolder = new File(productDirectory);
-		File[] testCaseExecs = new File[productFolder.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File current, String name) {
-				return new File(current, name).isDirectory();
-			}
-		}).length];
+		final FilenameFilter filter = (current, name) ->  new File(current, name).isDirectory();
+		File[] testCaseExecs = new File[productFolder.list(filter).length];
 
 		int index = 0;
 		CoverageMerger merger = new CoverageMerger();
@@ -178,6 +173,7 @@ public class CoverageGenerator {
 
 		@Override
 		public void testStarted(Description description) throws Exception {
+			// Do nothing when the test started.
 		}
 
 		@Override

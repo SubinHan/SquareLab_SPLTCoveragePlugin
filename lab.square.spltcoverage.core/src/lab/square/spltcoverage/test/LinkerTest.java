@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jacoco.core.analysis.IClassCoverage;
 import org.junit.Before;
@@ -13,8 +14,8 @@ import org.junit.Before;
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.SplCoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
-import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.ProductNode;
+import lab.square.spltcoverage.model.SplCoverage;
 
 /*
  * Test 시: core의 plugin.xml dependency -> org.jacoco (0.8.6) 이어야 함.
@@ -25,7 +26,6 @@ public class LinkerTest {
 	private Collection<ProductNode> visited;
 	private int count = 0;
 	private int notEnough = 0;
-	private final double criteria = .5f;
 
 	@Before
 	public void setUp() {
@@ -339,9 +339,9 @@ public class LinkerTest {
 
 	private void printFeatures(ProductCoverage pc) {
 		Map<String, Boolean> featureSet = pc.getFeatureSet();
-		for (String key : featureSet.keySet()) {
-			if (featureSet.get(key))
-				System.out.print(key + " ");
+		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
+			if (entry.getValue())
+				System.out.print(entry.getKey() + " ");
 		}
 		System.out.println();
 	}

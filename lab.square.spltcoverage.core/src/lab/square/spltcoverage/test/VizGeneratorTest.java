@@ -78,7 +78,7 @@ public class VizGeneratorTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void testGeneratorMinepump() {
 		String directory;
 		String classDirectory;
@@ -88,7 +88,7 @@ public class VizGeneratorTest {
 		generateViz(directory, classDirectory);
 	}
 	
-	@Test
+	//@Test
 	public void testGeneratorMinepump2() {
 		String directory;
 		directory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\MinePump\\products";

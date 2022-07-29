@@ -3,11 +3,14 @@ package lab.square.spltcoverage.report;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lab.square.similaritymeasure.core.ISimilarityMeasurer;
 import lab.square.similaritymeasure.core.Jaccard;
@@ -27,18 +30,14 @@ public class MarkdownSimilarityReporter {
 		builder = buildHeader(builder);
 		builder = buildContents(builder);
 		
-		FileWriter writer;
-
 		directory = directory.replace('\\', '/');
 		if(!(directory.endsWith("/")))
 			directory = directory.concat("/");
 		
-		try {
-			makeDirectory(directory);
-			writer = new FileWriter(new File(directory + fileName + ".md"));
+		try (FileWriter writer = new FileWriter(new File(directory + fileName + ".md"))){
+			Files.createDirectories(Paths.get(directory));
 			writer.write(builder.build());
 			writer.flush();
-			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,10 +45,10 @@ public class MarkdownSimilarityReporter {
 	
 	private void makeDirectory(String directory) {
 		String[] splitted = directory.split("/");
-		String checkDirectory = "";
+		StringBuilder checkDirectory = new StringBuilder();
 		for (int i = 0; i < splitted.length; i++) {
-			checkDirectory = checkDirectory + splitted[i] + "/";
-			File file = new File(checkDirectory);
+			checkDirectory.append(splitted[i]).append("/");
+			File file = new File(checkDirectory.toString());
 			if (!file.exists())
 				file.mkdir();
 		}
@@ -98,16 +97,16 @@ public class MarkdownSimilarityReporter {
 	private String toLightString(Map<String, Boolean> product) {
 		StringBuilder builder = new StringBuilder();
 		
-		for(String key : product.keySet()) {
-			if(product.get(key)) {
-				builder.append(key + " ");
+		for(Entry<String, Boolean> entry : product.entrySet()) {
+			if(entry.getValue()) {
+				builder.append(entry.getKey() + " ");
 			}
 		}
 		return builder.toString();
 	}
 
 	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
-		List<String> existsFeatures = new ArrayList<String>();
+		List<String> existsFeatures = new ArrayList<>();
 		
 		for(Map<String, Boolean> product : products) {
 			for(String key : product.keySet()) {
@@ -121,7 +120,7 @@ public class MarkdownSimilarityReporter {
 	
 	private List<VectorAdapter> adaptVectors() {
 		List<String> existsFeatures = getExistsFeatures(products);
-		List<VectorAdapter> vectors = new LinkedList<VectorAdapter>();
+		List<VectorAdapter> vectors = new LinkedList<>();
 		for(Map<String, Boolean> product : products) {
 			VectorAdapter adapter = new VectorAdapter(existsFeatures, product);
 			vectors.add(adapter);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
@@ -16,9 +17,9 @@ public class ProductGraphAnalyzer {
 
 	public ProductGraphAnalyzer(Collection<ProductNode> heads) {
 		this.heads = heads;
-		this.problemProducts = new ArrayList<ProductNode>();
-		this.visited = new ArrayList<ProductNode>();
-		this.problemFeatures = new ArrayList<Collection<String>>();
+		this.problemProducts = new ArrayList<>();
+		this.visited = new ArrayList<>();
+		this.problemFeatures = new ArrayList<>();
 		init();
 	}
 
@@ -61,13 +62,11 @@ public class ProductGraphAnalyzer {
 	}
 
 	protected Collection<String> calculateDifference(Map<String, Boolean> smaller, Map<String, Boolean> bigger) {
-		HashSet<String> toReturn = new HashSet<String>();
+		HashSet<String> toReturn = new HashSet<>();
 
-		for (String key : smaller.keySet()) {
-			if (!smaller.get(key)) {
-				if (bigger.get(key)) {
-					toReturn.add(key);
-				}
+		for (Entry<String, Boolean> entry : smaller.entrySet()) {
+			if (!entry.getValue() && bigger.get(entry.getKey())) {
+				toReturn.add(entry.getKey());
 			}
 		}
 		return toReturn;

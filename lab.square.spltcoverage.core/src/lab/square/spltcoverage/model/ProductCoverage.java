@@ -27,8 +27,8 @@ public class ProductCoverage implements ICoverageModelComposite {
 	
 	public ProductCoverage(Map<String, Boolean> featureSet, String name) {
 		this.featureSet = featureSet;
-		this.testCaseCoverages = new HashSet<ICoverageModelComponent>();
-		this.classCoverages = new HashSet<IClassCoverage>();
+		this.testCaseCoverages = new HashSet<>();
+		this.classCoverages = new HashSet<>();
 		this.productName = name;
 	}
 	

@@ -6,22 +6,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-public class Tools {
+public final class Tools {
+	
+	private Tools() {
+	}
 
 	public static boolean featureSetEquals(Map<String, Boolean> f1, Map<String, Boolean> f2) {
-		for (String key : f1.keySet()) {
-			if (!equals(f1.get(key), f2.get(key)))
+		for (Entry<String, Boolean> entry : f1.entrySet()) {
+			if (!equals(entry.getValue(), f2.get(entry.getKey())))
 				return false;
 		}
-		for (String key : f2.keySet()) {
-			if (!equals(f1.get(key), f2.get(key)))
+		for (Entry<String, Boolean> entry : f2.entrySet()) {
+			if (!equals(f1.get(entry.getKey()), entry.getValue()))
 				return false;
 		}
 		return true;
@@ -49,10 +51,8 @@ public class Tools {
 	public static List<String> getSourceByLine(File file) {
 		List<String> result = new ArrayList<>();
 
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
-
-			String line;
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String line = "";
 			while ((line = br.readLine()) != null) {
 				result.add(line);
 			}
@@ -76,6 +76,7 @@ public class Tools {
 			for (File c : f.listFiles())
 				deleteDirectoryRecursively(c);
 		}
+		
 		if (!f.delete())
 			throw new FileNotFoundException("Failed to delete file: " + f);
 	}
