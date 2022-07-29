@@ -61,8 +61,9 @@ public final class CoverageGeneratorLauncher {
 		Process process = processBuilder.start();
 		BufferedReader read = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		String line;
+		logger.info("error msg from the launcher: ");
 		while ((line = read.readLine()) != null) {
-			logger.severe("error msg from the Launcher: " + line);
+			logger.severe(line);
 		}
 
 	}
