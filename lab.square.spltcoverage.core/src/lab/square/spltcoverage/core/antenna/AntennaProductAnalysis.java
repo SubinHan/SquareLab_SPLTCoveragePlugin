@@ -118,7 +118,7 @@ public class AntennaProductAnalysis {
 		className = Tools.convertClassNameByConvention(className);
 
 		if (!fcs.containsKey(className))
-			return new ArrayList<FeatureCoverage>();
+			return new ArrayList<>();
 
 		return fcs.get(className);
 	}
