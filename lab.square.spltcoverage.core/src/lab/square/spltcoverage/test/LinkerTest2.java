@@ -30,7 +30,7 @@ public class LinkerTest2 {
 
 	@Before
 	public void setUp() {
-		visited = new ArrayList<ProductNode>();
+		visited = new ArrayList<>();
 		expected = new ArrayList<>();
 		
 		Map<String, Boolean> featureSet1 = new HashMap<>();
@@ -82,7 +82,6 @@ public class LinkerTest2 {
 		if (visited.contains(graph))
 			return;
 		visited.add(graph);
-		double ratioSum = 0;
 		System.out.println("//============================//");
 		System.out.println("Level: " + graph.getLevel());
 		System.out.println("Feature Set:");
