@@ -5,11 +5,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
 
 public class ProductGraphAnalyzer {
+	
+	private static final Logger logger = Logger.getLogger(ProductGraphAnalyzer.class.getName());
+	
 	Collection<ProductNode> heads;
 	Collection<ProductNode> problemProducts;
 	Collection<ProductNode> visited;
@@ -35,7 +39,7 @@ public class ProductGraphAnalyzer {
 				if (visited.contains(graph))
 					return;
 				visited.add(graph);
-				System.out.println("Graph visited: " + graph.getFeatureSet());
+				logger.info("Graph visited: " + graph.getFeatureSet());
 
 				ProductCoverage pc = graph.getProductCoverage();
 				for (ProductNode parent : graph.getParents()) {

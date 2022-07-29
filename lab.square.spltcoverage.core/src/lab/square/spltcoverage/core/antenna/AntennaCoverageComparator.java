@@ -3,6 +3,7 @@ package lab.square.spltcoverage.core.antenna;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.analysis.ICounter;
@@ -11,6 +12,9 @@ import lab.square.spltcoverage.io.CoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 
 public class AntennaCoverageComparator {
+
+	static final Logger logger = Logger.getLogger(AntennaCoverageComparator.class.getName());
+	
 	public void printResult(String productCoveragePath, String classpath, String srcPath) {
 		CoverageReader reader = new CoverageReader(productCoveragePath, classpath);
 		ProductCoverage coverage = null;
@@ -27,15 +31,15 @@ public class AntennaCoverageComparator {
 	}
 
 	private void printStatus(IClassCoverage cc, String srcPath) {
-		System.out.println("===========" + cc.getName() + "==========");
+		logger.info("===========" + cc.getName() + "==========");
 		String path = findSourceFileInPath(cc.getSourceFileName(), srcPath);
 		if(path == null)
 			return;
 		Collection<FeatureLocation> featureLocations = getFeature(path);
 		
 		for (int i = cc.getFirstLine(); i <= cc.getLastLine(); i++) {
-			System.out.print("Line " + i + " " + getColor(cc.getLine(i).getStatus()) + ", " + FeatureLocation.calculateFeatureExpressionOfLine(featureLocations, i));
-			System.out.println();
+			String lineInfo = "Line " + i + " " + getColor(cc.getLine(i).getStatus()) + ", " + FeatureLocation.calculateFeatureExpressionOfLine(featureLocations, i);
+			logger.info(lineInfo);
 		}
 	}
 

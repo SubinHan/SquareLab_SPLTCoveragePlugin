@@ -25,12 +25,13 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
+import lab.square.spltcoverage.core.antenna.AntennaCoverageComparator;
 import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.CoverageResult;
 
 public class CoverageGenerator {
-
-	private static final Logger LOG = Logger.getGlobal();
+	
+	static final Logger logger = Logger.getLogger(CoverageGenerator.class.getName());
 
 	public static final String SUFFIX_MERGED = "__merged__.exec";
 
@@ -55,8 +56,8 @@ public class CoverageGenerator {
 
 	public CoverageResult analyze() throws IncompatibleExecDataVersionException, IOException {
 
-		System.out.println("Version: " + jacocoConnection.getVersion());
-		System.out.println("Session: " + jacocoConnection.getSessionId());
+		logger.info("Version: " + jacocoConnection.getVersion());
+		logger.info("Session: " + jacocoConnection.getSessionId());
 
 		final ExecutionDataStore execStore = new ExecutionDataStore();
 		final SessionInfoStore sessionStore = new SessionInfoStore();
@@ -129,7 +130,7 @@ public class CoverageGenerator {
 	private Class loadClassByPath(String binPath, String name) {
 		Class klass = null;
 
-		LOG.info("loading Classes by path: binPath=" + binPath + " className=" + name);
+		logger.info("loading Classes by path: binPath=" + binPath + " className=" + name);
 		try (URLClassLoader loader = URLClassLoader.newInstance(new URL[] { new File(binPath).toURI().toURL() });) {
 			klass = loader.loadClass(name);
 		} catch (ClassNotFoundException | IOException e) {
@@ -164,7 +165,7 @@ public class CoverageGenerator {
 		}
 	}
 
-	private class TestListener extends RunListener {
+	private class TestListener extends RunListener {		
 		IProductProvider provider;
 
 		public TestListener(IProductProvider provider) {
@@ -178,9 +179,7 @@ public class CoverageGenerator {
 
 		@Override
 		public void testFinished(Description description) throws Exception {
-			System.out.println(description.getTestClass().getSimpleName());
-			System.out.println(description.getMethodName());
-			System.out.println("//==============finished===========//");
+			logger.info(description.getTestClass().getSimpleName() + "." + description.getMethodName() + " finished.");
 
 			String testCaseDirectory;
 			String testMethodDirectory;
@@ -195,9 +194,9 @@ public class CoverageGenerator {
 
 		@Override
 		public void testFailure(Failure failure) throws Exception {
-			System.out.println(failure.getTestHeader());
-			System.out.println(failure.getTrace());
-			System.out.println(failure.getMessage());
+			logger.severe("Test Failed: " + failure.getTestHeader());
+			logger.severe(failure.getTrace());
+			logger.severe(failure.getMessage());
 		}
 	}
 

@@ -7,8 +7,11 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public final class CoverageGeneratorLauncher {
+	
+	private static final Logger logger = Logger.getLogger(CoverageGeneratorLauncher.class.getName());
 	
 	private CoverageGeneratorLauncher() {
 		
@@ -45,9 +48,9 @@ public final class CoverageGeneratorLauncher {
 			return;
 		}
 
-		System.out.println(separator);
-		System.out.println(cp);
-		System.out.println(path);
+		logger.info("Separator is: " + separator);
+		logger.info("Classpath is: " + cp);
+		logger.info("Bin path is: " + path);
 
 		String convertedTestPath = convertToSingleLine(testPath);
 
@@ -59,7 +62,7 @@ public final class CoverageGeneratorLauncher {
 		BufferedReader read = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		String line;
 		while ((line = read.readLine()) != null) {
-			System.out.println("launcher: " + line);
+			logger.severe("error msg from the Launcher: " + line);
 		}
 
 	}

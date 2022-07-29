@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import javax.management.MalformedObjectNameException;
 
@@ -21,6 +22,8 @@ import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 
 public class SplCoverageGenerator {
+	
+	private static final Logger logger = Logger.getLogger(SplCoverageGenerator.class.getName());
 	
 	public static final String SUFFIX_MERGED = "__merged__.exec";
 	public static final String PRODUCT_DIRECTORY_NAME = "product";
@@ -157,9 +160,8 @@ public class SplCoverageGenerator {
 
 		@Override
 		public void testFinished(Description description) throws Exception {
-			System.out.println(description.getTestClass().getSimpleName());
-			System.out.println(description.getMethodName());
-			System.out.println("//==============finished===========//");
+			logger.info(description.getTestClass().getSimpleName() + "." + description.getMethodName() + " finished.");
+			
 			String testCaseDirectory;
 			String testMethodDirectory;
 			testCaseDirectory = "/" + description.getTestClass().getSimpleName();
@@ -175,9 +177,9 @@ public class SplCoverageGenerator {
 
 		@Override
 		public void testFailure(Failure failure) throws Exception {
-			System.out.println(failure.getTestHeader());
-			System.out.println(failure.getTrace());
-			System.out.println(failure.getMessage());
+			logger.severe("Test Failed: " + failure.getTestHeader());
+			logger.severe(failure.getTrace());
+			logger.severe(failure.getMessage());
 		}
 	}
 

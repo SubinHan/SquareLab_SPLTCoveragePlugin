@@ -1,8 +1,8 @@
 package lab.square.spltcoverage.core.launch;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IProductProvider;
 
