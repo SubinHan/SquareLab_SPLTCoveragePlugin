@@ -20,11 +20,7 @@ public final class FeatureExpressionParser {
 		String featureExpression = FeatureLocation.expressionToString(featureExpressions);
 		List<String> tokens = FeatureExpressionTokenizer.tokenize(featureExpression);
 		ExpressionNode result = null;
-		try {
-			result = parseByTokens(tokens.toArray(new String[tokens.size()]));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		result = parseByTokens(tokens.toArray(new String[tokens.size()]));
 		
 		return result;
 	}
