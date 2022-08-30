@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import lab.square.spltcoverage.core.antenna.model.AntennaSourceFile;
+
 public class AntennaModelTest {
 
 	boolean[] expectedActivatedLines;
@@ -12,7 +14,7 @@ public class AntennaModelTest {
 	
 	@Before
 	public void setUp() {
-		this.sourceFile = new AntennaSourceFiile("/testResources/AntennaSourceFile/ClassA.java");
+		this.sourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA.java");
 		initExpectedActivatedLines();
 	}
 	
@@ -58,17 +60,17 @@ public class AntennaModelTest {
 
 	@Test
 	public void testCountLine() {
-		assertEquals(sourceFile.getNumberOfLine(), 26);
+		assertEquals(25, sourceFile.getNumberOfLine());
 	}
 	
 	@Test
-	public void testActivated() {
-		for(int i = 1; i <= sourceFile.getNumberOfLine(), i++) {
+	public void testActivated() {		
+		for(int i = 1; i <= sourceFile.getNumberOfLine(); i++) {
 			assertEquals(expectedActivatedLines[i-1], isActivated(i));
 		}
 	}
 	
 	private boolean isActivated(int lineNumber) {
-		return sourceFile.isActivated(lineNumber);
+		return sourceFile.isActivatedAt(lineNumber);
 	}
 }

@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Stack;
 import java.util.logging.Logger;
 
+import lab.square.spltcoverage.core.antenna.model.AntennaLineType;
+
 public class FeatureLocator {
 
 	static final Logger logger = Logger.getLogger(FeatureLocator.class.getName());
@@ -17,8 +19,8 @@ public class FeatureLocator {
 	public Collection<FeatureLocation> analyze(String javaSourceFilePath) {
 
 		Collection<FeatureLocation> featureLocations = new ArrayList<>();
+		
 		Stack<LocationInfo> infoStack = new Stack<>();
-
 		File javaSourceFile = new File(javaSourceFilePath);
 		try (FileReader fileReader = new FileReader(javaSourceFile);
 				LineNumberReader lineReader = new LineNumberReader(fileReader)) {
@@ -26,7 +28,8 @@ public class FeatureLocator {
 			Stack<String> stackedExpressions = new Stack<>();
 			while ((line = lineReader.readLine()) != null) {
 				line = removeSpace(line);
-				if (line.contains("//#if")) {
+				switch (calculateLineType(line)) {
+				case IF: {
 					int startLine = lineReader.getLineNumber();
 					String featureExpression;
 					featureExpression = line.substring(5);
@@ -34,7 +37,9 @@ public class FeatureLocator {
 					LocationInfo locationInfo = new LocationInfo(featureExpression, startLine);
 					infoStack.add(locationInfo);
 					stackedExpressions.push(featureExpression);
-				} else if (line.contains("//#endif")) {
+					break;
+				}
+				case ENDIF: {
 					int endLine = lineReader.getLineNumber();
 					if (infoStack.isEmpty())
 						logger.fine(() -> "" + endLine);
@@ -42,8 +47,9 @@ public class FeatureLocator {
 					featureLocations.add(
 							new FeatureLocation(javaSourceFile, stackedExpressions, popped.startLine + 1, endLine - 1));
 					stackedExpressions.pop();
-				} else if (line.contains("//#elif")) {
-
+					break;
+				}
+				case ELIF: {
 					int endLine = lineReader.getLineNumber();
 					LocationInfo popped = infoStack.pop();
 					featureLocations.add(
@@ -56,7 +62,9 @@ public class FeatureLocator {
 					LocationInfo locationInfo = new LocationInfo(featureExpression, endLine);
 					infoStack.add(locationInfo);
 					stackedExpressions.push(featureExpression);
-				} else if (line.contains("//#else")) {
+					break;
+				}
+				case ELSE: {
 					int endLine = lineReader.getLineNumber();
 					LocationInfo popped = infoStack.pop();
 					featureLocations.add(
@@ -67,15 +75,32 @@ public class FeatureLocator {
 					LocationInfo locationInfo = new LocationInfo(elseExpression, endLine);
 					infoStack.add(locationInfo);
 					stackedExpressions.push(elseExpression);
-				} else if (line.contains("//@")) {
+					break;
+				}
+				default:
+					break;
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.severe(e.getMessage());
 			return Collections.emptyList();
 		}
 
 		return featureLocations;
+	}
+
+	public static AntennaLineType calculateLineType(String line) {
+		if (line.contains("//#if"))
+			return AntennaLineType.IF;
+		if (line.contains("//#endif"))
+			return AntennaLineType.ENDIF;
+		if (line.contains("//#elif"))
+			return AntennaLineType.ELIF;
+		if (line.contains("//#else"))
+			return AntennaLineType.ELSE;
+		if (line.contains("//@"))
+			return AntennaLineType.DEACTIVATED;
+		return AntennaLineType.ACTIVATED;
 	}
 
 	private String removeSpace(String line) {
