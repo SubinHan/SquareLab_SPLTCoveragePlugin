@@ -37,12 +37,16 @@ public class AntennaSourceFile {
 	}
 
 	private void initFileName(String filePath) {
-		this.fileName = getFileName(filePath);
+		this.fileName = findFileName(filePath);
 	}
 
-	private String getFileName(String filePath) {
+	private String findFileName(String filePath) {
 		Path p = Paths.get(filePath);
 		return p.getFileName().toString();
+	}
+	
+	public String getFileName() {
+		return this.fileName;
 	}
 	
 	public AntennaSourceFile(AntennaSourceFile clone) {

@@ -14,6 +14,7 @@ public class AntennaModelTest {
 	boolean[] expectedActivatedLinesAfterSubtraction;
 	boolean[] expectedActivatedLinesAfterIntersection;
 	boolean[] expectedActivatedLinesAfterAddition;
+	String expectedFileName = "ClassA.java";
 	AntennaSourceFile sourceFile;
 	AntennaSourceFile anotherSourceFile;
 	AntennaSourceFile differentSourceFile;
@@ -187,8 +188,6 @@ public class AntennaModelTest {
 		
 	}
 
-
-
 	@Test
 	public void testCountLine() {
 		assertEquals(27, sourceFile.getNumberOfLine());
@@ -236,6 +235,11 @@ public class AntennaModelTest {
 	public void testAdd() {
 		AntennaSourceFile added = sourceFile.add(anotherSourceFile);
 		assertActivationExpectedAndActualLineByLine(expectedActivatedLinesAfterAddition, added);
+	}
+	
+	@Test
+	public void testGetName() {
+		assertEquals(expectedFileName, sourceFile.getFileName());
 	}
 	
 }
