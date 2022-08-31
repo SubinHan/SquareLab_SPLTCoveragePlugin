@@ -13,11 +13,13 @@ public class AntennaModelTest {
 	boolean[] expectedActivatedLinesAfterSubtraction;
 	AntennaSourceFile sourceFile;
 	AntennaSourceFile anotherSourceFile;
+	AntennaSourceFile differentSourceFile;
 	
 	@Before
 	public void setUp() {
 		this.sourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA.java");
 		this.anotherSourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA2.java");
+		this.differentSourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassB.java");
 		initExpectedActivatedLines();
 		initExpectedActivatedLinesAfterSubtraction();
 	}
@@ -118,6 +120,11 @@ public class AntennaModelTest {
 		for(int i = 1; i <= actual.getNumberOfLine(); i++) {
 			assertEquals(expected[i-1], actual.isActivatedAt(i));
 		}
+	}
+	
+	@Test(expected = AntennaSourceModelException.class)
+	public void testSubtractByDifferentSourceFile() {
+		sourceFile.subtract(differentSourceFile);
 	}
 	
 	@Test
