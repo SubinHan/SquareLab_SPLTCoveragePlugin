@@ -10,14 +10,58 @@ import lab.square.spltcoverage.core.antenna.model.AntennaSourceFile;
 public class AntennaModelTest {
 
 	boolean[] expectedActivatedLines;
+	boolean[] expectedActivatedLinesAfterSubtraction;
 	AntennaSourceFile sourceFile;
+	AntennaSourceFile anotherSourceFile;
 	
 	@Before
 	public void setUp() {
 		this.sourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA.java");
+		this.anotherSourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA2.java");
 		initExpectedActivatedLines();
+		initExpectedActivatedLinesAfterSubtraction();
 	}
 	
+	private void initExpectedActivatedLinesAfterSubtraction() {
+		this.expectedActivatedLinesAfterSubtraction =
+				new boolean[] {
+						false,
+						false,
+						false,
+						false,
+						false,
+						
+						false,
+						false,
+						false,
+						false,
+						true,
+						
+						false,
+						false,
+						false,
+						false,
+						false,
+						
+						false,
+						false,
+						false,
+						false,
+						false,
+						
+						false,
+						true,
+						false,
+						false,
+						false,
+						
+						false,
+						false,
+						false
+				};
+		
+	}
+
 	private void initExpectedActivatedLines() {
 		this.expectedActivatedLines =
 			new boolean[] {
@@ -29,18 +73,6 @@ public class AntennaModelTest {
 					
 					true,
 					true,
-					false,
-					true,
-					false,
-					
-					false,
-					false,
-					false,
-					false,
-					false,
-					
-					true,
-					true,
 					true,
 					false,
 					true,
@@ -48,9 +80,23 @@ public class AntennaModelTest {
 					false,
 					false,
 					false,
+					false,
+					false,
+					
+					false,
+					true,
+					true,
 					true,
 					true,
 					
+					false,
+					true,
+					false,
+					false,
+					false,
+					
+					true,
+					true,
 					true
 			};
 		
@@ -60,17 +106,24 @@ public class AntennaModelTest {
 
 	@Test
 	public void testCountLine() {
-		assertEquals(25, sourceFile.getNumberOfLine());
+		assertEquals(27, sourceFile.getNumberOfLine());
 	}
 	
 	@Test
-	public void testActivated() {		
-		for(int i = 1; i <= sourceFile.getNumberOfLine(); i++) {
-			assertEquals(expectedActivatedLines[i-1], isActivated(i));
+	public void testActivated() {
+		assertActivationExpectedAndActualLineByLine(expectedActivatedLines, sourceFile);
+	}
+	
+	private void assertActivationExpectedAndActualLineByLine(boolean[] expected, AntennaSourceFile actual) {
+		for(int i = 1; i <= actual.getNumberOfLine(); i++) {
+			assertEquals(expected[i-1], actual.isActivatedAt(i));
 		}
 	}
 	
-	private boolean isActivated(int lineNumber) {
-		return sourceFile.isActivatedAt(lineNumber);
+	@Test
+	public void testSubtract() {
+		AntennaSourceFile subtracted = sourceFile.subtract(anotherSourceFile);
+		assertActivationExpectedAndActualLineByLine(expectedActivatedLinesAfterSubtraction, subtracted);;
 	}
+	
 }

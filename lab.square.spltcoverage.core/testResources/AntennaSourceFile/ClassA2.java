@@ -7,10 +7,10 @@ public class ClassA {
 	public boolean methodA() {
 		int a = 0;
 		//#if A
-		return true;
+//@		return true;
 		//#else
 		//#if C
-//@		return true;
+		return true;
 		//#endif
 //@		return false;
 		//#endif
@@ -19,9 +19,9 @@ public class ClassA {
 	public int methodB(int a, int b) {
 		int b = 0;
 		//#if B
-		return a + b;
+//@		return a + b;
 		//#else
-//@		return a - b;
+		return a - b;
 		//#endif
 	}
 }
