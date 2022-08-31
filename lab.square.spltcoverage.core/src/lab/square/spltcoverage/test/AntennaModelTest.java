@@ -30,7 +30,7 @@ public class AntennaModelTest {
 	}
 	
 	private void initExpectedActivatedLinesAfterAddition() {
-		this.expectedActivatedLinesAfterSubtraction =
+		this.expectedActivatedLinesAfterAddition =
 				new boolean[] {
 						true,
 						true,
@@ -69,7 +69,7 @@ public class AntennaModelTest {
 	}
 	
 	private void initExpectedActivatedLinesAfterIntersection() {
-		this.expectedActivatedLinesAfterSubtraction =
+		this.expectedActivatedLinesAfterIntersection =
 				new boolean[] {
 						true,
 						true,

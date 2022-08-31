@@ -67,19 +67,46 @@ public class AntennaSourceFile {
 	private void logError(Exception e) {
 		logger.severe(e.getMessage());
 	}
+	
+	public AntennaSourceFile add(AntennaSourceFile anotherSourceFile) {
+		checkMatchAndThrowIfNot(anotherSourceFile);
+		
+		AntennaLineType[] added = this.sourceLines.clone();
+		
+		for(int i = 1; i <= getNumberOfLine(); i++) {
+			if(anotherSourceFile.isActivatedAt(i))
+				added[i-1] = AntennaLineType.ACTIVATED;
+		}		
+		
+		return new AntennaSourceFile(added);
+	}
 
 	public AntennaSourceFile subtract(AntennaSourceFile anotherSourceFile) {
-		if(anotherSourceFile.getNumberOfLine() != this.getNumberOfLine())
-			throw new AntennaSourceModelException("Given sourcefiles are not match");
+		checkMatchAndThrowIfNot(anotherSourceFile);
 		
 		AntennaLineType[] subtracted = this.sourceLines.clone();
 		
 		for(int i = 1; i <= getNumberOfLine(); i++) {
 			if(anotherSourceFile.isActivatedAt(i))
 				subtracted[i-1] = AntennaLineType.DEACTIVATED;
-		}		
+		}
 		
 		return new AntennaSourceFile(subtracted);
+	}
+	
+	public AntennaSourceFile intersect(AntennaSourceFile anotherSourceFile) {
+		checkMatchAndThrowIfNot(anotherSourceFile);
+		
+		AntennaSourceFile added = this.add(anotherSourceFile);
+		AntennaSourceFile subtractedLeft = this.subtract(anotherSourceFile);
+		AntennaSourceFile subtractedRight = anotherSourceFile.subtract(this);
+		
+		return added.subtract(subtractedLeft).subtract(subtractedRight);
+	}
+	
+	private void checkMatchAndThrowIfNot(AntennaSourceFile anotherSourceFile) {
+		if(anotherSourceFile.getNumberOfLine() != this.getNumberOfLine())
+			throw new AntennaSourceModelException("Given sourcefiles are not match");
 	}
 	
 	public class AntennaSourceModelException extends RuntimeException {
