@@ -68,44 +68,44 @@ public class AntennaSourceFile {
 		logger.severe(e.getMessage());
 	}
 	
-	public AntennaSourceFile add(AntennaSourceFile anotherSourceFile) {
-		checkMatchAndThrowIfNot(anotherSourceFile);
+	public AntennaSourceFile add(AntennaSourceFile other) {
+		checkMatchAndThrowIfNot(other);
 		
 		AntennaLineType[] added = this.sourceLines.clone();
 		
 		for(int i = 1; i <= getNumberOfLine(); i++) {
-			if(anotherSourceFile.isActivatedAt(i))
+			if(other.isActivatedAt(i))
 				added[i-1] = AntennaLineType.ACTIVATED;
 		}		
 		
 		return new AntennaSourceFile(added);
 	}
 
-	public AntennaSourceFile subtract(AntennaSourceFile anotherSourceFile) {
-		checkMatchAndThrowIfNot(anotherSourceFile);
+	public AntennaSourceFile subtract(AntennaSourceFile other) {
+		checkMatchAndThrowIfNot(other);
 		
 		AntennaLineType[] subtracted = this.sourceLines.clone();
 		
 		for(int i = 1; i <= getNumberOfLine(); i++) {
-			if(anotherSourceFile.isActivatedAt(i))
+			if(other.isActivatedAt(i))
 				subtracted[i-1] = AntennaLineType.DEACTIVATED;
 		}
 		
 		return new AntennaSourceFile(subtracted);
 	}
 	
-	public AntennaSourceFile intersect(AntennaSourceFile anotherSourceFile) {
-		checkMatchAndThrowIfNot(anotherSourceFile);
+	public AntennaSourceFile intersect(AntennaSourceFile other) {
+		checkMatchAndThrowIfNot(other);
 		
-		AntennaSourceFile added = this.add(anotherSourceFile);
-		AntennaSourceFile subtractedLeft = this.subtract(anotherSourceFile);
-		AntennaSourceFile subtractedRight = anotherSourceFile.subtract(this);
+		AntennaSourceFile whole = this.add(other);
+		AntennaSourceFile leftSide = this.subtract(other);
+		AntennaSourceFile rightSide = other.subtract(this);
 		
-		return added.subtract(subtractedLeft).subtract(subtractedRight);
+		return whole.subtract(leftSide).subtract(rightSide);
 	}
 	
-	private void checkMatchAndThrowIfNot(AntennaSourceFile anotherSourceFile) {
-		if(anotherSourceFile.getNumberOfLine() != this.getNumberOfLine())
+	private void checkMatchAndThrowIfNot(AntennaSourceFile other) {
+		if(other.getNumberOfLine() != this.getNumberOfLine())
 			throw new AntennaSourceModelException("Given sourcefiles are not match");
 	}
 	
