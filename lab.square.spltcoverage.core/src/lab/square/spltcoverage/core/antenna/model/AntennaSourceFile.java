@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,9 +17,15 @@ public class AntennaSourceFile {
 	
 	Logger logger = Logger.getLogger(AntennaSourceFile.class.getName());
 	
+	String fileName;
 	AntennaLineType[] sourceLines;
 
 	public AntennaSourceFile(String filePath) {
+		initFileName(filePath);
+		initSourceLines(filePath);
+	}
+
+	private void initSourceLines(String filePath) {
 		List<String> lines = getLines(filePath);
 		
 		int numberOfLines = lines.size();
@@ -25,7 +33,16 @@ public class AntennaSourceFile {
 		
 		for(int i = 0; i < numberOfLines; i++) {
 			this.sourceLines[i] = FeatureLocator.calculateLineType(lines.get(i));
-		}		
+		}
+	}
+
+	private void initFileName(String filePath) {
+		this.fileName = getFileName(filePath);
+	}
+
+	private String getFileName(String filePath) {
+		Path p = Paths.get(filePath);
+		return p.getFileName().toString();
 	}
 	
 	public AntennaSourceFile(AntennaSourceFile clone) {
