@@ -12,6 +12,7 @@ public class AntennaModelTest {
 
 	boolean[] expectedActivatedLines;
 	boolean[] expectedActivatedLinesAfterSubtraction;
+	boolean[] expectedActivatedLinesAfterIntersection;
 	AntennaSourceFile sourceFile;
 	AntennaSourceFile anotherSourceFile;
 	AntennaSourceFile differentSourceFile;
@@ -23,8 +24,48 @@ public class AntennaModelTest {
 		this.differentSourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassB.java");
 		initExpectedActivatedLines();
 		initExpectedActivatedLinesAfterSubtraction();
+		initExpectedActivatedLinesAfterIntersection();
 	}
 	
+	private void initExpectedActivatedLinesAfterIntersection() {
+		this.expectedActivatedLinesAfterSubtraction =
+				new boolean[] {
+						true,
+						true,
+						true,
+						true,
+						true,
+						
+						true,
+						true,
+						true,
+						false,
+						false,
+						
+						false,
+						false,
+						false,
+						false,
+						false,
+						
+						false,
+						true,
+						true,
+						true,
+						true,
+						
+						false,
+						false,
+						false,
+						false,
+						false,
+						
+						true,
+						true,
+						true
+				};
+	}
+
 	private void initExpectedActivatedLinesAfterSubtraction() {
 		this.expectedActivatedLinesAfterSubtraction =
 				new boolean[] {
@@ -132,6 +173,17 @@ public class AntennaModelTest {
 	public void testSubtract() {
 		AntennaSourceFile subtracted = sourceFile.subtract(anotherSourceFile);
 		assertActivationExpectedAndActualLineByLine(expectedActivatedLinesAfterSubtraction, subtracted);;
+	}
+	
+	@Test(expected = AntennaSourceModelException.class)
+	public void testIntersectByDifferenceSourceFile() {
+		sourceFile.intersect(differentSourceFile);
+	}
+	
+	@Test
+	public void testIntersect() {
+		AntennaSourceFile intersected = sourceFile.intersect(anotherSourceFile);
+		assertActivationExpectedAndActualLineByLine(expectedActivatedLinesAfterIntersection, intersected);
 	}
 	
 }
