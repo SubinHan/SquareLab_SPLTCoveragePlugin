@@ -27,6 +27,18 @@ public class AntennaSourceFile {
 			this.sourceLines[i] = FeatureLocator.calculateLineType(lines.get(i));
 		}		
 	}
+	
+	public AntennaSourceFile(AntennaSourceFile clone) {
+		this.sourceLines = new AntennaLineType[clone.getNumberOfLine()];
+		
+		for(int i = 0; i < clone.getNumberOfLine(); i++) {
+			this.sourceLines[i] = clone.sourceLines[i];
+		}
+	}
+	
+	private AntennaSourceFile(AntennaLineType[] sourceLines) {
+		this.sourceLines = sourceLines.clone();
+	}
 
 	private List<String> getLines(String filePath) {
 		List<String> lines = new ArrayList<>();
@@ -55,5 +67,24 @@ public class AntennaSourceFile {
 	private void logError(Exception e) {
 		logger.severe(e.getMessage());
 	}
+
+	public AntennaSourceFile subtract(AntennaSourceFile anotherSourceFile) {
+		if(anotherSourceFile.getNumberOfLine() != this.getNumberOfLine())
+			throw new AntennaSourceModelException("Given sourcefiles are not match");
+		
+		AntennaLineType[] subtracted = this.sourceLines.clone();
+		
+		for(int i = 1; i <= getNumberOfLine(); i++) {
+			if(anotherSourceFile.isActivatedAt(i))
+				subtracted[i-1] = AntennaLineType.DEACTIVATED;
+		}		
+		
+		return new AntennaSourceFile(subtracted);
+	}
 	
+	public class AntennaSourceModelException extends RuntimeException {
+		public AntennaSourceModelException(String message) {
+			super(message);
+		}
+	}
 }

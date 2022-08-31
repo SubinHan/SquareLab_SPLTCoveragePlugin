@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.antenna.model.AntennaSourceFile;
+import lab.square.spltcoverage.core.antenna.model.AntennaSourceFile.AntennaSourceModelException;
 
 public class AntennaModelTest {
 
