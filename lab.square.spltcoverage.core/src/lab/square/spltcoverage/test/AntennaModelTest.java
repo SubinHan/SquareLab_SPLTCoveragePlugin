@@ -1,6 +1,8 @@
 package lab.square.spltcoverage.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -198,7 +200,8 @@ public class AntennaModelTest {
 		assertActivationExpectedAndActualLineByLine(expectedActivatedLines, sourceFile);
 	}
 	
-	private void assertActivationExpectedAndActualLineByLine(boolean[] expected, AntennaSourceFile actual) {
+	private void assertActivationExpectedAndActualLineByLine(
+			boolean[] expected, AntennaSourceFile actual) {
 		for(int i = 1; i <= actual.getNumberOfLine(); i++) {
 			assertEquals(expected[i-1], actual.isActivatedAt(i));
 		}
@@ -240,6 +243,12 @@ public class AntennaModelTest {
 	@Test
 	public void testGetName() {
 		assertEquals(expectedFileName, sourceFile.getFileName());
+	}
+	
+	@Test
+	public void testComparingStructure() {
+		assertTrue(sourceFile.hasSameStructure(anotherSourceFile));
+		assertFalse(sourceFile.hasSameStructure(differentSourceFile));
 	}
 	
 }
