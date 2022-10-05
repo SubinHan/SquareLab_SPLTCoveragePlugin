@@ -45,6 +45,9 @@ public class FeatureSetGroupReader implements IFeatureSetReader {
 		Collection<Map<String, Boolean>> products = new LinkedList<>();
 
 		for (File productFolder : groupFolder.listFiles()) {
+			if(!productFolder.isDirectory())
+				continue;
+			
 			File featureSetFile = findFeatureSetFile(productFolder);
 			if(featureSetFile == null)
 				continue;
