@@ -14,6 +14,7 @@ import org.jacoco.core.tools.ExecFileLoader;
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
+import lab.square.spltcoverage.utils.Tools;
 
 /**
  * The CoverageReader class is the class reading the product coverages.
@@ -32,7 +33,7 @@ public final class SplCoverageReader {
 		
 	}
 
-	public static void read() throws IOException {
+	private static void read() throws IOException {
 		File folder = new File(execDirectoryPath);
 		if (!folder.exists())
 			return;
@@ -41,7 +42,7 @@ public final class SplCoverageReader {
 
 		for (File productFolder : productFolders) {
 			if (!productFolder.isDirectory()) {
-				if (productFolder.getName().endsWith("Merged.exec") || productFolder.getName().endsWith(SplCoverageGenerator.SUFFIX_MERGED)) {
+				if (Tools.isMergedCoverage(productFolder.getName())) {
 					splCoverage.addClassCoverages(load(productFolder));
 				}
 				continue;

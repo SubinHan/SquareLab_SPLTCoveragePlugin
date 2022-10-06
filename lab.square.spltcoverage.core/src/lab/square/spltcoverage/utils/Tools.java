@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
+
 public final class Tools {
 	
 	private Tools() {
@@ -78,5 +80,9 @@ public final class Tools {
 		
 		if (!f.delete())
 			throw new FileNotFoundException("Failed to delete file: " + f);
+	}
+	
+	public static boolean isMergedCoverage(String fileNameWithExtension) {
+		return fileNameWithExtension.endsWith("Merged.exec") || fileNameWithExtension.endsWith(SplCoverageGenerator.SUFFIX_MERGED);
 	}
 }

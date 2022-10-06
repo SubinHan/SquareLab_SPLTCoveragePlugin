@@ -20,6 +20,7 @@ import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
+import lab.square.spltcoverage.utils.Tools;
 
 public final class CoverageReader {
 
@@ -99,7 +100,7 @@ public final class CoverageReader {
 
 			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
 			if (!testCaseFolder.isDirectory()) {
-				if (isMergedCoverage(testCaseFolder.getName())) {
+				if (Tools.isMergedCoverage(testCaseFolder.getName())) {
 					productCoverage.addClassCoverages(load(testCaseFolder));
 				}
 				continue;
@@ -118,7 +119,7 @@ public final class CoverageReader {
 		for (File testMethodCoverageFile : testMethodCoverages) {
 			final String testMethodName = testMethodCoverageFile.getName();
 
-			if (isMergedCoverage(testMethodName)) {
+			if (Tools.isMergedCoverage(testMethodName)) {
 				testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
 				continue;
 			}
@@ -127,10 +128,6 @@ public final class CoverageReader {
 					load(testMethodCoverageFile));
 			testCaseCoverage.addChild(testMethodCoverage);
 		}
-	}
-
-	private static boolean isMergedCoverage(String fileName) {
-		return fileName.endsWith("Merged.exec") || fileName.endsWith(SplCoverageGenerator.SUFFIX_MERGED);
 	}
 
 	private static Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
