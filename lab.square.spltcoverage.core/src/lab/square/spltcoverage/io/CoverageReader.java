@@ -23,7 +23,6 @@ import lab.square.spltcoverage.model.TestMethodCoverage;
 
 public final class CoverageReader {
 
-	private static String productPath;
 	private static String classpath;
 	
 	private CoverageReader() {
@@ -35,20 +34,20 @@ public final class CoverageReader {
 		if (!folder.exists())
 			return null;
 
-		CoverageReader.classpath = classpath;
-
 		File[] testCaseFolders = folder.listFiles();
 		ProductCoverage productCoverage = new ProductCoverage(findFeatureSet(testCaseFolders));
 
-		readInto(productCoverage, productPath);
+		readInto(productCoverage, productPath, classpath);
 
 		return productCoverage;
 	}
 
-	public static void readInto(ProductCoverage productCoverage, String productPath) throws IOException {
+	public static void readInto(ProductCoverage productCoverage, String productPath, String classpath) throws IOException {
 		File folder = new File(productPath);
 		if (!folder.exists())
 			return;
+		
+		CoverageReader.classpath = classpath;
 
 		File[] testCaseFolders = folder.listFiles();
 		insertTestCaseCoverages(productCoverage, testCaseFolders);
