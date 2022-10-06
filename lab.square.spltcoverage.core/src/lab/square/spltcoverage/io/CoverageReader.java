@@ -21,10 +21,14 @@ import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 
-public class CoverageReader {
+public final class CoverageReader {
 
 	private static String productPath;
 	private static String classpath;
+	
+	private CoverageReader() {
+		
+	}
 
 	public static ProductCoverage read(String productPath, String classpath) throws IOException {
 		File folder = new File(productPath);
