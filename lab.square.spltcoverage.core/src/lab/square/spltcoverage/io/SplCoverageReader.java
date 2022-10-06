@@ -68,8 +68,7 @@ public class SplCoverageReader {
 				continue;
 			}
 			
-			CoverageReader reader = new CoverageReader(productFolder.getAbsolutePath(), classPath);
-			ProductCoverage productCoverage = reader.read();
+			ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classPath);
 			
 //			final String productName = productFolder.getName();
 //

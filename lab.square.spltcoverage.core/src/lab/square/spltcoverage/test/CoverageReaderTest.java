@@ -20,16 +20,14 @@ public class CoverageReaderTest {
 	
 	private static final String COVERAGES_PATH = "testResources/SingleProductCoverage/";
 	private static final String CLASS_PATH = "src/lab/square/spltcoverage/test/target/";
-	
+
 	@Test
-	public void testCoverageReader() throws IOException {
-		CoverageReader reader = new CoverageReader(COVERAGES_PATH, CLASS_PATH);
-		
-		ProductCoverage coverage = reader.read();
-		
-		Map<String, Boolean> expectedFeatureSet = new HashMap<>();
-		expectedFeatureSet.put(Configuration.CONFIG_A, true);
-		
+	public void testCoverageReaderStaticMethod() throws IOException {
+		ProductCoverage coverage = CoverageReader.read(COVERAGES_PATH, CLASS_PATH);
+		assertReadCorrectly(coverage, makeExpectedFeatureSet());
+	}
+	
+	private void assertReadCorrectly(ProductCoverage coverage, Map<String, Boolean> expectedFeatureSet) {
 		assertTrue(Tools.featureSetEquals(expectedFeatureSet, coverage.getFeatureSet()));
 		assertEquals(2, coverage.getChildren().size());
 		
@@ -40,4 +38,11 @@ public class CoverageReaderTest {
 		}
 		assertEquals(8, methodCount);
 	}
+
+	private Map<String, Boolean> makeExpectedFeatureSet() {
+		Map<String, Boolean> expectedFeatureSet = new HashMap<>();
+		expectedFeatureSet.put(Configuration.CONFIG_A, true);
+		return expectedFeatureSet;
+	}
+	
 }

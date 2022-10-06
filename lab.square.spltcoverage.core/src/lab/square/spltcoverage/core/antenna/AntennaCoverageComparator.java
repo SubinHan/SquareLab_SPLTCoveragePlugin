@@ -16,10 +16,9 @@ public class AntennaCoverageComparator {
 	static final Logger logger = Logger.getLogger(AntennaCoverageComparator.class.getName());
 	
 	public void printResult(String productCoveragePath, String classpath, String srcPath) {
-		CoverageReader reader = new CoverageReader(productCoveragePath, classpath);
 		ProductCoverage coverage = null;
 		try {
-			coverage = reader.read();
+			coverage = CoverageReader.read(productCoveragePath, classpath);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;

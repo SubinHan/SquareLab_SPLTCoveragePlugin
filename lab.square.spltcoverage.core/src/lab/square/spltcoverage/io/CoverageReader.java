@@ -22,76 +22,32 @@ import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 
 public class CoverageReader {
-	
-	private String productPath;
-	private String classPath;
-	
-	public CoverageReader(String productPath, String classPath) {
-		this.productPath = productPath;
-		this.classPath = classPath;
-	}
-	
-	public ProductCoverage read() throws IOException {
+
+	private static String productPath;
+	private static String classpath;
+
+	public static ProductCoverage read(String productPath, String classpath) throws IOException {
 		File folder = new File(productPath);
 		if (!folder.exists())
 			return null;
-	
+
+		CoverageReader.classpath = classpath;
+
 		File[] testCaseFolders = folder.listFiles();
 		ProductCoverage productCoverage = new ProductCoverage(findFeatureSet(testCaseFolders));
-		
-		read(productCoverage);
-		
+
+		readInto(productCoverage, productPath);
+
 		return productCoverage;
 	}
-	
-	public void read(ProductCoverage productCoverage) throws IOException {
+
+	public static void readInto(ProductCoverage productCoverage, String productPath) throws IOException {
 		File folder = new File(productPath);
 		if (!folder.exists())
 			return;
 
 		File[] testCaseFolders = folder.listFiles();
-		for (File testCaseFolder : testCaseFolders) {
-			final String testCaseName = testCaseFolder.getName();
-			
-			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
-			if (!testCaseFolder.isDirectory()) {
-				if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SplCoverageGenerator.SUFFIX_MERGED)) {
-					productCoverage.addClassCoverages(load(testCaseFolder));
-				}
-				continue;
-			}
-			
-			// load test method coverages.
-			File[] testMethodCoverages = testCaseFolder.listFiles();
-			for (File testMethodCoverageFile : testMethodCoverages) {
-				final String testMethodName = testMethodCoverageFile.getName();
-
-				if (testMethodName.endsWith("Merged.exec") || testMethodName.endsWith(SplCoverageGenerator.SUFFIX_MERGED)) {
-					testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
-					continue;
-				}
-
-				TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
-						load(testMethodCoverageFile));
-				testCaseCoverage.addChild(testMethodCoverage);
-			}
-			productCoverage.addChild(testCaseCoverage);
-		}
-	}
-	
-	private Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
-		ExecFileLoader execFileLoader = new ExecFileLoader();
-
-		execFileLoader.load(testMethodCoverageFile);
-
-		final ExecutionDataStore execStore = execFileLoader.getExecutionDataStore();
-
-		final CoverageBuilder coverageBuilder = new CoverageBuilder();
-		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
-
-		analyzer.analyzeAll(new File(classPath));
-
-		return new HashSet<>(coverageBuilder.getClasses());
+		insertTestCaseCoverages(productCoverage, testCaseFolders);
 	}
 	
 	public static Map<String, Boolean> findFeatureSet(File... files) {
@@ -99,7 +55,7 @@ public class CoverageReader {
 
 		for (File file : files) {
 			if (file.getName().equalsIgnoreCase(SplCoverageGenerator.FEATURESET_FILE_NAME)) {
-				try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)){
+				try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)) {
 					String content = br.readLine();
 					featureSet = makeMap(content);
 				} catch (IOException e) {
@@ -113,14 +69,14 @@ public class CoverageReader {
 
 	public static Map<String, Boolean> makeMap(String given) {
 		Map<String, Boolean> map = new HashMap<>();
-		
+
 		given = given.replace("{", "");
 		given = given.replace("}", "");
 		String[] pairs = given.split(",");
 
-		if(pairs[0].isEmpty())
+		if (pairs[0].isEmpty())
 			return map;
-		
+
 		for (String pair : pairs) {
 			String[] splitted = pair.split("=");
 			String key = splitted[0].trim();
@@ -128,7 +84,65 @@ public class CoverageReader {
 
 			map.put(key, value.equals("true"));
 		}
-		
+
 		return map;
 	}
+
+
+	private static void insertTestCaseCoverages(ProductCoverage productCoverage, File[] testCaseFolders)
+			throws IOException {
+		for (File testCaseFolder : testCaseFolders) {
+			final String testCaseName = testCaseFolder.getName();
+
+			TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
+			if (!testCaseFolder.isDirectory()) {
+				if (isMergedCoverage(testCaseFolder.getName())) {
+					productCoverage.addClassCoverages(load(testCaseFolder));
+				}
+				continue;
+			}
+
+			// load test method coverages.
+			File[] testMethodCoverages = testCaseFolder.listFiles();
+			insertTestMethodCoverages(testCaseCoverage, testMethodCoverages);
+
+			productCoverage.addChild(testCaseCoverage);
+		}
+	}
+
+	private static void insertTestMethodCoverages(TestCaseCoverage testCaseCoverage, File[] testMethodCoverages)
+			throws IOException {
+		for (File testMethodCoverageFile : testMethodCoverages) {
+			final String testMethodName = testMethodCoverageFile.getName();
+
+			if (isMergedCoverage(testMethodName)) {
+				testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
+				continue;
+			}
+
+			TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
+					load(testMethodCoverageFile));
+			testCaseCoverage.addChild(testMethodCoverage);
+		}
+	}
+
+	private static boolean isMergedCoverage(String fileName) {
+		return fileName.endsWith("Merged.exec") || fileName.endsWith(SplCoverageGenerator.SUFFIX_MERGED);
+	}
+
+	private static Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
+		ExecFileLoader execFileLoader = new ExecFileLoader();
+
+		execFileLoader.load(testMethodCoverageFile);
+
+		final ExecutionDataStore execStore = execFileLoader.getExecutionDataStore();
+
+		final CoverageBuilder coverageBuilder = new CoverageBuilder();
+		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
+
+		analyzer.analyzeAll(new File(classpath));
+
+		return new HashSet<>(coverageBuilder.getClasses());
+	}
+
 }
