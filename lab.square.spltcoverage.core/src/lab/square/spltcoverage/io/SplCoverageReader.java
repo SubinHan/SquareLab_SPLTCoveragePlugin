@@ -20,13 +20,17 @@ import lab.square.spltcoverage.model.SplCoverage;
  * @author SQUARELAB
  *
  */
-public class SplCoverageReader {
+public final class SplCoverageReader {
 
 	public static final String FEATURESET_FILENAME = "featureset.txt";
 
 	private static String execDirectoryPath;
 	private static String classpath;
 	private static SplCoverage splCoverage;
+	
+	private SplCoverageReader() {
+		
+	}
 
 	public static void read() throws IOException {
 		File folder = new File(execDirectoryPath);
@@ -64,8 +68,8 @@ public class SplCoverageReader {
 		return new HashSet<>(coverageBuilder.getClasses());
 	}
 
-	public static void readInto(SplCoverage splCoverage, String execDirectoryPath, String classpath) throws IOException {
-		SplCoverageReader.splCoverage = splCoverage;
+	public static void readInto(SplCoverage dest, String execDirectoryPath, String classpath) throws IOException {
+		SplCoverageReader.splCoverage = dest;
 		SplCoverageReader.execDirectoryPath = execDirectoryPath;
 		SplCoverageReader.classpath = classpath;
 		read();
