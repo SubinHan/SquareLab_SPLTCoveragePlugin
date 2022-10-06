@@ -101,9 +101,8 @@ public class PGAnalyzerTest {
 	private void testAnalyzer(String directory, String classDirectory) {
 		String[] folders = directory.split("/");
 		SplCoverage manager = new SplCoverage(folders[folders.length-1]);
-		SplCoverageReader reader = new SplCoverageReader(manager, directory, classDirectory);
 		try {
-			reader.read();
+			SplCoverageReader.readInto(manager, directory, classDirectory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

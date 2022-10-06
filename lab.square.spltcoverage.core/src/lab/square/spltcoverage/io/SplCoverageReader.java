@@ -24,37 +24,12 @@ public class SplCoverageReader {
 
 	public static final String FEATURESET_FILENAME = "featureset.txt";
 
-	private String execFilesPath;
-	private String classPath;
-	private SplCoverage splCoverage;
+	private static String execDirectoryPath;
+	private static String classpath;
+	private static SplCoverage splCoverage;
 
-	public SplCoverageReader(SplCoverage splCoverage, String classPath) {
-		this.splCoverage = splCoverage;
-		this.classPath = classPath;
-	}
-	
-	/**
-	 * 
-	 * @param splCoverage
-	 * @param execFilesPath
-	 * @param classPath
-	 */
-	public SplCoverageReader(SplCoverage splCoverage, String execFilesPath, String classPath) {
-		this(splCoverage, classPath);
-		this.execFilesPath = execFilesPath;
-	}
-
-	public SplCoverage getSplCoverage() {
-		return splCoverage;
-	}
-	
-	public void setExecFilesPath(String path) {
-		this.execFilesPath = path;
-	}
-
-	public void read() throws IOException {
-
-		File folder = new File(execFilesPath);
+	public static void read() throws IOException {
+		File folder = new File(execDirectoryPath);
 		if (!folder.exists())
 			return;
 
@@ -68,56 +43,13 @@ public class SplCoverageReader {
 				continue;
 			}
 			
-			ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classPath);
-			
-//			final String productName = productFolder.getName();
-//
-//			File[] testCaseFolders = productFolder.listFiles();
-//
-//			ProductCoverage productCoverage = null;
-//
-//			// find feature set and init productCoverage.
-//			Map<String, Boolean> featureSet = findFeatureSet(testCaseFolders);
-//			if (featureSet == null)
-//				continue;
-//			productCoverage = new ProductCoverage(featureSet, productName);
-//
-//			// collect execution data.
-//			for (File testCaseFolder : testCaseFolders) {
-//				final String testCaseName = testCaseFolder.getName();
-//
-//				TestCaseCoverage testCaseCoverage = new TestCaseCoverage(testCaseName);
-//
-//				// the file is not a directory.
-//				if (!testCaseFolder.isDirectory()) {
-//					if (testCaseFolder.getName().endsWith("Merged.exec") || testCaseFolder.getName().endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
-//						productCoverage.addClassCoverages(load(testCaseFolder));
-//					}
-//					continue;
-//				}
-//
-//				// load test method coverages.
-//				File[] testMethodCoverages = testCaseFolder.listFiles();
-//				for (File testMethodCoverageFile : testMethodCoverages) {
-//					final String testMethodName = testMethodCoverageFile.getName();
-//
-//					if (testMethodName.endsWith("Merged.exec") || testMethodName.endsWith(SpltCoverageGenerator.SUFFIX_MERGED)) {
-//						testCaseCoverage.addClassCoverages(load(testMethodCoverageFile));
-//						continue;
-//					}
-//
-//					TestMethodCoverage testMethodCoverage = new TestMethodCoverage(testMethodName,
-//							load(testMethodCoverageFile));
-//					testCaseCoverage.addChild(testMethodCoverage);
-//				}
-//
-//				productCoverage.addChild(testCaseCoverage);
-//			}
+			ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classpath);
+
 			splCoverage.addChild(productCoverage);
 		}
 	}
 
-	private Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
+	private static Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
 		ExecFileLoader execFileLoader = new ExecFileLoader();
 
 		execFileLoader.load(testMethodCoverageFile);
@@ -127,8 +59,15 @@ public class SplCoverageReader {
 		final CoverageBuilder coverageBuilder = new CoverageBuilder();
 		final Analyzer analyzer = new Analyzer(execStore, coverageBuilder);
 
-		analyzer.analyzeAll(new File(classPath));
+		analyzer.analyzeAll(new File(classpath));
 
 		return new HashSet<>(coverageBuilder.getClasses());
+	}
+
+	public static void readInto(SplCoverage splCoverage, String execDirectoryPath, String classpath) throws IOException {
+		SplCoverageReader.splCoverage = splCoverage;
+		SplCoverageReader.execDirectoryPath = execDirectoryPath;
+		SplCoverageReader.classpath = classpath;
+		read();
 	}
 }

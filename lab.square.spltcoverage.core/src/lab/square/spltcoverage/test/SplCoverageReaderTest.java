@@ -63,8 +63,7 @@ public class SplCoverageReaderTest {
 	public void testSpltCoverageReader() throws IOException {
 		SplCoverage splCoverage = new SplCoverage("test");
 		
-		SplCoverageReader reader = new SplCoverageReader(splCoverage, COVERAGES_PATH, CLASS_PATH);
-		reader.read();
+		SplCoverageReader.readInto(splCoverage, COVERAGES_PATH, CLASS_PATH);
 		
 		splCoverage.accept(new ISplCoverageVisitor() {
 			@Override
