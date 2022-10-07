@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public class ProductSourceInfo {
-	public final String testClasspathRoot;
+	public final String classpath;
 	public final Collection<String> testClassPaths;
 	public final Map<String, Boolean> featureSet;
 	public final Collection<String> additionalDependencies;
@@ -15,7 +15,7 @@ public class ProductSourceInfo {
 	}	
 	
 	public ProductSourceInfo(String classpath, Collection<String> testClassPaths, Map<String, Boolean> featureSet, Collection<String> additionalDependencies) {
-		this.testClasspathRoot = classpath;
+		this.classpath = classpath;
 		this.testClassPaths = testClassPaths;
 		this.featureSet = featureSet;
 		this.additionalDependencies = additionalDependencies;

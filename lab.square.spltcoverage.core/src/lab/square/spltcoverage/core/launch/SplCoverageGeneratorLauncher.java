@@ -28,7 +28,7 @@ public final class SplCoverageGeneratorLauncher {
 			Path featureSetPath = productOutputPath.resolve(SplCoverageGenerator.FEATURESET_FILE_NAME);
 			SplCoverageGenerator.writeFile(featureSetPath.toString(), productSourceInfos.get(i).featureSet.toString());
 
-			CoverageGeneratorLauncher.launch(productSourceInfos.get(i).testClasspathRoot,
+			CoverageGeneratorLauncher.launch(productSourceInfos.get(i).classpath,
 					productSourceInfos.get(i).testClassPaths, productOutputPath.toString(), productSourceInfos.get(i).additionalDependencies);
 		}
 	}

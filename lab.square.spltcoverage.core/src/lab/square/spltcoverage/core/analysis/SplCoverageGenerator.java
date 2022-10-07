@@ -104,7 +104,7 @@ public class SplCoverageGenerator {
 				
 				@Override
 				public String getClasspath() {
-					return info.testClasspathRoot;
+					return info.classpath;
 				}
 			});
 		}

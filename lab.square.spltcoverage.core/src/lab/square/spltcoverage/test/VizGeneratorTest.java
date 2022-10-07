@@ -120,7 +120,7 @@ public class VizGeneratorTest {
 		String[] folders = directory.split("/");
 		SplCoverage manager = new SplCoverage(folders[folders.length - 1]);
 		try {
-			SplCoverageReader.readInto(manager, directory, classDirectory);
+			SplCoverageReader.readInvariablePlCoverageInto(manager, directory, classDirectory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

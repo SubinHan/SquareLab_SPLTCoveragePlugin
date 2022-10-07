@@ -26,7 +26,7 @@ public final class SplCoverageReader {
 	public static final String FEATURESET_FILENAME = "featureset.txt";
 
 	private static String execDirectoryPath;
-	private static String classpath;
+	private static String[] classpaths;
 	private static SplCoverage splCoverage;
 	
 	private SplCoverageReader() {
@@ -40,21 +40,22 @@ public final class SplCoverageReader {
 
 		File[] productFolders = folder.listFiles();
 
+		int productCount = 0;
 		for (File productFolder : productFolders) {
 			if (!productFolder.isDirectory()) {
 				if (Tools.isMergedCoverage(productFolder.getName())) {
-					splCoverage.addClassCoverages(load(productFolder));
+					splCoverage.addClassCoverages(load(productFolder, classpaths[0]));
 				}
 				continue;
 			}
 			
-			ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classpath);
+			ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classpaths[productCount++]);
 
 			splCoverage.addChild(productCoverage);
 		}
 	}
 
-	private static Collection<IClassCoverage> load(File testMethodCoverageFile) throws IOException {
+	private static Collection<IClassCoverage> load(File testMethodCoverageFile, String classpath) throws IOException {
 		ExecFileLoader execFileLoader = new ExecFileLoader();
 
 		execFileLoader.load(testMethodCoverageFile);
@@ -68,11 +69,22 @@ public final class SplCoverageReader {
 
 		return new HashSet<>(coverageBuilder.getClasses());
 	}
-
-	public static void readInto(SplCoverage dest, String execDirectoryPath, String classpath) throws IOException {
+	
+	public static void readInvariablePlCoverageInto(SplCoverage dest, String execDirectoryPath, String classpath) throws IOException {
 		SplCoverageReader.splCoverage = dest;
 		SplCoverageReader.execDirectoryPath = execDirectoryPath;
-		SplCoverageReader.classpath = classpath;
+		File folder = new File(execDirectoryPath);
+		SplCoverageReader.classpaths = new String[folder.listFiles().length];
+		for(int i = 0; i < classpaths.length; i++) {
+			classpaths[i] = classpath;
+		}
+		read();
+	}
+
+	public static void readVariablePlCoverageInto(SplCoverage dest, String execDirectoryPath, String[] classpaths) throws IOException {
+		SplCoverageReader.splCoverage = dest;
+		SplCoverageReader.execDirectoryPath = execDirectoryPath;
+		SplCoverageReader.classpaths = classpaths;
 		read();
 	}
 }
