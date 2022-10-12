@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
 
+import lab.square.spltcoverage.utils.Tools;
+
 public class ProductNode {
 	private Collection<ProductNode> parents;
 	private Collection<ProductNode> children;
@@ -95,6 +97,27 @@ public class ProductNode {
 		}
 		
 		return 0.f;
+	}
+
+	public void fillCoverageRecursivelyIfEmpty(SplCoverage splCoverage) {
+		if(this.productCoverage != null)
+			return;
+		
+		this.productCoverage = findProductCoverage(splCoverage);
+		
+		for(ProductNode child : this.getChildren()) {
+			child.fillCoverageRecursivelyIfEmpty(splCoverage);
+		}
+	}
+
+	private ProductCoverage findProductCoverage(SplCoverage splCoverage) {
+		for(ProductCoverage each : splCoverage.getProductCoverages()) {
+			if (Tools.featureSetEquals(this.featureSet, each.getFeatureSet())) {
+				return each;
+			}
+		}
+		
+		return null;
 	}
 	
 

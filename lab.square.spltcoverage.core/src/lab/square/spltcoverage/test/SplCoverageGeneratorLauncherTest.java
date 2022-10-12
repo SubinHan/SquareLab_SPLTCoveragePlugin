@@ -58,8 +58,8 @@ public class SplCoverageGeneratorLauncherTest {
 		ProductSourceInfo info1 = new ProductSourceInfo(P1_TARGET_CLASSPATH, Arrays.asList(new String[] {P1_TARGET_TESTPATH1, P1_TARGET_TESTPATH2}), featureSet1);
 		
 		Map<String, Boolean> featureSet2 = new HashMap<>();
-		featureSet1.put("A", false);
-		featureSet1.put("B", false);
+		featureSet2.put("A", false);
+		featureSet2.put("B", false);
 		ProductSourceInfo info2 = new ProductSourceInfo(P2_TARGET_CLASSPATH, Arrays.asList(new String[] {P2_TARGET_TESTPATH1, P2_TARGET_TESTPATH2}), featureSet2);
 		
 		productSourceInfos.add(info1);
