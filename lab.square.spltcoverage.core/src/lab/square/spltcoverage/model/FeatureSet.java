@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.test;
+package lab.square.spltcoverage.model;
 
 import java.util.Collections;
 import java.util.HashMap;

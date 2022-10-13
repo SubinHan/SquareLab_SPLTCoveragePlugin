@@ -10,6 +10,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import lab.square.spltcoverage.model.FeatureSet;
+
 public class FeatureSetTest {
 	
 	private FeatureSet featureSetConstructedByMap;
