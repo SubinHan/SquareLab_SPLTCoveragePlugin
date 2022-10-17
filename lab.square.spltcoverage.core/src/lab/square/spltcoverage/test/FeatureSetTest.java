@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ public class FeatureSetTest {
 	
 	private FeatureSet featureSetConstructedByMap;
 	private FeatureSet featureSetConstructedByAdding;
+	private FeatureSet featureSetHasOnlyTrue;
 	
 	@Before
 	public void setUp() {
@@ -28,6 +31,9 @@ public class FeatureSetTest {
 		featureSetConstructedByAdding = new FeatureSet();
 		featureSetConstructedByAdding.addFeature("A");
 		featureSetConstructedByAdding.addFeature("B", false);
+		
+		featureSetHasOnlyTrue = new FeatureSet();
+		featureSetHasOnlyTrue.addFeature("A");
 	}
 	
 	@Test
@@ -48,5 +54,21 @@ public class FeatureSetTest {
 	@Test
 	public void testEquals() {
 		assertEquals(featureSetConstructedByMap, featureSetConstructedByAdding);
+	}
+	
+	@Test
+	public void testHashCode1() {
+		Set<FeatureSet> featureSets = new HashSet<>();
+		featureSets.add(featureSetConstructedByAdding);
+		assertTrue(featureSets.contains(featureSetConstructedByMap));
+		assertTrue(featureSets.contains(featureSetHasOnlyTrue));
+	}
+	
+	@Test
+	public void testHashCode2() {
+		Set<FeatureSet> featureSets = new HashSet<>();
+		featureSets.add(featureSetHasOnlyTrue);
+		assertTrue(featureSets.contains(featureSetConstructedByMap));
+		assertTrue(featureSets.contains(featureSetConstructedByAdding));
 	}
 }
