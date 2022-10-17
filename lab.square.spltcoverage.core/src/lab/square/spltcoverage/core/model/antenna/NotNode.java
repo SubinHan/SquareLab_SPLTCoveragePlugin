@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.antenna.model;
+package lab.square.spltcoverage.core.model.antenna;
 
 import java.util.Map;
 

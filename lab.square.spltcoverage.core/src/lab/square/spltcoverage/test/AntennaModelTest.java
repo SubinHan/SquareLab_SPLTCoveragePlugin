@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import lab.square.spltcoverage.core.antenna.model.AntennaSourceFile;
-import lab.square.spltcoverage.core.antenna.model.AntennaSourceFile.AntennaSourceModelException;
+import lab.square.spltcoverage.core.model.antenna.AntennaSourceFile;
+import lab.square.spltcoverage.core.model.antenna.AntennaSourceFile.AntennaSourceModelException;
 
 public class AntennaModelTest {
 

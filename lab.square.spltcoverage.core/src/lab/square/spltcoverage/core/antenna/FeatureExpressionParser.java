@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import lab.square.spltcoverage.core.antenna.model.AndNode;
-import lab.square.spltcoverage.core.antenna.model.ExpressionNode;
-import lab.square.spltcoverage.core.antenna.model.FeatureNode;
-import lab.square.spltcoverage.core.antenna.model.NotNode;
-import lab.square.spltcoverage.core.antenna.model.OrNode;
+import lab.square.spltcoverage.core.model.antenna.AndNode;
+import lab.square.spltcoverage.core.model.antenna.ExpressionNode;
+import lab.square.spltcoverage.core.model.antenna.FeatureNode;
+import lab.square.spltcoverage.core.model.antenna.NotNode;
+import lab.square.spltcoverage.core.model.antenna.OrNode;
 
 public final class FeatureExpressionParser {
 	
