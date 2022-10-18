@@ -23,11 +23,11 @@ import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 import lab.square.spltcoverage.utils.Tools;
 
-public class CoverageReader {
+public final class CoverageReader {
 
 	private static String classpath;
 	
-	protected CoverageReader() {
+	private CoverageReader() {
 		
 	}
 

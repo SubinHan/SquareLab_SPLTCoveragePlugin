@@ -1,8 +1,6 @@
 package lab.square.spltcoverage.io;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,10 +13,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import lab.square.spltcoverage.model.FeatureSet;
+
 public class FeatureIdeConfigReader {
 
-	public static Map<String, Boolean> readFeatureSet(String targetPath) {
-		Map<String, Boolean> result = new HashMap<>();
+	public static FeatureSet readFeatureSet(String targetPath) {
+		FeatureSet result = new FeatureSet();
 
 		NodeList features = getFeaturesList(targetPath);
 
@@ -30,9 +30,9 @@ public class FeatureIdeConfigReader {
 
 			NamedNodeMap attributes = feature.getAttributes();
 			if (isSelectedFeature(feature)) {
-				result.put(getFeatureName(feature), true);
+				result.setFeature(getFeatureName(feature), true);
 			} else {
-				result.put(getFeatureName(feature), false);
+				result.setFeature(getFeatureName(feature), false);
 			}
 		}
 
