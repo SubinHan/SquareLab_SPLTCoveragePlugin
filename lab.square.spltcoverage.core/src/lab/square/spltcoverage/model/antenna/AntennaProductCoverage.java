@@ -4,8 +4,6 @@ import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductCoverage;
 
 public class AntennaProductCoverage extends ProductCoverage {
-
-	
 	
 	public AntennaProductCoverage(FeatureSet featureSet, String javaSourcePath) {
 		this(featureSet, javaSourcePath, "");

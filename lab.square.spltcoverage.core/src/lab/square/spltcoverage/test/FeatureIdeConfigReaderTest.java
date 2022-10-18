@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.FeatureIdeConfigReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.utils.Tools;
 
 public class FeatureIdeConfigReaderTest {
@@ -15,58 +16,54 @@ public class FeatureIdeConfigReaderTest {
 	
 	@Test
 	public void testReadFeatureSet() {
-		Map<String, Boolean> featureSet = FeatureIdeConfigReader.readFeatureSet(TARGET_PATH);
+		FeatureSet featureSet = FeatureIdeConfigReader.readFeatureSet(TARGET_PATH);
 		
 		assertTrue(isCorrect(featureSet));
 	}
 	
-	private boolean isCorrect(Map<String, Boolean> featureSet) {
-		if(!hasFeature(featureSet, "Elevator"))
+	private boolean isCorrect(FeatureSet featureSet) {
+		if(!featureSet.hasFeature("Elevator"))
 			return false;
-		if(!hasFeature(featureSet, "Behavior"))
+		if(!featureSet.hasFeature("Behavior"))
 			return false;
-		if(!hasFeature(featureSet, "Modes"))
+		if(!featureSet.hasFeature("Modes"))
 			return false;
-		if(hasFeature(featureSet, "Sabbath"))
+		if(featureSet.hasFeature("Sabbath"))
 			return false;
-		if(hasFeature(featureSet, "FIFO"))
+		if(featureSet.hasFeature("FIFO"))
 			return false;
-		if(!hasFeature(featureSet, "ShortestPaht"))
+		if(!featureSet.hasFeature("ShortestPaht"))
 			return false;
-		if(!hasFeature(featureSet, "Service"))
+		if(!featureSet.hasFeature("Service"))
 			return false;
-		if(hasFeature(featureSet, "Priorities"))
+		if(featureSet.hasFeature("Priorities"))
 			return false;
-		if(hasFeature(featureSet, "RushHour"))
+		if(featureSet.hasFeature("RushHour"))
 			return false;
-		if(hasFeature(featureSet, "FloorPriority"))
+		if(featureSet.hasFeature("FloorPriority"))
 			return false;
-		if(hasFeature(featureSet, "PersonPriority"))
+		if(featureSet.hasFeature("PersonPriority"))
 			return false;
-		if(hasFeature(featureSet, "VoiceOutput"))
+		if(featureSet.hasFeature("VoiceOutput"))
 			return false;
-		if(!hasFeature(featureSet, "CallButtons"))
+		if(!featureSet.hasFeature("CallButtons"))
 			return false;
-		if(hasFeature(featureSet, "UndirectedCall"))
+		if(featureSet.hasFeature("UndirectedCall"))
 			return false;
-		if(!hasFeature(featureSet, "DirectedCall"))
+		if(!featureSet.hasFeature("DirectedCall"))
 			return false;
-		if(!hasFeature(featureSet, "Security"))
+		if(!featureSet.hasFeature("Security"))
 			return false;
-		if(!hasFeature(featureSet, "Permission"))
+		if(!featureSet.hasFeature("Permission"))
 			return false;
-		if(!hasFeature(featureSet, "FloorPermission"))
+		if(!featureSet.hasFeature("FloorPermission"))
 			return false;
-		if(hasFeature(featureSet, "PermissionControl"))
+		if(featureSet.hasFeature("PermissionControl"))
 			return false;
-		if(hasFeature(featureSet, "Safety"))
+		if(featureSet.hasFeature("Safety"))
 			return false;
-		if(hasFeature(featureSet, "Overloaded"))
+		if(featureSet.hasFeature("Overloaded"))
 			return false;
 		return true;
-	}
-
-	private boolean hasFeature(Map<String, Boolean> featureSet, String feature) {
-		return Tools.getBooleanValue(featureSet.get(feature));
 	}
 }
