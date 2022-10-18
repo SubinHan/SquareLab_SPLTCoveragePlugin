@@ -9,102 +9,103 @@ import java.util.Map;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.antenna.FeatureExpressionParser;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
 
 public class FeatureExpressionParserTest {
 	
 	@Test
 	public void testAnd() {
-		Map<String, Boolean> featureSet = new HashMap<>();
+		FeatureSet featureSet = new FeatureSet();
 		
-		featureSet.put("CallButtons", false);
-		featureSet.put("DirectedCall", false);		
+		featureSet.setFeature("CallButtons", false);
+		featureSet.setFeature("DirectedCall", false);		
 		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", false);		
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", false);		
 		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
 		
-		featureSet.put("CallButtons", false);
-		featureSet.put("DirectedCall", true);
+		featureSet.setFeature("CallButtons", false);
+		featureSet.setFeature("DirectedCall", true);
 		assertFalse(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", true);
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", true);
 		assertTrue(FeatureExpressionParser.evaluate("CallButtons&DirectedCall", featureSet));
 	}
 	
 	@Test
 	public void testOr() {
-		Map<String, Boolean> featureSet = new HashMap<>();
+		FeatureSet featureSet = new FeatureSet();
 		
-		featureSet.put("CallButtons", false);
-		featureSet.put("DirectedCall", false);		
+		featureSet.setFeature("CallButtons", false);
+		featureSet.setFeature("DirectedCall", false);		
 		assertFalse(FeatureExpressionParser.evaluate("CallButtons|DirectedCall", featureSet));
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", false);		
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", false);		
 		assertTrue(FeatureExpressionParser.evaluate("CallButtons|DirectedCall", featureSet));
 		
-		featureSet.put("CallButtons", false);
-		featureSet.put("DirectedCall", true);
+		featureSet.setFeature("CallButtons", false);
+		featureSet.setFeature("DirectedCall", true);
 		assertTrue(FeatureExpressionParser.evaluate("CallButtons|DirectedCall", featureSet));
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", true);
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", true);
 		assertTrue(FeatureExpressionParser.evaluate("CallButtons|DirectedCall", featureSet));
 	}
 	
 	@Test
 	public void testNot() {
-		Map<String, Boolean> featureSet = new HashMap<>();
+		FeatureSet featureSet = new FeatureSet();
 		
-		featureSet.put("CallButtons", false);
+		featureSet.setFeature("CallButtons", false);
 		assertTrue(FeatureExpressionParser.evaluate("!CallButtons", featureSet));
 		
-		featureSet.put("CallButtons", true);
+		featureSet.setFeature("CallButtons", true);
 		assertFalse(FeatureExpressionParser.evaluate("!CallButtons", featureSet));
 	}
 	
 	@Test
 	public void testWeired() {
-		Map<String, Boolean> featureSet = new HashMap<>();
+		FeatureSet featureSet = new FeatureSet();
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", true);		
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", true);		
 		assertTrue(FeatureExpressionParser.evaluate("((((((CallButtons))&(DirectedCall)))))", featureSet));
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", false);	
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", false);	
 		assertFalse(FeatureExpressionParser.evaluate("((((((CallButtons))&(DirectedCall)))))", featureSet));
 	}
 	
 	@Test
 	public void testComplex() {
-		Map<String, Boolean> featureSet = new HashMap<>();
+		FeatureSet featureSet = new FeatureSet();
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", false);
-		featureSet.put("Sabbath", true);
-		featureSet.put("Replace", false);
-		featureSet.put("Another", true);
-		featureSet.put("Other", true);
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", false);
+		featureSet.setFeature("Sabbath", true);
+		featureSet.setFeature("Replace", false);
+		featureSet.setFeature("Another", true);
+		featureSet.setFeature("Other", true);
 		assertTrue(FeatureExpressionParser.evaluate("(!(CallButtons&DirectedCall)&Sabbath|(Replace|Another))&Other", featureSet));
 		
-		featureSet.put("CallButtons", false);
-		featureSet.put("DirectedCall", false);
-		featureSet.put("Sabbath", true);
-		featureSet.put("Replace", true);
-		featureSet.put("Another", true);
-		featureSet.put("Other", false);
+		featureSet.setFeature("CallButtons", false);
+		featureSet.setFeature("DirectedCall", false);
+		featureSet.setFeature("Sabbath", true);
+		featureSet.setFeature("Replace", true);
+		featureSet.setFeature("Another", true);
+		featureSet.setFeature("Other", false);
 		assertFalse(FeatureExpressionParser.evaluate("(!(CallButtons&DirectedCall)&Sabbath|(Replace|Another))&Other", featureSet));
 		
-		featureSet.put("CallButtons", true);
-		featureSet.put("DirectedCall", true);
-		featureSet.put("Sabbath", false);
-		featureSet.put("Replace", false);
-		featureSet.put("Another", true);
-		featureSet.put("Other", true);
+		featureSet.setFeature("CallButtons", true);
+		featureSet.setFeature("DirectedCall", true);
+		featureSet.setFeature("Sabbath", false);
+		featureSet.setFeature("Replace", false);
+		featureSet.setFeature("Another", true);
+		featureSet.setFeature("Other", true);
 		assertTrue(FeatureExpressionParser.evaluate("(!(CallButtons&DirectedCall)&Sabbath|(Replace|Another))&Other", featureSet));
 		
 	}

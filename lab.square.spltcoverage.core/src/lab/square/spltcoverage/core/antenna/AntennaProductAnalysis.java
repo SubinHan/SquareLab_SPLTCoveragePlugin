@@ -9,15 +9,16 @@ import java.util.Map;
 import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.analysis.ICounter;
 
-import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
+import lab.square.spltcoverage.model.FeatureSet;
+import lab.square.spltcoverage.model.antenna.AntennaProductCoverageOld;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
 import lab.square.spltcoverage.utils.Tools;
 
 public class AntennaProductAnalysis {
-	private final AntennaProductCoverage pc;
+	private final AntennaProductCoverageOld pc;
 	private Map<String, Collection<FeatureCoverage>> fcs;
 
-	public AntennaProductAnalysis(AntennaProductCoverage pc) {
+	public AntennaProductAnalysis(AntennaProductCoverageOld pc) {
 		this.pc = pc;
 		this.fcs = new HashMap<>();
 		initFeatureCoverage();
@@ -123,7 +124,7 @@ public class AntennaProductAnalysis {
 		return fcs.get(className);
 	}
 
-	public Collection<FeatureCoverage> getFeatureCoverage(Map<String, Boolean> targetFeatureSet) {
+	public Collection<FeatureCoverage> getFeatureCoverage(FeatureSet targetFeatureSet) {
 		List<FeatureCoverageMut> fcms = new ArrayList<>();
 		for (IClassCoverage cc : pc.getClassCoverages()) {
 			String name = Tools.convertClassNameByConvention(cc.getName());

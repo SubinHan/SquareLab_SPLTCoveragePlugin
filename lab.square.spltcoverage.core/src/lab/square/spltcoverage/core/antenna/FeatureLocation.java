@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
 
 public class FeatureLocation {
@@ -52,17 +52,17 @@ public class FeatureLocation {
 		return isFeatureLocationOf(feature, expressionToString(this.featureExpressions));
 	}
 	
-	public boolean isFeatureLocationOf(Map<String, Boolean> featureSet) {
+	public boolean isFeatureLocationOf(FeatureSet featureSet) {
 		return isFeatureLocationOf(featureSet, expressionToString(this.featureExpressions));
 	}
 	
 	public static boolean isFeatureLocationOf(String feature, String expression) {
-		Map<String, Boolean> featureSet = new HashMap<>();
-		featureSet.put(feature, true);
+		FeatureSet featureSet = new FeatureSet();
+		featureSet.addFeature(feature);
 		return isFeatureLocationOf(featureSet, expression);
 	}
 	
-	public static boolean isFeatureLocationOf(Map<String, Boolean> featureSet, String expression) {
+	public static boolean isFeatureLocationOf(FeatureSet featureSet, String expression) {
 		return FeatureExpressionParser.evaluate(expression, featureSet);
 	}
 	

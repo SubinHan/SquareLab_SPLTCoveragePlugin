@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
+import lab.square.spltcoverage.model.FeatureSet;
 
 public final class Tools {
 	
@@ -40,9 +41,9 @@ public final class Tools {
 		return value;
 	}
 
-	public static boolean contains(Collection<Map<String, Boolean>> featureSets, Map<String, Boolean> target) {
-		for (Map<String, Boolean> featureSet : featureSets) {
-			if (featureSetEquals(featureSet, target))
+	public static boolean contains(Collection<FeatureSet> featureSets, FeatureSet target) {
+		for (FeatureSet featureSet : featureSets) {
+			if (featureSet.equals(target))
 				return true;
 		}
 
@@ -84,5 +85,18 @@ public final class Tools {
 	
 	public static boolean isMergedCoverage(String fileNameWithExtension) {
 		return fileNameWithExtension.endsWith("Merged.exec") || fileNameWithExtension.endsWith(SplCoverageGenerator.SUFFIX_MERGED);
+	}
+	
+	public static List<String> getAllExistsFeatures(Collection<FeatureSet> products) {
+		List<String> existsFeatures = new ArrayList<>();
+		
+		for(FeatureSet product : products) {
+			for(String feature : product.getFeatures()) {
+				if(!existsFeatures.contains(feature))
+					existsFeatures.add(feature);
+			}
+		}
+		
+		return existsFeatures;
 	}
 }

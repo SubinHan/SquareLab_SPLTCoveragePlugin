@@ -2,9 +2,9 @@ package lab.square.spltcoverage.core.antenna;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.antenna.AndNode;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
 import lab.square.spltcoverage.model.antenna.FeatureNode;
@@ -109,7 +109,7 @@ public final class FeatureExpressionParser {
 		}
 	}
 
-	public static boolean evaluate(String expression, Map<String, Boolean> featureSet) {
+	public static boolean evaluate(String expression, FeatureSet featureSet) {
 		ExpressionNode root;
 		boolean result = false;
 		List<String> tokens = FeatureExpressionTokenizer.tokenize(expression);
@@ -125,7 +125,7 @@ public final class FeatureExpressionParser {
 		return result;
 	}
 
-	public static boolean evaluate(ExpressionNode node, Map<String, Boolean> featureSet) {
+	public static boolean evaluate(ExpressionNode node, FeatureSet featureSet) {
 		return node.evaluate(featureSet);
 	}
 

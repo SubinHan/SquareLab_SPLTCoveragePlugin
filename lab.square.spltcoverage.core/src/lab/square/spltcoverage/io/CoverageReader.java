@@ -17,16 +17,17 @@ import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
 import lab.square.spltcoverage.utils.Tools;
 
-public final class CoverageReader {
+public class CoverageReader {
 
 	private static String classpath;
 	
-	private CoverageReader() {
+	protected CoverageReader() {
 		
 	}
 
@@ -54,42 +55,42 @@ public final class CoverageReader {
 		insertTestCaseCoverages(productCoverage, testCaseFolders);
 	}
 	
-	public static Map<String, Boolean> findFeatureSet(File... files) {
-		Map<String, Boolean> featureSet = new HashMap<>();
+	public static FeatureSet findFeatureSet(File... files) {
+		FeatureSet featureSet = new FeatureSet();
 
 		for (File file : files) {
 			if (file.getName().equalsIgnoreCase(SplCoverageGenerator.FEATURESET_FILE_NAME)) {
 				try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)) {
 					String content = br.readLine();
-					featureSet = makeMap(content);
+					featureSet = makeFeatureSet(content);
 				} catch (IOException e) {
 					e.printStackTrace();
-					return Collections.emptyMap();
+					return new FeatureSet();
 				}
 			}
 		}
 		return featureSet;
 	}
 
-	public static Map<String, Boolean> makeMap(String given) {
-		Map<String, Boolean> map = new HashMap<>();
+	public static FeatureSet makeFeatureSet(String given) {
+		FeatureSet featureSet = new FeatureSet();
 
 		given = given.replace("{", "");
 		given = given.replace("}", "");
 		String[] pairs = given.split(",");
 
 		if (pairs[0].isEmpty())
-			return map;
+			return featureSet;
 
 		for (String pair : pairs) {
 			String[] splitted = pair.split("=");
 			String key = splitted[0].trim();
 			String value = splitted[1].trim();
 
-			map.put(key, value.equals("true"));
+			featureSet.setFeature(key, value.equals("true"));
 		}
 
-		return map;
+		return featureSet;
 	}
 
 

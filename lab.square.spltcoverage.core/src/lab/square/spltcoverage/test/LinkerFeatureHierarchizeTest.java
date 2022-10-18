@@ -1,13 +1,13 @@
 package lab.square.spltcoverage.test;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductNode;
 
 public class LinkerFeatureHierarchizeTest {
@@ -16,7 +16,7 @@ public class LinkerFeatureHierarchizeTest {
 	@Test
 	public void testHierarchize() {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader("D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Tools\\All_valid_conf\\FeatureAMP2\\products");
-		Collection<Map<String, Boolean>> products = reader.readAll();
+		Collection<FeatureSet> products = reader.readAll();
 		Collection<ProductNode> heads = ProductLinker.link(products);
 		printProductGraphs(heads);
 	}
@@ -40,10 +40,9 @@ public class LinkerFeatureHierarchizeTest {
 			System.out.print("  ");
 	}
 	
-	private void printFeatures(Map<String, Boolean> featureSet) {
-		for(Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if(Boolean.TRUE.equals(entry.getValue()))
-				System.out.print(entry.getKey() + " ");
+	private void printFeatures(FeatureSet featureSet) {
+		for(String feature : featureSet.getFeatures()) {
+			System.out.print(feature + " ");
 		}
 		System.out.println();
 	}

@@ -1,51 +1,34 @@
 package lab.square.spltcoverage.report;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import lab.square.similaritymeasure.core.Vector;
+import lab.square.spltcoverage.model.FeatureSet;
+import lab.square.spltcoverage.utils.Tools;
 
 public class VectorAdapter extends Vector{
 	
 	boolean[] vector;
 	
-	public VectorAdapter(Collection<Map<String, Boolean>> products, Map<String, Boolean> target) {
-		List<String> existsFeatures = getExistsFeatures(products); 
+	public VectorAdapter(Collection<FeatureSet> products, FeatureSet target) {
+		List<String> existsFeatures = Tools.getAllExistsFeatures(products); 
 		
 		this.vector = adapt(existsFeatures, target);
 	}
 	
-	public VectorAdapter(List<String> existsFeatures, Map<String, Boolean> target) {
+	public VectorAdapter(List<String> existsFeatures, FeatureSet target) {
 		this.vector = adapt(existsFeatures, target);
 	}
 	
-	private boolean[] adapt(List<String> existsFeatures, Map<String, Boolean> target) {
+	private boolean[] adapt(List<String> existsFeatures, FeatureSet target) {
 		boolean[] vector = new boolean[existsFeatures.size()];
 		
 		for(int i = 0; i < existsFeatures.size(); i++) {
-			Boolean hasFeature = target.get(existsFeatures.get(i));
-			if(hasFeature == null)
-				vector[i] = false;
-			else
-				vector[i] = hasFeature;
+			vector[i] = target.hasFeature(existsFeatures.get(i));
 		}
 		
 		return vector;
-	}
-
-	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
-		List<String> existsFeatures = new ArrayList<>();
-		
-		for(Map<String, Boolean> product : products) {
-			for(String key : product.keySet()) {
-				if(!existsFeatures.contains(key))
-					existsFeatures.add(key);
-			}
-		}
-		
-		return existsFeatures;
 	}
 
 	@Override

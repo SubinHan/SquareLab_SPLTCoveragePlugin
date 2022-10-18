@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jacoco.core.analysis.IClassCoverage;
@@ -13,6 +12,7 @@ import org.junit.Before;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.SplCoverageReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.model.SplCoverage;
@@ -332,10 +332,9 @@ public class LinkerTest {
 	}
 
 	private void printFeatures(ProductCoverage pc) {
-		Map<String, Boolean> featureSet = pc.getFeatureSet();
-		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if (Boolean.TRUE.equals(entry.getValue()))
-				System.out.print(entry.getKey() + " ");
+		FeatureSet featureSet = pc.getFeatureSet();
+		for (String feature : featureSet.getFeatures()) {
+			System.out.print(feature + " ");
 		}
 		System.out.println();
 	}

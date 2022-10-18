@@ -11,9 +11,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
@@ -39,6 +37,7 @@ import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.analysis.IProductProvider;
 import lab.square.spltcoverage.core.analysis.ISpltProvider;
 import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.IProxy;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 
@@ -67,33 +66,33 @@ public class CoverageGeneratorTest {
 		testsPath2.add(
 				"D:\\workspace-featureide\\Elevator-Antenna-v1.2-enterprise\\bin\\de\\ovgu\\featureide\\examples\\elevator\\test\\TestElevator.class");
 
-		Map<String, Boolean> featureSet1 = new HashMap<>();
-		featureSet1.put("Elevator", true);
-		featureSet1.put("Behavior", true);
-		featureSet1.put("Modes", true);
-		featureSet1.put("ShortestPaht", true);
-		featureSet1.put("CallButtons", true);
-		featureSet1.put("DirectedCall", true);
-		featureSet1.put("Service", true);
-		featureSet1.put("Priorities", true);
-		featureSet1.put("RushHour", true);
-		featureSet1.put("FloorPrioritiy", true);
-		featureSet1.put("PersonPriority", true);
-		featureSet1.put("VoiceOutput", true);
-		featureSet1.put("Security", true);
-		featureSet1.put("Permission", true);
-		featureSet1.put("FloorPermision", true);
-		featureSet1.put("PermissionControl", true);
-		featureSet1.put("Safety", true);
-		featureSet1.put("Overloaded", true);
+		FeatureSet featureSet1 = new FeatureSet();
+		featureSet1.setFeature("Elevator", true);
+		featureSet1.setFeature("Behavior", true);
+		featureSet1.setFeature("Modes", true);
+		featureSet1.setFeature("ShortestPaht", true);
+		featureSet1.setFeature("CallButtons", true);
+		featureSet1.setFeature("DirectedCall", true);
+		featureSet1.setFeature("Service", true);
+		featureSet1.setFeature("Priorities", true);
+		featureSet1.setFeature("RushHour", true);
+		featureSet1.setFeature("FloorPrioritiy", true);
+		featureSet1.setFeature("PersonPriority", true);
+		featureSet1.setFeature("VoiceOutput", true);
+		featureSet1.setFeature("Security", true);
+		featureSet1.setFeature("Permission", true);
+		featureSet1.setFeature("FloorPermision", true);
+		featureSet1.setFeature("PermissionControl", true);
+		featureSet1.setFeature("Safety", true);
+		featureSet1.setFeature("Overloaded", true);
 
-		Map<String, Boolean> featureSet2 = new HashMap<>();
-		featureSet1.put("Elevator", true);
-		featureSet1.put("Behavior", true);
-		featureSet1.put("Modes", true);
-		featureSet1.put("FIFO", true);
-		featureSet1.put("CallButtons", true);
-		featureSet1.put("UndirectedCall", true);
+		FeatureSet featureSet2 = new FeatureSet();
+		featureSet1.setFeature("Elevator", true);
+		featureSet1.setFeature("Behavior", true);
+		featureSet1.setFeature("Modes", true);
+		featureSet1.setFeature("FIFO", true);
+		featureSet1.setFeature("CallButtons", true);
+		featureSet1.setFeature("UndirectedCall", true);
 
 		productSourceInfos.add(new ProductSourceInfo(CLASSPATH_1, testsPath1, featureSet1));
 		productSourceInfos.add(new ProductSourceInfo(CLASSPATH_2, testsPath2, featureSet2));

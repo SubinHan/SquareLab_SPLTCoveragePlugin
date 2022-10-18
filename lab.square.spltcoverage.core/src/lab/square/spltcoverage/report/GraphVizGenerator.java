@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Rank;
@@ -18,6 +17,7 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Factory;
 import guru.nidi.graphviz.model.Graph;
 import guru.nidi.graphviz.model.Node;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductNode;
 
 public class GraphVizGenerator {
@@ -109,14 +109,12 @@ public class GraphVizGenerator {
 		
 	}
 
-	private static String toLightString(Map<String, Boolean> featureSet) {
+	private static String toLightString(FeatureSet featureSet) {
 		StringBuilder builder = new StringBuilder();
 
-		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if (Boolean.TRUE.equals(entry.getValue())) {
-				builder.append(entry.getKey());
-				builder.append(" ");
-			}
+		for (String feature : featureSet.getFeatures()) {
+			builder.append(feature);
+			builder.append(" ");
 		}
 
 		return builder.toString().trim();

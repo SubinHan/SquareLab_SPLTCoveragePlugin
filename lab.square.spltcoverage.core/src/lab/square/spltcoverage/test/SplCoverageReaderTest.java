@@ -5,14 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.SplCoverageReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ICoverageModelComponent;
 import lab.square.spltcoverage.model.ISplCoverageVisitor;
 import lab.square.spltcoverage.model.ProductCoverage;
@@ -26,7 +25,7 @@ public class SplCoverageReaderTest {
 
 	private static final String COVERAGES_PATH = "testResources/SplCoverage/";
 	private static final String CLASS_PATH = "src/lab/square/spltcoverage/test/target/";
-	private static List<Map<String, Boolean>> expected;
+	private static List<FeatureSet> expected;
 	private static int pcCount = 0;
 	private static int tccCount = 0;
 	private static int tmcCount = 0;
@@ -35,22 +34,22 @@ public class SplCoverageReaderTest {
 	public void setUp() {
 		expected = new ArrayList<>();
 		
-		Map<String, Boolean> featureSet1 = new HashMap<>();
-		Map<String, Boolean> featureSet2 = new HashMap<>();
-		Map<String, Boolean> featureSet3 = new HashMap<>();
-		Map<String, Boolean> featureSet4 = new HashMap<>();
-		Map<String, Boolean> featureSet5 = new HashMap<>();
+		FeatureSet featureSet1 = new FeatureSet();
+		FeatureSet featureSet2 = new FeatureSet();
+		FeatureSet featureSet3 = new FeatureSet();
+		FeatureSet featureSet4 = new FeatureSet();
+		FeatureSet featureSet5 = new FeatureSet();
 		
-		featureSet2.put(Configuration.CONFIG_A, true);
+		featureSet2.setFeature(Configuration.CONFIG_A, true);
 		
-		featureSet3.put(Configuration.CONFIG_B, true);
+		featureSet3.setFeature(Configuration.CONFIG_B, true);
 		
-		featureSet4.put(Configuration.CONFIG_A, true);
-		featureSet4.put(Configuration.CONFIG_B, true);
+		featureSet4.setFeature(Configuration.CONFIG_A, true);
+		featureSet4.setFeature(Configuration.CONFIG_B, true);
 		
-		featureSet5.put(Configuration.CONFIG_A, true);
-		featureSet5.put(Configuration.CONFIG_B, true);
-		featureSet5.put(Configuration.CONFIG_C, true);
+		featureSet5.setFeature(Configuration.CONFIG_A, true);
+		featureSet5.setFeature(Configuration.CONFIG_B, true);
+		featureSet5.setFeature(Configuration.CONFIG_C, true);
 		
 		expected.add(featureSet1);
 		expected.add(featureSet2);

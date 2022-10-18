@@ -1,6 +1,6 @@
 package lab.square.spltcoverage.model.antenna;
 
-import java.util.Map;
+import lab.square.spltcoverage.model.FeatureSet;
 
 public class AndNode extends ExpressionNode {
 
@@ -11,7 +11,7 @@ public class AndNode extends ExpressionNode {
 	}
 
 	@Override
-	public boolean evaluate(Map<String, Boolean> featureSet) {
+	public boolean evaluate(FeatureSet featureSet) {
 		return this.left.evaluate(featureSet) && this.right.evaluate(featureSet);
 	}
 }

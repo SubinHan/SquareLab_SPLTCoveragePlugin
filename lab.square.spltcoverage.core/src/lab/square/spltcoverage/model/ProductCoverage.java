@@ -13,7 +13,7 @@ import org.jacoco.core.analysis.IClassCoverage;
 public class ProductCoverage implements ICoverageModelComposite {
 	private Collection<IClassCoverage> classCoverages;
 	private Collection<ICoverageModelComponent> testCaseCoverages;
-	private Map<String, Boolean> featureSet;
+	private FeatureSet featureSet;
 	private String productName;
 	private Class[] targetClasses;
 	
@@ -21,11 +21,11 @@ public class ProductCoverage implements ICoverageModelComposite {
 	 * Create an empty ProductCoverage.
 	 * @param featureSet
 	 */
-	public ProductCoverage(Map<String, Boolean> featureSet) {
+	public ProductCoverage(FeatureSet featureSet) {
 		this(featureSet, "");
 	}
 	
-	public ProductCoverage(Map<String, Boolean> featureSet, String name) {
+	public ProductCoverage(FeatureSet featureSet, String name) {
 		this.featureSet = featureSet;
 		this.testCaseCoverages = new HashSet<>();
 		this.classCoverages = new HashSet<>();
@@ -39,7 +39,7 @@ public class ProductCoverage implements ICoverageModelComposite {
 	 * 							If the target class is not null,
 	 * 							equals() checks if the target classes' coverage is the same only. 
 	 */
-	public ProductCoverage(Map<String, Boolean> featureSet, Class... targetClasses) {
+	public ProductCoverage(FeatureSet featureSet, Class... targetClasses) {
 		this(featureSet);
 		this.targetClasses = targetClasses;
 	}
@@ -73,7 +73,7 @@ public class ProductCoverage implements ICoverageModelComposite {
 	 * Get the feature set.
 	 * @return
 	 */
-	public Map<String, Boolean> getFeatureSet(){
+	public FeatureSet getFeatureSet(){
 		return this.featureSet;
 	}
 	

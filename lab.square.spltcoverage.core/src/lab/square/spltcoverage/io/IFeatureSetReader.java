@@ -1,9 +1,10 @@
 package lab.square.spltcoverage.io;
 
 import java.util.Collection;
-import java.util.Map;
+
+import lab.square.spltcoverage.model.FeatureSet;
 
 public interface IFeatureSetReader {
-	public Map<String, Boolean> read();
-	public Collection<Map<String, Boolean>> readAll();
+	public FeatureSet read();
+	public Collection<FeatureSet> readAll();
 }

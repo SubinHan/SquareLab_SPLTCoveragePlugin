@@ -4,15 +4,15 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
 
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
 import lab.square.spltcoverage.io.SplCoverageReader;
-import lab.square.spltcoverage.model.SplCoverage;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductNode;
+import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.report.GraphVizGenerator;
 
 public class VizGeneratorTest {
@@ -67,7 +67,7 @@ public class VizGeneratorTest {
 
 	private void generateVizWithOnlyFeatureSets(String directory) {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader(directory);
-		Collection<Map<String, Boolean>> featureSets = reader.readAll();
+		Collection<FeatureSet> featureSets = reader.readAll();
 
 		Collection<ProductNode> heads = ProductLinker.link(featureSets);
 

@@ -12,17 +12,17 @@ import lab.square.spltcoverage.utils.Tools;
 public class ProductNode {
 	private Collection<ProductNode> parents;
 	private Collection<ProductNode> children;
-	private Map<String, Boolean> featureSet;
+	private FeatureSet featureSet;
 	private ProductCoverage productCoverage;
 	private int level;
 	
 	public ProductNode() {
 		this.parents = new HashSet<>();
 		this.children = new HashSet<>();
-		this.featureSet = new HashMap<>();
+		this.featureSet = new FeatureSet();
 	}
 	
-	public ProductNode(Map<String, Boolean> featureSet) {
+	public ProductNode(FeatureSet featureSet) {
 		this();
 		this.featureSet = featureSet;
 	}
@@ -64,7 +64,7 @@ public class ProductNode {
 		return this.level;
 	}	
 	
-	public Map<String, Boolean> getFeatureSet(){
+	public FeatureSet getFeatureSet(){
 		return this.featureSet;
 	}
 	
@@ -112,7 +112,7 @@ public class ProductNode {
 
 	private ProductCoverage findProductCoverage(SplCoverage splCoverage) {
 		for(ProductCoverage each : splCoverage.getProductCoverages()) {
-			if (Tools.featureSetEquals(this.featureSet, each.getFeatureSet())) {
+			if (featureSet.equals(each.getFeatureSet())) {
 				return each;
 			}
 		}

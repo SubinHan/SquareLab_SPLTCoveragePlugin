@@ -6,13 +6,13 @@ import static org.junit.Assert.assertNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.SplCoverageReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.model.SplCoverage;
@@ -35,7 +35,7 @@ public class ProductNodeTest {
 		}
 		int a = 10;
 		
-		Collection<Map<String, Boolean>> featureSets = new ArrayList<>();
+		Collection<FeatureSet> featureSets = new ArrayList<>();
 		
 		for (ProductCoverage each : splCoverage.getProductCoverages()) {
 			featureSets.add(each.getFeatureSet());

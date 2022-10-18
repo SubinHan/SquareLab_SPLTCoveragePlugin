@@ -10,15 +10,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.CoverageGenerator;
 import lab.square.spltcoverage.core.launch.SplCoverageGeneratorLauncher;
 import lab.square.spltcoverage.io.CoverageReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductSourceInfo;
 import lab.square.spltcoverage.utils.Tools;
 
@@ -52,14 +51,14 @@ public class SplCoverageGeneratorLauncherTest {
 		List<ProductSourceInfo> productSourceInfos;
 		productSourceInfos = new ArrayList<>();
 		
-		Map<String, Boolean> featureSet1 = new HashMap<>();
-		featureSet1.put("A", true);
-		featureSet1.put("B", true);
+		FeatureSet featureSet1 = new FeatureSet();
+		featureSet1.setFeature("A", true);
+		featureSet1.setFeature("B", true);
 		ProductSourceInfo info1 = new ProductSourceInfo(P1_TARGET_CLASSPATH, Arrays.asList(new String[] {P1_TARGET_TESTPATH1, P1_TARGET_TESTPATH2}), featureSet1);
 		
-		Map<String, Boolean> featureSet2 = new HashMap<>();
-		featureSet2.put("A", false);
-		featureSet2.put("B", false);
+		FeatureSet featureSet2 = new FeatureSet();
+		featureSet2.setFeature("A", false);
+		featureSet2.setFeature("B", false);
 		ProductSourceInfo info2 = new ProductSourceInfo(P2_TARGET_CLASSPATH, Arrays.asList(new String[] {P2_TARGET_TESTPATH1, P2_TARGET_TESTPATH2}), featureSet2);
 		
 		productSourceInfos.add(info1);
@@ -79,7 +78,7 @@ public class SplCoverageGeneratorLauncherTest {
 		try {
 			fr = new FileReader(readFeatureSet1);
 			BufferedReader br = new BufferedReader(fr);
-			assertTrue(Tools.featureSetEquals(featureSet1, CoverageReader.makeMap(br.readLine())));
+			assertTrue(featureSet1.equals(CoverageReader.makeFeatureSet(br.readLine())));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,7 +87,7 @@ public class SplCoverageGeneratorLauncherTest {
 		try {
 			fr = new FileReader(readFeatureSet2);
 			BufferedReader br = new BufferedReader(fr);
-			assertTrue(Tools.featureSetEquals(featureSet2, CoverageReader.makeMap(br.readLine())));
+			assertTrue(featureSet2.equals(CoverageReader.makeFeatureSet(br.readLine())));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

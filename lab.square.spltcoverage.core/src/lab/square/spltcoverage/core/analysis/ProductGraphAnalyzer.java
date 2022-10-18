@@ -3,10 +3,10 @@ package lab.square.spltcoverage.core.analysis;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
 
@@ -65,12 +65,12 @@ public class ProductGraphAnalyzer {
 		});
 	}
 
-	protected Collection<String> calculateDifference(Map<String, Boolean> smaller, Map<String, Boolean> bigger) {
+	protected Collection<String> calculateDifference(FeatureSet smaller, FeatureSet bigger) {
 		HashSet<String> toReturn = new HashSet<>();
 
-		for (Entry<String, Boolean> entry : smaller.entrySet()) {
-			if (Boolean.FALSE.equals(entry.getValue()) && Boolean.TRUE.equals(bigger.get(entry.getKey()))) {
-				toReturn.add(entry.getKey());
+		for (String feature : bigger.getFeatures()) {
+			if (!smaller.hasFeature(feature)) {
+				toReturn.add(feature);
 			}
 		}
 		return toReturn;

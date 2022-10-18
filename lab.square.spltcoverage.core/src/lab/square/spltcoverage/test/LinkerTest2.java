@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.test.target.Configuration;
 import lab.square.spltcoverage.utils.Tools;
@@ -26,7 +27,7 @@ public class LinkerTest2 {
 	
 	private Collection<ProductNode> visited;
 	
-	private Collection<Map<String,Boolean>> expected;
+	private Collection<FeatureSet> expected;
 
 	@Before
 	public void setUp() {
@@ -50,11 +51,11 @@ public class LinkerTest2 {
 		featureSet5.put(Configuration.CONFIG_B, true);
 		featureSet5.put(Configuration.CONFIG_C, true);
 		
-		expected.add(featureSet1);
-		expected.add(featureSet2);
-		expected.add(featureSet3);
-		expected.add(featureSet4);
-		expected.add(featureSet5);
+		expected.add(new FeatureSet(featureSet1));
+		expected.add(new FeatureSet(featureSet2));
+		expected.add(new FeatureSet(featureSet3));
+		expected.add(new FeatureSet(featureSet4));
+		expected.add(new FeatureSet(featureSet5));
 	}
 	
 	@Test
@@ -67,7 +68,7 @@ public class LinkerTest2 {
 
 	private void testLinker(String directory) {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader(directory);
-		Collection<Map<String, Boolean>> products = reader.readAll();
+		Collection<FeatureSet> products = reader.readAll();
 
 		Collection<ProductNode> heads = ProductLinker.link(products);
 		if (heads.isEmpty())
@@ -102,10 +103,9 @@ public class LinkerTest2 {
 		}
 	}
 
-	private void printFeatures(Map<String, Boolean> featureSet) {
-		for (Entry<String, Boolean> entry : featureSet.entrySet()) {
-			if (Boolean.TRUE.equals(entry.getValue()))
-				System.out.print(entry.getKey() + " ");
+	private void printFeatures(FeatureSet featureSet) {
+		for (String feature : featureSet.getFeatures()) {
+			System.out.print(feature + " ");
 		}
 		System.out.println();
 	}

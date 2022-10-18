@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.test;
+package lab.square.spltcoverage.test.antenna;
 
 import static org.junit.Assert.assertTrue;
 

@@ -3,12 +3,12 @@ package lab.square.spltcoverage.test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.FeatureSetGroupReader;
+import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.test.target.Configuration;
 
 public class FeatureSetGroupReaderTest {
@@ -17,18 +17,15 @@ public class FeatureSetGroupReaderTest {
 	public void testReadOlder() {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader(
 				"D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\productsOlder");
-		Collection<Map<String, Boolean>> products = reader.readAll();
+		Collection<FeatureSet> products = reader.readAll();
 		
 		int configSum = 0;
 		int numConfigA = 0;
 		int numConfigB = 0;
 		int numConfigC = 0;
 		
-		for(Map<String, Boolean> featureSet : products) {
-			for(Entry<String, Boolean> entry : featureSet.entrySet()) {
-				if(Boolean.FALSE.equals(entry.getValue()))
-					continue;
-				String feature = entry.getKey();
+		for(FeatureSet featureSet : products) {
+			for(String feature : featureSet.getFeatures()) {
 				if(feature.equalsIgnoreCase(Configuration.CONFIG_A)) {
 					numConfigA++;
 				}
@@ -55,18 +52,15 @@ public class FeatureSetGroupReaderTest {
 	public void testReadNewer() {
 		FeatureSetGroupReader reader = new FeatureSetGroupReader(
 				"D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\productsNewer");
-		Collection<Map<String, Boolean>> products = reader.readAll();
+		Collection<FeatureSet> products = reader.readAll();
 		
 		int configSum = 0;
 		int numConfigA = 0;
 		int numConfigB = 0;
 		int numConfigC = 0;
 		
-		for(Map<String, Boolean> featureSet : products) {
-			for(Entry<String, Boolean> entry : featureSet.entrySet()) {
-				if(Boolean.FALSE.equals(entry.getValue()))
-					continue;
-				String feature = entry.getKey();
+		for(FeatureSet featureSet : products) {
+			for(String feature : featureSet.getFeatures()) {
 				if(feature.equalsIgnoreCase(Configuration.CONFIG_A)) {
 					numConfigA++;
 				}

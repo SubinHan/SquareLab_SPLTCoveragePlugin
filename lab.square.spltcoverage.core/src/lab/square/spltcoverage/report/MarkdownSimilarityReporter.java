@@ -5,22 +5,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import lab.square.similaritymeasure.core.ISimilarityMeasurer;
 import lab.square.similaritymeasure.core.Jaccard;
 import lab.square.spltcoverage.io.MarkdownTableBuilder;
+import lab.square.spltcoverage.model.FeatureSet;
+import lab.square.spltcoverage.utils.Tools;
 
 public class MarkdownSimilarityReporter {
 
-	Collection<Map<String, Boolean>> products;
+	Collection<FeatureSet> products;
 
-	public MarkdownSimilarityReporter(Collection<Map<String, Boolean>> products) {
+	public MarkdownSimilarityReporter(Collection<FeatureSet> products) {
 		this.products = products;
 	}
 
@@ -76,41 +75,26 @@ public class MarkdownSimilarityReporter {
 	private MarkdownTableBuilder buildHeader(MarkdownTableBuilder builder) {
 		String[] headers = new String[products.size()];
 		int i = 0;
-		for (Map<String, Boolean> product : products) {
+		for (FeatureSet product : products) {
 			headers[i++] = toLightString(product);
 		}
 		
 		return builder.addHeader(headers);
 	}
 	
-	private String toLightString(Map<String, Boolean> product) {
+	private String toLightString(FeatureSet product) {
 		StringBuilder builder = new StringBuilder();
 		
-		for(Entry<String, Boolean> entry : product.entrySet()) {
-			if(Boolean.TRUE.equals(entry.getValue())) {
-				builder.append(entry.getKey() + " ");
-			}
+		for(String feature : product.getFeatures()) {
+			builder.append(feature + " ");
 		}
 		return builder.toString();
 	}
-
-	private List<String> getExistsFeatures(Collection<Map<String, Boolean>> products) {
-		List<String> existsFeatures = new ArrayList<>();
-		
-		for(Map<String, Boolean> product : products) {
-			for(String key : product.keySet()) {
-				if(!existsFeatures.contains(key))
-					existsFeatures.add(key);
-			}
-		}
-		
-		return existsFeatures;
-	}
 	
 	private List<VectorAdapter> adaptVectors() {
-		List<String> existsFeatures = getExistsFeatures(products);
+		List<String> existsFeatures = Tools.getAllExistsFeatures(products);
 		List<VectorAdapter> vectors = new LinkedList<>();
-		for(Map<String, Boolean> product : products) {
+		for(FeatureSet product : products) {
 			VectorAdapter adapter = new VectorAdapter(existsFeatures, product);
 			vectors.add(adapter);
 		}
