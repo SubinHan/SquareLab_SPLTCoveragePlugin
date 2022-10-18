@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Stack;
 import java.util.logging.Logger;
 
-import lab.square.spltcoverage.core.model.antenna.AntennaLineType;
+import lab.square.spltcoverage.model.antenna.AntennaLineType;
 
 public class FeatureLocator {
 

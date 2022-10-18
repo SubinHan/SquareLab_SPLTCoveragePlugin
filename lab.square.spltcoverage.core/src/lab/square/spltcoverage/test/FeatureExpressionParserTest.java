@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import lab.square.spltcoverage.core.antenna.FeatureExpressionParser;
-import lab.square.spltcoverage.core.model.antenna.ExpressionNode;
+import lab.square.spltcoverage.model.antenna.ExpressionNode;
 
 public class FeatureExpressionParserTest {
 	

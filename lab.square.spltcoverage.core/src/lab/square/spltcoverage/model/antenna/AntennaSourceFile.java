@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.model.antenna;
+package lab.square.spltcoverage.model.antenna;
 
 import java.io.BufferedReader;
 import java.io.File;

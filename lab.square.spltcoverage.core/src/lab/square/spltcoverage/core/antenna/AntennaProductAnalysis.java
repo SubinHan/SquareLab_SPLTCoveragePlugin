@@ -9,8 +9,8 @@ import java.util.Map;
 import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.analysis.ICounter;
 
-import lab.square.spltcoverage.core.model.antenna.AntennaProductCoverage;
-import lab.square.spltcoverage.core.model.antenna.ExpressionNode;
+import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
+import lab.square.spltcoverage.model.antenna.ExpressionNode;
 import lab.square.spltcoverage.utils.Tools;
 
 public class AntennaProductAnalysis {

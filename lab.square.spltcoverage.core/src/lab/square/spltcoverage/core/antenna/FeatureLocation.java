@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import lab.square.spltcoverage.core.model.antenna.ExpressionNode;
+import lab.square.spltcoverage.model.antenna.ExpressionNode;
 
 public class FeatureLocation {
 	private final File sourceFile;
