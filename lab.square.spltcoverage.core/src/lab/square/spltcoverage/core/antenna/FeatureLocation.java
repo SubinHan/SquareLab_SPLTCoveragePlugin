@@ -56,6 +56,10 @@ public class FeatureLocation {
 		return isFeatureLocationOf(featureSet, expressionToString(this.featureExpressions));
 	}
 	
+	public boolean containsLine(int lineNumber) {
+		return (lineStart <= lineNumber) && (lineNumber <= lineEnd);
+	}
+	
 	public static boolean isFeatureLocationOf(String feature, String expression) {
 		FeatureSet featureSet = new FeatureSet();
 		featureSet.addFeature(feature);

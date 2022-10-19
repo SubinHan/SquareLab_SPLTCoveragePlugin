@@ -16,7 +16,7 @@ public class FeatureLocator {
 
 	static final Logger logger = Logger.getLogger(FeatureLocator.class.getName());
 
-	public Collection<FeatureLocation> analyze(String javaSourceFilePath) {
+	public static Collection<FeatureLocation> analyze(String javaSourceFilePath) {
 
 		Collection<FeatureLocation> featureLocations = new ArrayList<>();
 		
@@ -103,12 +103,12 @@ public class FeatureLocator {
 		return AntennaLineType.ACTIVATED;
 	}
 
-	private String removeSpace(String line) {
+	private static String removeSpace(String line) {
 		line = line.replaceAll("\\s+", "");
 		return line;
 	}
 
-	protected class LocationInfo {
+	protected static class LocationInfo {
 		protected final int startLine;
 		protected final String featureExpression;
 

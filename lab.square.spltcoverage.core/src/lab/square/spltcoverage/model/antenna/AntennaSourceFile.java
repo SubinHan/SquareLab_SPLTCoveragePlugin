@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+import lab.square.spltcoverage.core.antenna.FeatureLocation;
 import lab.square.spltcoverage.core.antenna.FeatureLocator;
+import lab.square.spltcoverage.model.FeatureSet;
 
 public class AntennaSourceFile {
 
@@ -19,10 +23,16 @@ public class AntennaSourceFile {
 
 	String fileName;
 	AntennaLineType[] sourceLines;
+	Collection<FeatureLocation> featureLocations;
 
 	public AntennaSourceFile(String filePath) {
 		initFileName(filePath);
 		initSourceLines(filePath);
+		initFeatureLocations(filePath);
+	}
+
+	private void initFeatureLocations(String filePath) {
+		featureLocations = FeatureLocator.analyze(filePath);
 	}
 
 	private void initSourceLines(String filePath) {
@@ -166,5 +176,31 @@ public class AntennaSourceFile {
 
 	private boolean isAntennaDirectives(AntennaLineType antennaLineType) {
 		return antennaLineType != AntennaLineType.ACTIVATED && antennaLineType != AntennaLineType.DEACTIVATED;
+	}
+
+	public boolean isLineFeatureLocationOf(int i, String feature) {
+		FeatureSet featureSet = new FeatureSet();
+		featureSet.addFeature(feature);
+		return isLineFeatureLocationOf(i, featureSet);
+	}
+
+	public boolean isLineFeatureLocationOf(int i, Collection<String> features) {
+		FeatureSet featureSet = new FeatureSet();
+		for(String feature : features) {
+			featureSet.addFeature(feature);
+		}
+		return isLineFeatureLocationOf(i, featureSet);
+	}
+	
+	public boolean isLineFeatureLocationOf(int i, FeatureSet featureSet) {
+		for (FeatureLocation each : featureLocations) {
+			if(!each.containsLine(i))
+				continue;
+			
+			if(!each.isFeatureLocationOf(featureSet))
+				return false;
+		}
+		
+		return true;
 	}
 }
