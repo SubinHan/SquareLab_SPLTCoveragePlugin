@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.antenna;
+package lab.square.spltcoverage.model.antenna;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+import lab.square.spltcoverage.core.antenna.FeatureExpressionParser;
 import lab.square.spltcoverage.model.FeatureSet;
-import lab.square.spltcoverage.model.antenna.ExpressionNode;
 
 public class FeatureLocation {
 	private final File sourceFile;
@@ -112,5 +112,11 @@ public class FeatureLocation {
 		}
 		
 		return result;
+	}
+
+	public static String getFeatureExpressionAtLineOfFeatureLocations(int i,
+			Collection<FeatureLocation> featureLocations) {
+		return FeatureLocation.expressionToString(
+				FeatureLocation.calculateFeatureExpressionOfLine(featureLocations, i));
 	}
 }

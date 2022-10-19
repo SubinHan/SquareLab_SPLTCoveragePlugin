@@ -11,6 +11,7 @@ import java.util.Stack;
 import java.util.logging.Logger;
 
 import lab.square.spltcoverage.model.antenna.AntennaLineType;
+import lab.square.spltcoverage.model.antenna.FeatureLocation;
 
 public class FeatureLocator {
 
@@ -90,15 +91,16 @@ public class FeatureLocator {
 	}
 
 	public static AntennaLineType calculateLineType(String line) {
-		if (line.contains("//#if"))
+		line = removeSpace(line);
+		if (line.startsWith("//#if"))
 			return AntennaLineType.IF;
-		if (line.contains("//#endif"))
+		if (line.startsWith("//#endif"))
 			return AntennaLineType.ENDIF;
-		if (line.contains("//#elif"))
+		if (line.startsWith("//#elif"))
 			return AntennaLineType.ELIF;
-		if (line.contains("//#else"))
+		if (line.startsWith("//#else"))
 			return AntennaLineType.ELSE;
-		if (line.contains("//@"))
+		if (line.startsWith("//@"))
 			return AntennaLineType.DEACTIVATED;
 		return AntennaLineType.ACTIVATED;
 	}

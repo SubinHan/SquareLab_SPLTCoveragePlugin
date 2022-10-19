@@ -7,6 +7,7 @@ import java.util.Stack;
 import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.antenna.AndNode;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
+import lab.square.spltcoverage.model.antenna.FeatureLocation;
 import lab.square.spltcoverage.model.antenna.FeatureNode;
 import lab.square.spltcoverage.model.antenna.NotNode;
 import lab.square.spltcoverage.model.antenna.OrNode;

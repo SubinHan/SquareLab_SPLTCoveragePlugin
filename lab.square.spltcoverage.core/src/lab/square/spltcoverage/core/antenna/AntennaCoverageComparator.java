@@ -10,6 +10,7 @@ import org.jacoco.core.analysis.ICounter;
 
 import lab.square.spltcoverage.io.CoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
+import lab.square.spltcoverage.model.antenna.FeatureLocation;
 
 public class AntennaCoverageComparator {
 

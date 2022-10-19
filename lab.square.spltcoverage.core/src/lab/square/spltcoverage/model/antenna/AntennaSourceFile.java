@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import lab.square.spltcoverage.core.antenna.FeatureLocation;
 import lab.square.spltcoverage.core.antenna.FeatureLocator;
 import lab.square.spltcoverage.model.FeatureSet;
 

@@ -12,6 +12,7 @@ import org.jacoco.core.analysis.ICounter;
 import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.antenna.AntennaProductCoverageOld;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
+import lab.square.spltcoverage.model.antenna.FeatureLocation;
 import lab.square.spltcoverage.utils.Tools;
 
 public class AntennaProductAnalysis {
