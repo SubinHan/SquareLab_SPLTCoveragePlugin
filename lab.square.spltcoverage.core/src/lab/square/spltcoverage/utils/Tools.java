@@ -67,8 +67,8 @@ public final class Tools {
 
 	public static String convertClassNameByConvention(String className) {
 		String converted = className.replace('/', '.');
-		if (className.contains("$"))
-			converted = converted.substring(0, className.lastIndexOf('$'));
+//		if (className.contains("$"))
+//			converted = converted.substring(0, className.lastIndexOf('$'));
 
 		return converted;
 	}

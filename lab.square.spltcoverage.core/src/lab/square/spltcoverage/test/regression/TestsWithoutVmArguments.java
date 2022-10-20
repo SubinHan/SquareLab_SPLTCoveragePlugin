@@ -13,6 +13,7 @@ import lab.square.spltcoverage.test.LinkerTest2;
 import lab.square.spltcoverage.test.ProductNodeTest;
 import lab.square.spltcoverage.test.SplCoverageGeneratorLauncherTest;
 import lab.square.spltcoverage.test.SplCoverageReaderTest;
+import lab.square.spltcoverage.test.antenna.AntennaCoverageAccumulatorTest;
 import lab.square.spltcoverage.test.antenna.AntennaCoverageReaderTest;
 import lab.square.spltcoverage.test.antenna.AntennaModelTest;
 import lab.square.spltcoverage.test.antenna.FeatureLocatorTest;
@@ -30,6 +31,7 @@ import lab.square.spltcoverage.test.antenna.ProductFeatureLocationTest;
 	ProductNodeTest.class, 
 	SplCoverageGeneratorLauncherTest.class,
 	SplCoverageReaderTest.class,
+	AntennaCoverageAccumulatorTest.class,
 	AntennaCoverageReaderTest.class,
 	AntennaModelTest.class, 
 	FeatureLocatorTest.class, 
