@@ -2,7 +2,6 @@ package lab.square.spltcoverage.model;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.jacoco.core.analysis.IClassCoverage;
 
@@ -187,5 +186,19 @@ public class ProductCoverage implements ICoverageModelComposite {
 	
 	public boolean justEquals(Object obj) {
 		return this == obj;
+	}
+
+	public int getProductCoverageStatusAtLineOfClass(int i, String classNameWithDots) {
+		IClassCoverage classCoverage = findCoverageByClassNameWithDots(classNameWithDots);
+		return classCoverage.getLine(i).getStatus();
+	}
+
+	private IClassCoverage findCoverageByClassNameWithDots(String classNameWithDots) {
+		for(IClassCoverage classCoverage : classCoverages) {
+			if(classCoverage.getName().replace('/', '.').equals(classNameWithDots))
+				return classCoverage;
+		}
+
+		return null;
 	}
 }

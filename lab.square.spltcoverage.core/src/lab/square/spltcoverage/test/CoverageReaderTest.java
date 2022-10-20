@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.jacoco.core.analysis.ICounter;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.CoverageReader;
@@ -13,17 +15,37 @@ import lab.square.spltcoverage.model.ICoverageModelComponent;
 import lab.square.spltcoverage.model.ICoverageModelComposite;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.test.target.Configuration;
-import lab.square.spltcoverage.utils.Tools;
 
 public class CoverageReaderTest {
 	
+	private static final String CLASS_A = "lab.square.spltcoverage.test.target.ClassA";
 	private static final String COVERAGES_PATH = "testResources/SingleProductCoverage/";
-	private static final String CLASS_PATH = "src/lab/square/spltcoverage/test/target/";
+	private static final String CLASS_PATH = "target/classes/";
 
+	private static ProductCoverage coverage;
+	
+	@BeforeClass
+	public static void setUp() {
+		try {
+			coverage = CoverageReader.read(COVERAGES_PATH, CLASS_PATH);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Test
-	public void testCoverageReaderStaticMethod() throws IOException {
-		ProductCoverage coverage = CoverageReader.read(COVERAGES_PATH, CLASS_PATH);
+	public void testCoverageReaderStaticMethod() {
 		assertReadCorrectly(coverage, makeExpectedFeatureSet());
+	}
+	
+	@Test
+	public void testCoverageStatus() {
+		assertEquals(ICounter.FULLY_COVERED, coverage.getProductCoverageStatusAtLineOfClass(6, CLASS_A));
+		assertEquals(ICounter.FULLY_COVERED, coverage.getProductCoverageStatusAtLineOfClass(15, CLASS_A));
+		assertEquals(ICounter.NOT_COVERED, coverage.getProductCoverageStatusAtLineOfClass(8, CLASS_A));
+		assertEquals(ICounter.NOT_COVERED, coverage.getProductCoverageStatusAtLineOfClass(13, CLASS_A));
+		assertEquals(ICounter.PARTLY_COVERED, coverage.getProductCoverageStatusAtLineOfClass(5, CLASS_A));
+		assertEquals(ICounter.PARTLY_COVERED, coverage.getProductCoverageStatusAtLineOfClass(12, CLASS_A));
 	}
 	
 	private void assertReadCorrectly(ProductCoverage coverage, FeatureSet expectedFeatureSet) {
