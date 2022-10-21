@@ -1,4 +1,4 @@
-package lab.square.spltcoverage.core.antenna;
+package lab.square.spltcoverage.io.antenna;
 
 import java.io.File;
 import java.io.IOException;

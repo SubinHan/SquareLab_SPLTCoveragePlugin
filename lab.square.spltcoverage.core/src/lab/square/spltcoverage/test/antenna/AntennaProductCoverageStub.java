@@ -2,7 +2,7 @@ package lab.square.spltcoverage.test.antenna;
 
 import java.io.IOException;
 
-import lab.square.spltcoverage.core.antenna.AntennaCoverageReader;
+import lab.square.spltcoverage.io.antenna.AntennaCoverageReader;
 import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
 
 public class AntennaProductCoverageStub {
