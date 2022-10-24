@@ -42,17 +42,22 @@ public final class SplCoverageReader {
 
 		int productCount = 0;
 		for (File productFolder : productFolders) {
-			if (!productFolder.isDirectory()) {
-				if (Tools.isMergedCoverage(productFolder.getName())) {
-					splCoverage.addClassCoverages(load(productFolder, classpaths[0]));
-				}
-				continue;
-			}
-			
-			ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classpaths[productCount++]);
-
-			splCoverage.addChild(productCoverage);
+			readProductIntoSplCoverage(productFolder, classpaths[productCount++]);
 		}
+	}
+
+	private static void readProductIntoSplCoverage(File productFolder, String classpath) throws IOException {
+		if (!productFolder.isDirectory()) {
+			if (Tools.isMergedCoverage(productFolder.getName())) {
+				splCoverage.addClassCoverages(load(productFolder, classpaths[0]));
+			}
+			return;
+		}
+		
+		ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classpath);
+		productCoverage.setName(productFolder.getName());
+		
+		splCoverage.addChild(productCoverage);
 	}
 
 	private static Collection<IClassCoverage> load(File testMethodCoverageFile, String classpath) throws IOException {

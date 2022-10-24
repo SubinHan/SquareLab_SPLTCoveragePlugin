@@ -5,9 +5,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import lab.square.spltcoverage.io.SplCoverageReader;
@@ -25,14 +27,42 @@ public class SplCoverageReaderTest {
 
 	private static final String COVERAGES_PATH = TestConfig.SPL_COVERAGE_PATH;
 	private static final String CLASS_PATH = TestConfig.CLASSPATH_SELF;
-	private static List<FeatureSet> expected;
+	private static final int NUM_PRODUCTS = 5;
+	private static List<FeatureSet> expectedFeatureSets;
+	private static Set<String> expectedProductNames;
 	private static int pcCount = 0;
 	private static int tccCount = 0;
 	private static int tmcCount = 0;
 	
-	@Before
-	public void setUp() {
-		expected = new ArrayList<>();
+	private static SplCoverage splCoverage;
+	
+	@BeforeClass
+	public static void setUp() {
+		setUpExpectedFeatureSets();
+		setUpExpectedProductNames();
+		setUpSplCoverage();
+	}
+
+	private static void setUpExpectedProductNames() {
+		expectedProductNames = new HashSet<>();
+		
+		for(int i = 1; i <= NUM_PRODUCTS; i++) {
+			expectedProductNames.add("Product" + i);
+		}
+	}
+
+	private static void setUpSplCoverage() {
+		splCoverage = new SplCoverage("test");
+		
+		try {
+			SplCoverageReader.readInvariablePlCoverageInto(splCoverage, COVERAGES_PATH, CLASS_PATH);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void setUpExpectedFeatureSets() {
+		expectedFeatureSets = new ArrayList<>();
 		
 		FeatureSet featureSet1 = new FeatureSet();
 		FeatureSet featureSet2 = new FeatureSet();
@@ -51,18 +81,15 @@ public class SplCoverageReaderTest {
 		featureSet5.setFeature(Configuration.CONFIG_B, true);
 		featureSet5.setFeature(Configuration.CONFIG_C, true);
 		
-		expected.add(featureSet1);
-		expected.add(featureSet2);
-		expected.add(featureSet3);
-		expected.add(featureSet4);
-		expected.add(featureSet5);
+		expectedFeatureSets.add(featureSet1);
+		expectedFeatureSets.add(featureSet2);
+		expectedFeatureSets.add(featureSet3);
+		expectedFeatureSets.add(featureSet4);
+		expectedFeatureSets.add(featureSet5);
 	}
 	
 	@Test
 	public void testSpltCoverageReader() throws IOException {
-		SplCoverage splCoverage = new SplCoverage("test");
-		
-		SplCoverageReader.readInvariablePlCoverageInto(splCoverage, COVERAGES_PATH, CLASS_PATH);
 		
 		splCoverage.accept(new ISplCoverageVisitor() {
 			@Override
@@ -78,7 +105,7 @@ public class SplCoverageReaderTest {
 					this.visit((TestCaseCoverage)tcc);
 				}
 				
-				assertTrue(Tools.contains(expected, pc.getFeatureSet()));
+				assertTrue(Tools.contains(expectedFeatureSets, pc.getFeatureSet()));
 				SplCoverageReaderTest.pcCount++;
 			}
 
@@ -101,5 +128,11 @@ public class SplCoverageReaderTest {
 		assertEquals(40, tmcCount);
 	}
 	
-	
+	@Test
+	public void testProductName() {
+		for(ProductCoverage pc : splCoverage.getProductCoverages()) {
+			assertTrue(expectedProductNames.contains(pc.getName()));
+			expectedProductNames.remove(pc.getName());
+		}
+	}
 }
