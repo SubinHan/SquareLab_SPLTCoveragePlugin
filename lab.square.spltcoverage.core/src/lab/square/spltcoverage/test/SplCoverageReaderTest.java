@@ -23,8 +23,8 @@ import lab.square.spltcoverage.utils.Tools;
 
 public class SplCoverageReaderTest {
 
-	private static final String COVERAGES_PATH = "testResources/testInput/SplCoverage/";
-	private static final String CLASS_PATH = "src/lab/square/spltcoverage/test/target/";
+	private static final String COVERAGES_PATH = TestConfig.SPL_COVERAGE_PATH;
+	private static final String CLASS_PATH = TestConfig.CLASSPATH_SELF;
 	private static List<FeatureSet> expected;
 	private static int pcCount = 0;
 	private static int tccCount = 0;

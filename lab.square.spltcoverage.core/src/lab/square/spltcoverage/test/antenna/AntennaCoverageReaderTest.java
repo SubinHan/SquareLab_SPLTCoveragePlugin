@@ -16,13 +16,14 @@ import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ICoverageModelComponent;
 import lab.square.spltcoverage.model.ICoverageModelComposite;
 import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
+import lab.square.spltcoverage.test.TestConfig;
 
 public class AntennaCoverageReaderTest {
 	
-	private static final String PRODUCT2_CLASS_A = "test.spltcoverage.antennaproduct.ClassA";
-	private static final String PRODUCT_PATH = "testResources/testInput/AntennaSplCoverage/product2";
-	private static final String JAVA_SOURCE_PATH = "testResources/testInput/AntennaPlProjects/antenna.test.product2/src";
-	private static final String CLASSPATH = "testResources/testInput/AntennaPlProjects/antenna.test.product2/bin";
+	private static final String PRODUCT_CLASS_A = TestConfig.ANTENNA_CLASS_A_CLASSNAME;
+	private static final String PRODUCT_PATH = TestConfig.ANTENNA_SPL_COVERAGE_PATH + "/product2";
+	private static final String JAVA_SOURCE_PATH = TestConfig.ANTENNA_PRODUCT2_PATH + "/src";
+	private static final String CLASSPATH = TestConfig.ANTENNA_PRODUCT2_PATH + "/bin";
 	
 	private static AntennaProductCoverage pc;
 	
@@ -59,7 +60,7 @@ public class AntennaCoverageReaderTest {
 	
 	@Test
 	public void testSource() {		
-		assertNotNull(pc.getFeatureLocationsOfClass(PRODUCT2_CLASS_A));
+		assertNotNull(pc.getFeatureLocationsOfClass(PRODUCT_CLASS_A));
 		
 		FeatureSet featureExpressionOfLine9 = new FeatureSet();
 		featureExpressionOfLine9.addFeature("A");
@@ -68,10 +69,10 @@ public class AntennaCoverageReaderTest {
 		featureExpressionOfLine13.setFeature("A", false);
 		featureExpressionOfLine13.addFeature("B");
 		
-		assertTrue(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(7, PRODUCT2_CLASS_A), featureExpressionOfLine9));
-		assertFalse(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(7, PRODUCT2_CLASS_A), featureExpressionOfLine13));
+		assertTrue(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(7, PRODUCT_CLASS_A), featureExpressionOfLine9));
+		assertFalse(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(7, PRODUCT_CLASS_A), featureExpressionOfLine13));
 		
-		assertTrue(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(9, PRODUCT2_CLASS_A), featureExpressionOfLine13));
-		assertFalse(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(9, PRODUCT2_CLASS_A), featureExpressionOfLine9));
+		assertTrue(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(9, PRODUCT_CLASS_A), featureExpressionOfLine13));
+		assertFalse(FeatureExpressionParser.evaluate(pc.getFeatureExpressionAtLineOfClass(9, PRODUCT_CLASS_A), featureExpressionOfLine9));
 	}
 }

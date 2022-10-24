@@ -19,9 +19,9 @@ public class CoverageGeneratorLauncherTest {
 	private static final int B_TESTMETHOD_COUNT = 5;
 	private static final int TESTCLASS_COUNT = 2;
 
-	private static final String TARGET_CLASSPATH = "target/classes/";
-	private static final String TARGET_TESTPATH1 = "lab/square/spltcoverage/test/target/ClassATest.class";
-	private static final String TARGET_TESTPATH2 = "lab/square/spltcoverage/test/target/ClassBTest.class";
+	private static final String TARGET_CLASSPATH = TestConfig.CLASSPATH_SELF;
+	private static final String TARGET_TESTPATH1 = TestConfig.TEST_A_CLASSPATH;
+	private static final String TARGET_TESTPATH2 = TestConfig.TEST_B_CLASSPATH;
 	private static final String OUTPUT_PATH = "testResources/testOutput/CoverageGeneratorLauncherTest/";
 
 	@Test

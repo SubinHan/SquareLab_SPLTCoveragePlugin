@@ -18,9 +18,9 @@ import lab.square.spltcoverage.test.target.Configuration;
 
 public class CoverageReaderTest {
 	
-	private static final String CLASS_A = "lab.square.spltcoverage.test.target.ClassA";
-	private static final String COVERAGES_PATH = "testResources/testInput/SingleProductCoverage/";
-	private static final String CLASS_PATH = "target/classes/";
+	private static final String CLASS_A = TestConfig.CLASS_A_CLASSNAME;
+	private static final String COVERAGES_PATH = TestConfig.SINGLE_PRODUCT_COVERAGE_PATH;
+	private static final String CLASS_PATH = TestConfig.CLASSPATH_SELF;
 
 	private static ProductCoverage coverage;
 	

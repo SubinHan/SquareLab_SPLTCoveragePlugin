@@ -26,9 +26,9 @@ public class SplCoverageGeneratorLauncherTest {
 	private static final int P1_B_TESTMETHOD_COUNT = 3;
 	private static final int P1_TESTCLASS_COUNT = 2;
 
-	private static final String P1_TARGET_CLASSPATH = "target/classes/";
-	private static final String P1_TARGET_TESTPATH1 = "lab/square/spltcoverage/test/antennatarget/ClassATest.class";
-	private static final String P1_TARGET_TESTPATH2 = "lab/square/spltcoverage/test/antennatarget/ClassBTest.class";
+	private static final String P1_TARGET_CLASSPATH = TestConfig.CLASSPATH_SELF;
+	private static final String P1_TARGET_TESTPATH1 = TestConfig.ANTENNA_PRODUCT1_TEST_A_CLASSPATH_NESTED;
+	private static final String P1_TARGET_TESTPATH2 = TestConfig.ANTENNA_PRODUCT1_TEST_B_CLASSPATH_NESTED;
 	
 	private static final String OUTPUT_PATH = "testResources/testOutput/SplCoverageGeneratorLauncherTest/";
 	
@@ -36,9 +36,9 @@ public class SplCoverageGeneratorLauncherTest {
 	private static final int P2_B_TESTMETHOD_COUNT = 1;
 	private static final int P2_TESTCLASS_COUNT = 2;
 
-	private static final String P2_TARGET_CLASSPATH = "target/classes/";
-	private static final String P2_TARGET_TESTPATH1 = "lab/square/spltcoverage/test/antennatarget2/ClassATest.class";
-	private static final String P2_TARGET_TESTPATH2 = "lab/square/spltcoverage/test/antennatarget2/ClassBTest.class";
+	private static final String P2_TARGET_CLASSPATH = TestConfig.CLASSPATH_SELF;
+	private static final String P2_TARGET_TESTPATH1 = TestConfig.ANTENNA_PRODUCT2_TEST_A_CLASSPATH_NESTED;
+	private static final String P2_TARGET_TESTPATH2 = TestConfig.ANTENNA_PRODUCT2_TEST_B_CLASSPATH_NESTED;
 	
 	@Test
 	public void testLaunch() {

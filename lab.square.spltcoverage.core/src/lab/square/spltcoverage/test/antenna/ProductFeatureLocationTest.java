@@ -10,13 +10,14 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.model.antenna.FeatureLocation;
 import lab.square.spltcoverage.model.antenna.ProductFeatureLocation;
+import lab.square.spltcoverage.test.TestConfig;
 
 public class ProductFeatureLocationTest {
 
 	private static final String JAVA_SOURCE_PATH = "src/";
-	private static final String TARGET_CLASS_A = "lab.square.spltcoverage.test.antennatarget.ClassA";
+	private static final String TARGET_CLASS_A = TestConfig.ANTENNA_PRODUCT1_CLASS_A_CLASSNAME_NESTED;
 	
-	private static final String JAVA_SOURCE_PATH2 = "testResources/testInput/AntennaSourceFile";
+	private static final String JAVA_SOURCE_PATH2 = TestConfig.ANTENNA_SOURCE;
 	private static final String TARGET_CLASS_A2 = "ClassA";
 	
 	private static ProductFeatureLocation fl1;

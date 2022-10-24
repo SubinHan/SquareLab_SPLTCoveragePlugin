@@ -15,11 +15,11 @@ import lab.square.spltcoverage.core.antenna.FeatureExpressionParser;
 import lab.square.spltcoverage.core.antenna.FeatureLocator;
 import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.antenna.FeatureLocation;
+import lab.square.spltcoverage.test.TestConfig;
 
 public class FeatureLocatorTest {
 	
-	private static final String SOURCE_CODE_PATH = "src/lab/square/spltcoverage/test/antennatarget/ClassA.java";
-	private static final String NESTED_FEATURE_LOCATION_SOURCE_PATH = "testResources/testInput/AntennaSourceFile/ClassA.java";
+	private static final String NESTED_FEATURE_LOCATION_SOURCE_PATH = TestConfig.ANTENNA_SOURCE_CLASS_A_1;
 	
 	Map<Integer, String> expectedFeatureLocation;
 	
@@ -32,21 +32,6 @@ public class FeatureLocatorTest {
 		expectedFeatureLocation.put(17, "B");
 		expectedFeatureLocation.put(19, "!(B)");
 	}
-	
-	@Test
-	public void testLocator() throws IOException {
-		Collection<FeatureLocation> featureLocations = FeatureLocator.analyze(SOURCE_CODE_PATH);
-
-		for (FeatureLocation featureLocation : featureLocations) {
-			for (String feature : featureLocation.getFeatureExpression()) {
-				System.out.println(feature);
-			}
-			System.out.println(FeatureLocation.expressionToString(featureLocation.getFeatureExpression()));
-			System.out.println("line: " + featureLocation.getLineStart() + " ~ " + featureLocation.getLineEnd());
-			assertTrue(verify(featureLocation.getLineStart(), FeatureLocation.expressionToString(featureLocation.getFeatureExpression())));
-		}
-	}
-	
 	@Test
 	public void testGetFeatureExpressionAtLineOfFeatureLocations() {
 		Collection<FeatureLocation> featureLocations = FeatureLocator.analyze(NESTED_FEATURE_LOCATION_SOURCE_PATH);

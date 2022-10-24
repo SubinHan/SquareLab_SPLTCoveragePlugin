@@ -12,7 +12,7 @@ import lab.square.spltcoverage.utils.Tools;
 
 public class FeatureIdeConfigReaderTest {
 
-	private static final String TARGET_PATH = "testResources/testInput/FeatureIdeConfigFile/16.xml";
+	private static final String TARGET_PATH = TestConfig.FEATURE_IDE_CONFIG_FILE;
 	
 	@Test
 	public void testReadFeatureSet() {

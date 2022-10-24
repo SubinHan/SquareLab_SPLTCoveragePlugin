@@ -11,11 +11,12 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.core.antenna.AntennaCoverageAccumulator;
 import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
+import lab.square.spltcoverage.test.TestConfig;
 
 public class AntennaCoverageAccumulatorTest {
 	
-	private static final String CLASS_A = "test.spltcoverage.antennaproduct.ClassA";
-	private static final String CLASS_B = "test.spltcoverage.antennaproduct.ClassB";
+	private static final String CLASS_A = TestConfig.ANTENNA_CLASS_A_CLASSNAME;
+	private static final String CLASS_B = TestConfig.ANTENNA_CLASS_B_CLASSNAME;
 	private static AntennaCoverageAccumulator accumulator;
 	private static AntennaProductCoverage pc1;
 	private static AntennaProductCoverage pc2;

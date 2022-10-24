@@ -15,8 +15,7 @@ public class FeatureSetGroupReaderTest {
 
 	@Test
 	public void testReadOlder() {
-		FeatureSetGroupReader reader = new FeatureSetGroupReader(
-				"D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\testInput\\FeatureSetGroup\\productsOlder");
+		FeatureSetGroupReader reader = new FeatureSetGroupReader(TestConfig.FEATURE_SET_GROUP_OLD);
 		Collection<FeatureSet> products = reader.readAll();
 		
 		int configSum = 0;
@@ -50,8 +49,7 @@ public class FeatureSetGroupReaderTest {
 	
 	@Test
 	public void testReadNewer() {
-		FeatureSetGroupReader reader = new FeatureSetGroupReader(
-				"D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\testInput\\FeatureSetGroup\\productsNewer");
+		FeatureSetGroupReader reader = new FeatureSetGroupReader(TestConfig.FEATURE_SET_GROUP_NEW);
 		Collection<FeatureSet> products = reader.readAll();
 		
 		int configSum = 0;

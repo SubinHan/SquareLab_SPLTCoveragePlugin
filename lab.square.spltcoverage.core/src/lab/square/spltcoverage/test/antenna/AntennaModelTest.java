@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import lab.square.spltcoverage.model.antenna.AntennaSourceFile;
 import lab.square.spltcoverage.model.antenna.AntennaSourceFile.AntennaSourceModelException;
+import lab.square.spltcoverage.test.TestConfig;
 
 public class AntennaModelTest {
 
@@ -25,9 +26,9 @@ public class AntennaModelTest {
 	
 	@Before
 	public void setUp() {
-		this.sourceFile = new AntennaSourceFile("testResources/testInput/AntennaSourceFile/ClassA.java");
-		this.anotherSourceFile = new AntennaSourceFile("testResources/testInput/AntennaSourceFile/ClassA2.java");
-		this.differentSourceFile = new AntennaSourceFile("testResources/testInput/AntennaSourceFile/ClassB.java");
+		this.sourceFile = new AntennaSourceFile(TestConfig.ANTENNA_SOURCE_CLASS_A_1);
+		this.anotherSourceFile = new AntennaSourceFile(TestConfig.ANTENNA_SOURCE_CLASS_A_2);
+		this.differentSourceFile = new AntennaSourceFile(TestConfig.ANTENNA_SOURCE_CLASS_B);
 		initExpectedActivatedLines();
 		initExpectedActivatedLinesAfterSubtraction();
 		initExpectedActivatedLinesAfterIntersection();
