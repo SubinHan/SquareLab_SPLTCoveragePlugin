@@ -61,7 +61,7 @@ public class LinkerTest2 {
 	@Test
 	public void testLinkerWithOnlyFeatureSets() {
 		String directory;
-		directory = "D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\productsNewer";
+		directory = "D:\\workspace_experiment_challenge\\lab.square.spltcoverage.core\\testResources\\testInput\\FeatureSetGroup\\productsNewer";
 
 		testLinker(directory);
 	}

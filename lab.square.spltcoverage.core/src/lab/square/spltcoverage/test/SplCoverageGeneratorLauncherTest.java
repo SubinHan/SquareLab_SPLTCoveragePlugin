@@ -30,7 +30,7 @@ public class SplCoverageGeneratorLauncherTest {
 	private static final String P1_TARGET_TESTPATH1 = "lab/square/spltcoverage/test/antennatarget/ClassATest.class";
 	private static final String P1_TARGET_TESTPATH2 = "lab/square/spltcoverage/test/antennatarget/ClassBTest.class";
 	
-	private static final String OUTPUT_PATH = "testResources/SplCoverageGeneratorLauncherTestOutput/";
+	private static final String OUTPUT_PATH = "testResources/testOutput/SplCoverageGeneratorLauncherTest/";
 	
 	private static final int P2_A_TESTMETHOD_COUNT = 1;
 	private static final int P2_B_TESTMETHOD_COUNT = 1;

@@ -22,7 +22,7 @@ public class CoverageGeneratorLauncherTest {
 	private static final String TARGET_CLASSPATH = "target/classes/";
 	private static final String TARGET_TESTPATH1 = "lab/square/spltcoverage/test/target/ClassATest.class";
 	private static final String TARGET_TESTPATH2 = "lab/square/spltcoverage/test/target/ClassBTest.class";
-	private static final String OUTPUT_PATH = "testResources/CoverageGeneratorLauncherTestOutput/";
+	private static final String OUTPUT_PATH = "testResources/testOutput/CoverageGeneratorLauncherTest/";
 
 	@Test
 	public void testLaunch() {

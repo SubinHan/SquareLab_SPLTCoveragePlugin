@@ -25,9 +25,9 @@ public class AntennaModelTest {
 	
 	@Before
 	public void setUp() {
-		this.sourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA.java");
-		this.anotherSourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassA2.java");
-		this.differentSourceFile = new AntennaSourceFile("testResources/AntennaSourceFile/ClassB.java");
+		this.sourceFile = new AntennaSourceFile("testResources/testInput/AntennaSourceFile/ClassA.java");
+		this.anotherSourceFile = new AntennaSourceFile("testResources/testInput/AntennaSourceFile/ClassA2.java");
+		this.differentSourceFile = new AntennaSourceFile("testResources/testInput/AntennaSourceFile/ClassB.java");
 		initExpectedActivatedLines();
 		initExpectedActivatedLinesAfterSubtraction();
 		initExpectedActivatedLinesAfterIntersection();

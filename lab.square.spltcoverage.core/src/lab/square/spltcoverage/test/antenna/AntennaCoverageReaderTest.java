@@ -20,9 +20,9 @@ import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
 public class AntennaCoverageReaderTest {
 	
 	private static final String PRODUCT2_CLASS_A = "test.spltcoverage.antennaproduct.ClassA";
-	private static final String PRODUCT_PATH = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaSplCoverage2/product2";
-	private static final String JAVA_SOURCE_PATH = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaPlProjects/antenna.test.product2/src";
-	private static final String CLASSPATH = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaPlProjects/antenna.test.product2/bin";
+	private static final String PRODUCT_PATH = "testResources/testInput/AntennaSplCoverage/product2";
+	private static final String JAVA_SOURCE_PATH = "testResources/testInput/AntennaPlProjects/antenna.test.product2/src";
+	private static final String CLASSPATH = "testResources/testInput/AntennaPlProjects/antenna.test.product2/bin";
 	
 	private static AntennaProductCoverage pc;
 	

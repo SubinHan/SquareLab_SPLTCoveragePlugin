@@ -19,7 +19,7 @@ import lab.square.spltcoverage.model.antenna.FeatureLocation;
 public class FeatureLocatorTest {
 	
 	private static final String SOURCE_CODE_PATH = "src/lab/square/spltcoverage/test/antennatarget/ClassA.java";
-	private static final String NESTED_FEATURE_LOCATION_SOURCE_PATH = "testResources/AntennaSourceFile/ClassA.java";
+	private static final String NESTED_FEATURE_LOCATION_SOURCE_PATH = "testResources/testInput/AntennaSourceFile/ClassA.java";
 	
 	Map<Integer, String> expectedFeatureLocation;
 	

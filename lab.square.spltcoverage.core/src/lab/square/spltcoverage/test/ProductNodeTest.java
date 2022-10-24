@@ -20,7 +20,7 @@ import lab.square.spltcoverage.model.SplCoverage;
 public class ProductNodeTest {
 	
 	private static final String CLASSPATH = "target/classes/";
-	private static final String EXECPATH = "testResources/AntennaSplCoverage";
+	private static final String EXECPATH = "testResources/testInput/AntennaSplCoverage";
 	
 	private static Collection<ProductNode> roots;
 	private static SplCoverage splCoverage;

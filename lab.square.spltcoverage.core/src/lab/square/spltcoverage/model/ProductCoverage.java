@@ -47,6 +47,10 @@ public class ProductCoverage implements ICoverageModelComposite {
 		return this.productName;
 	}
 	
+	public void setName(String name) {
+		this.productName = name;
+	}
+	
 	/**
 	 * Get the TestCaseCoverage of the given test case name.
 	 * @param testCaseName

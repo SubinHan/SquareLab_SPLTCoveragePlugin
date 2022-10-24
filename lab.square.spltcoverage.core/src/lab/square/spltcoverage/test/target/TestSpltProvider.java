@@ -43,7 +43,7 @@ public class TestSpltProvider implements IIterableSpltProvider {
 
 	@Override
 	public String getBaseDirectory() {
-		return "testResources/GeneratedCoverages";
+		return "testResources/testOutput/GeneratedCoverages";
 	}
 
 }

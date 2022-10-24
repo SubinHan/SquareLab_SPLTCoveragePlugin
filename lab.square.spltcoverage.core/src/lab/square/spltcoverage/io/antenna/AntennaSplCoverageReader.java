@@ -9,14 +9,15 @@ import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.utils.Tools;
 
 public class AntennaSplCoverageReader {
-	
-	public static SplCoverage read(String execDirectoryPath, String[] classpaths, String[] javaSourcePaths) throws IOException {
+
+	public static SplCoverage read(String execDirectoryPath, String[] classpaths, String[] javaSourcePaths)
+			throws IOException {
 		File folder = new File(execDirectoryPath);
 		if (!folder.exists())
 			return null;
 
 		File[] productFolders = folder.listFiles();
-		
+
 		SplCoverage splCoverage = new SplCoverage("spl");
 
 		int productCount = 0;
@@ -24,13 +25,15 @@ public class AntennaSplCoverageReader {
 			if (!productFolder.isDirectory()) {
 				continue;
 			}
-			
-			ProductCoverage productCoverage = AntennaCoverageReader.read(productFolder.getAbsolutePath(), classpaths[productCount], javaSourcePaths[productCount]);
+
+			ProductCoverage productCoverage = AntennaCoverageReader.read(productFolder.getAbsolutePath(),
+					classpaths[productCount], javaSourcePaths[productCount]);
+			productCoverage.setName("product" + productCount);
 			productCount++;
 
 			splCoverage.addChild(productCoverage);
 		}
-		
+
 		return splCoverage;
 	}
 }

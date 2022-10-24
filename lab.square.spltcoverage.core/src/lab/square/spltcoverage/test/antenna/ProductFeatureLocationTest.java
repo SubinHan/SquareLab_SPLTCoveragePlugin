@@ -16,7 +16,7 @@ public class ProductFeatureLocationTest {
 	private static final String JAVA_SOURCE_PATH = "src/";
 	private static final String TARGET_CLASS_A = "lab.square.spltcoverage.test.antennatarget.ClassA";
 	
-	private static final String JAVA_SOURCE_PATH2 = "testResources/AntennaSourceFile";
+	private static final String JAVA_SOURCE_PATH2 = "testResources/testInput/AntennaSourceFile";
 	private static final String TARGET_CLASS_A2 = "ClassA";
 	
 	private static ProductFeatureLocation fl1;

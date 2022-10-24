@@ -20,7 +20,7 @@ public class TestProductProvider implements IProductProvider {
  
 	@Override
 	public String getOutputPath() {
-		return "testResources/GeneratedAntennaCoverages/";
+		return "testResources/testOutput/GeneratedAntennaCoverages/";
 	}
 
 }
