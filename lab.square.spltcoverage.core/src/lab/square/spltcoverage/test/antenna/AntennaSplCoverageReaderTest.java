@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import lab.square.spltcoverage.io.AbstractSplCoverageReader;
+import lab.square.spltcoverage.io.SplCoverageReaderFactory;
 import lab.square.spltcoverage.io.antenna.AntennaSplCoverageReader;
 import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ICoverageModelComponent;
@@ -17,17 +19,17 @@ import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.model.TestCaseCoverage;
 import lab.square.spltcoverage.model.TestMethodCoverage;
-import lab.square.spltcoverage.utils.Tools;
+import lab.square.spltcoverage.test.TestConfig;
 
 public class AntennaSplCoverageReaderTest {
 
-	private static final String COVERAGE_PATH = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaSplCoverage2";
+	private static final String COVERAGE_PATH = TestConfig.ANTENNA_SPL_COVERAGE_PATH;
 	
-	private static final String JAVA_SOURCE_PATH_1 = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaPlProjects/antenna.test.product1/src";
-	private static final String CLASSPATH_1 = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaPlProjects/antenna.test.product1/bin";
+	private static final String JAVA_SOURCE_PATH_1 = TestConfig.ANTENNA_PRODUCT1_PATH + "/src";
+	private static final String CLASSPATH_1 = TestConfig.ANTENNA_PRODUCT1_PATH + "/bin";
 
-	private static final String JAVA_SOURCE_PATH_2 = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaPlProjects/antenna.test.product2/src";
-	private static final String CLASSPATH_2 = "D:/workspace_experiment_challenge/lab.square.spltcoverage.core/testResources/AntennaPlProjects/antenna.test.product2/bin";
+	private static final String JAVA_SOURCE_PATH_2 = TestConfig.ANTENNA_PRODUCT2_PATH + "/src";
+	private static final String CLASSPATH_2 = TestConfig.ANTENNA_PRODUCT2_PATH + "/bin";
 	
 	private static int pcCount;
 	private static int tccCount;
@@ -39,12 +41,9 @@ public class AntennaSplCoverageReaderTest {
 		String[] classpaths = new String[] { CLASSPATH_1, CLASSPATH_2 };
 		String[] javaSourcePaths = new String[] { JAVA_SOURCE_PATH_1, JAVA_SOURCE_PATH_2 };
 		
-		SplCoverage splCoverage = null;
-		try {
-			splCoverage = AntennaSplCoverageReader.read(COVERAGE_PATH, classpaths, javaSourcePaths);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AbstractSplCoverageReader reader = SplCoverageReaderFactory.createAntennaSplCoverageReader(classpaths, javaSourcePaths);
+		
+		SplCoverage splCoverage = reader.readSplCoverage(COVERAGE_PATH);
 		
 		FeatureSet featureSet1 = new FeatureSet();
 		FeatureSet featureSet2 = new FeatureSet();

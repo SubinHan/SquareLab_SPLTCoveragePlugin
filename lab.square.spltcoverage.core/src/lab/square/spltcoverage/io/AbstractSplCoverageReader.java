@@ -8,7 +8,7 @@ import lab.square.spltcoverage.model.SplCoverage;
 public abstract class AbstractSplCoverageReader {
 	
 	protected abstract SplCoverage createSplCoverage();
-	protected abstract ProductCoverage read(File product);
+	protected abstract ProductCoverage read(File productDirectory);
 	protected abstract void hook(File product);
 	
 	protected SplCoverage splCoverage;
@@ -28,8 +28,11 @@ public abstract class AbstractSplCoverageReader {
 		splCoverage = createSplCoverage();
 		
 		for (File product : productFolders) {
-			ProductCoverage pc = read(product);
 			hook(product);
+			if (!product.isDirectory()) {
+				continue;
+			}
+			ProductCoverage pc = read(product);
 			splCoverage.addChild(pc);
 		}
 		return splCoverage;

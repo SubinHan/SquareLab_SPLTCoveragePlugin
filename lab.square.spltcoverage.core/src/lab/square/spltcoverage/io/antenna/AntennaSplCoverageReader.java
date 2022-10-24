@@ -3,37 +3,54 @@ package lab.square.spltcoverage.io.antenna;
 import java.io.File;
 import java.io.IOException;
 
+import lab.square.spltcoverage.io.AbstractSplCoverageReader;
 import lab.square.spltcoverage.io.CoverageReader;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.utils.Tools;
 
-public class AntennaSplCoverageReader {
+public class AntennaSplCoverageReader extends AbstractSplCoverageReader {
 
-	public static SplCoverage read(String execDirectoryPath, String[] classpaths, String[] javaSourcePaths)
-			throws IOException {
-		File folder = new File(execDirectoryPath);
-		if (!folder.exists())
+	private int productCount;
+	private String splCoveragePath;
+	private String[] classpaths;
+	private String[] javaSourcePaths;
+	
+	public AntennaSplCoverageReader(String[] classpaths, String[] javaSourcePaths) {
+		this.classpaths = classpaths;
+		this.javaSourcePaths = javaSourcePaths;
+		this.productCount = 0;
+	}
+	
+	@Override
+	protected SplCoverage createSplCoverage() {
+		return new SplCoverage("AntennaSPL");
+	}
+
+	@Override
+	protected ProductCoverage read(File productDirectory) {
+		ProductCoverage productCoverage = tryRead(productDirectory);
+		if(productCoverage == null)
 			return null;
+		
+		productCoverage.setName(productDirectory.getName());
+		productCount++;
+		
+		return productCoverage;
+	}
 
-		File[] productFolders = folder.listFiles();
-
-		SplCoverage splCoverage = new SplCoverage("spl");
-
-		int productCount = 0;
-		for (File productFolder : productFolders) {
-			if (!productFolder.isDirectory()) {
-				continue;
-			}
-
-			ProductCoverage productCoverage = AntennaCoverageReader.read(productFolder.getAbsolutePath(),
+	private ProductCoverage tryRead(File product) {
+		ProductCoverage productCoverage = null;
+		try {
+			productCoverage = AntennaCoverageReader.read(product.getAbsolutePath(),
 					classpaths[productCount], javaSourcePaths[productCount]);
-			productCoverage.setName("product" + productCount);
-			productCount++;
-
-			splCoverage.addChild(productCoverage);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return productCoverage;
+	}
 
-		return splCoverage;
+	@Override
+	protected void hook(File product) {		
 	}
 }

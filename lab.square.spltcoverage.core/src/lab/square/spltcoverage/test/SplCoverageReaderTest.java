@@ -12,7 +12,9 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import lab.square.spltcoverage.io.AbstractSplCoverageReader;
 import lab.square.spltcoverage.io.SplCoverageReader;
+import lab.square.spltcoverage.io.SplCoverageReaderFactory;
 import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ICoverageModelComponent;
 import lab.square.spltcoverage.model.ISplCoverageVisitor;
@@ -52,13 +54,9 @@ public class SplCoverageReaderTest {
 	}
 
 	private static void setUpSplCoverage() {
-		splCoverage = new SplCoverage("test");
+		AbstractSplCoverageReader reader = SplCoverageReaderFactory.createInvariableSplCoverageReader(CLASS_PATH);
 		
-		try {
-			SplCoverageReader.readInvariablePlCoverageInto(splCoverage, COVERAGES_PATH, CLASS_PATH);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		splCoverage = reader.readSplCoverage(COVERAGES_PATH);
 	}
 
 	private static void setUpExpectedFeatureSets() {

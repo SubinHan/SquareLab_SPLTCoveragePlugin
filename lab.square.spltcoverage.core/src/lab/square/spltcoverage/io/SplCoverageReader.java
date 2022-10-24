@@ -11,53 +11,72 @@ import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.data.ExecutionDataStore;
 import org.jacoco.core.tools.ExecFileLoader;
 
-import lab.square.spltcoverage.core.analysis.SplCoverageGenerator;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.SplCoverage;
 import lab.square.spltcoverage.utils.Tools;
 
 /**
  * The CoverageReader class is the class reading the product coverages.
+ * 
  * @author SQUARELAB
  *
  */
-public final class SplCoverageReader {
+public final class SplCoverageReader extends AbstractSplCoverageReader {
 
 	public static final String FEATURESET_FILENAME = "featureset.txt";
 
 	private static String execDirectoryPath;
 	private static String[] classpaths;
-	private static SplCoverage splCoverage;
+	private static SplCoverage splCoverage0;
 	
-	private SplCoverageReader() {
-		
+	private String classpath;
+
+	public SplCoverageReader(String classpath) {
+		this.classpath = classpath;
 	}
 
-	private static void read() throws IOException {
-		File folder = new File(execDirectoryPath);
-		if (!folder.exists())
-			return;
-
-		File[] productFolders = folder.listFiles();
-
-		int productCount = 0;
-		for (File productFolder : productFolders) {
-			readProductIntoSplCoverage(productFolder, classpaths[productCount++]);
-		}
+	@Override
+	protected SplCoverage createSplCoverage() {
+		return new SplCoverage("SPL");
 	}
 
-	private static void readProductIntoSplCoverage(File productFolder, String classpath) throws IOException {
-		if (!productFolder.isDirectory()) {
-			if (Tools.isMergedCoverage(productFolder.getName())) {
-				splCoverage.addClassCoverages(load(productFolder, classpaths[0]));
-			}
-			return;
+	@Override
+	protected ProductCoverage read(File productDirectory) {
+		ProductCoverage productCoverage = tryRead(productDirectory);
+		if(productCoverage == null)
+			return null;
+		
+		productCoverage.setName(productDirectory.getName());
+		return productCoverage;
+	}
+
+	private ProductCoverage tryRead(File productDirectory) {
+		ProductCoverage productCoverage = null;
+		try {
+			productCoverage = CoverageReader.read(productDirectory.getAbsolutePath(), classpath);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return productCoverage;
+	}
+
+	@Override
+	protected void hook(File product) {
+		if (product.isDirectory())
+			return;
+
+		if (!Tools.isMergedCoverage(product.getName())) 
+			return;
 		
-		ProductCoverage productCoverage = CoverageReader.read(productFolder.getAbsolutePath(), classpath);
-		productCoverage.setName(productFolder.getName());
-		
-		splCoverage.addChild(productCoverage);
+		loadMergedCoverage(product);
+	}
+
+	private void loadMergedCoverage(File product) {
+		try {
+			splCoverage.addClassCoverages(load(product, classpath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static Collection<IClassCoverage> load(File testMethodCoverageFile, String classpath) throws IOException {
@@ -73,23 +92,5 @@ public final class SplCoverageReader {
 		analyzer.analyzeAll(new File(classpath));
 
 		return new HashSet<>(coverageBuilder.getClasses());
-	}
-	
-	public static void readInvariablePlCoverageInto(SplCoverage dest, String execDirectoryPath, String classpath) throws IOException {
-		SplCoverageReader.splCoverage = dest;
-		SplCoverageReader.execDirectoryPath = execDirectoryPath;
-		File folder = new File(execDirectoryPath);
-		SplCoverageReader.classpaths = new String[folder.listFiles().length];
-		for(int i = 0; i < classpaths.length; i++) {
-			classpaths[i] = classpath;
-		}
-		read();
-	}
-
-	public static void readVariablePlCoverageInto(SplCoverage dest, String execDirectoryPath, String[] classpaths) throws IOException {
-		SplCoverageReader.splCoverage = dest;
-		SplCoverageReader.execDirectoryPath = execDirectoryPath;
-		SplCoverageReader.classpaths = classpaths;
-		read();
 	}
 }
