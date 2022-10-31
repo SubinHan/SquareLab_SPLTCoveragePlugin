@@ -99,5 +99,33 @@ public class AntennaCoverageAccumulatorTest {
 		assertEquals(2, accumulator.getNewlyActivatedLineCountOfClass(CLASS_A));
 		assertEquals(2, accumulator.getNewlyActivatedLineCountOfClass(CLASS_B));	
 	}
+
+	@Test
+	public void testTotalActivatedLineCount() {
+		accumulator.accumulate(pc1);
+		
+		assertEquals(3, accumulator.getTotalActivatedLineCountOfClass(CLASS_A));
+		assertEquals(8, accumulator.getTotalActivatedLineCountOfClass(CLASS_B));
+		
+		accumulator.accumulate(pc2);
+		
+		assertEquals(5, accumulator.getTotalActivatedLineCountOfClass(CLASS_A));
+		assertEquals(9, accumulator.getTotalActivatedLineCountOfClass(CLASS_B));
+	}
+	
+	@Test
+	public void testTotalCoveredLineCount() {
+		accumulator.accumulate(pc1);
+		
+		assertEquals(3, accumulator.getTotalCoveredLineCountOfClass(CLASS_A));
+		assertEquals(3, accumulator.getTotalCoveredLineCountOfClass(CLASS_B));
+		
+		accumulator.accumulate(pc2);
+		
+		assertEquals(5, accumulator.getTotalCoveredLineCountOfClass(CLASS_A));
+		assertEquals(5, accumulator.getTotalCoveredLineCountOfClass(CLASS_B));
+		
+	}
+	
 	
 }

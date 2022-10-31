@@ -25,6 +25,8 @@ public class AntennaCoverageAccumulator {
 	Map<String, Integer> newlyCoveredLineCount;
 	Set<String> newlyCoveredClasses;
 	Map<String, CoverageOfSingleClass> diffWithPrevious;
+	int totalCovered;
+	int totalActivated;
 	
 	public AntennaCoverageAccumulator() {
 		accumulatedProductCoverages = new ArrayList<>();
@@ -119,6 +121,17 @@ public class AntennaCoverageAccumulator {
 			return 0;
 		
 		return diffWithPrevious.get(classNameWithDots).getActivatedLineCount();
+	}
+
+	public int getTotalActivatedLineCountOfClass(String classNameWithDots) {
+		CoverageOfSingleClass coverage = accumulated.get(classNameWithDots);
+		
+		return coverage.getActivatedLineCount();
+	}
+
+	public int getTotalCoveredLineCountOfClass(String classNameWithDots) {
+		CoverageOfSingleClass coverage = accumulated.get(classNameWithDots);
+		return coverage.getCoveredCount();
 	}
 
 	private class CoverageOfSingleClass {
