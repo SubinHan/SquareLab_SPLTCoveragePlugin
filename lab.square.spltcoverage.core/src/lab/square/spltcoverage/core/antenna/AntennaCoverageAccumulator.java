@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.jacoco.core.analysis.IClassCoverage;
@@ -16,17 +17,17 @@ import lab.square.spltcoverage.utils.Tools;
 
 public class AntennaCoverageAccumulator {
 	
-	List<AntennaProductCoverage> accumulatedProductCoverages;
-	Map<String, CoverageOfSingleClass> accumulated;
-	Set<String> visitedFeatures;
+	private List<AntennaProductCoverage> accumulatedProductCoverages;
+	private Map<String, CoverageOfSingleClass> accumulated;
+	private Set<String> visitedFeatures;
 	
-	boolean isCoverageChanged;
-	Set<String> newlyVisitedFeatures;
-	Map<String, Integer> newlyCoveredLineCount;
-	Set<String> newlyCoveredClasses;
-	Map<String, CoverageOfSingleClass> diffWithPrevious;
-	int totalCovered;
-	int totalActivated;
+	private boolean isCoverageChanged;
+	private Set<String> newlyVisitedFeatures;
+	private Map<String, Integer> newlyCoveredLineCount;
+	private Map<String, Integer> newlyActivatedLineCount;
+	private Set<String> newlyCoveredClasses;
+	private Set<String> newlyActivatedClasses;
+	private Map<String, CoverageOfSingleClass> diffWithPrevious;
 	
 	public AntennaCoverageAccumulator() {
 		accumulatedProductCoverages = new ArrayList<>();
@@ -34,7 +35,9 @@ public class AntennaCoverageAccumulator {
 		visitedFeatures = new HashSet<>();
 		newlyVisitedFeatures = new HashSet<>();
 		newlyCoveredLineCount = new HashMap<>();
+		newlyActivatedLineCount = new HashMap<>();
 		newlyCoveredClasses = new HashSet<>();
+		newlyActivatedClasses = new HashSet<>();
 		diffWithPrevious = new HashMap<>();
 	}
 	
@@ -56,7 +59,9 @@ public class AntennaCoverageAccumulator {
 		newlyVisitedFeatures.clear();
 		isCoverageChanged = false;
 		newlyCoveredLineCount.clear();
+		newlyActivatedLineCount.clear();
 		newlyCoveredClasses.clear();
+		newlyActivatedClasses.clear();
 		diffWithPrevious.clear();
 	}
 
@@ -80,19 +85,25 @@ public class AntennaCoverageAccumulator {
 		
 		accumulated.compute(className, (k, v) -> {
 			if(v == null) {
-				updateNewlyCovered(className, coverage);
+				updateNews(className, coverage);
 				return coverage;
 			}
 			
 			CoverageOfSingleClass diff = coverage.subtract(v);
-			updateNewlyCovered(className, diff);
+			updateNews(className, diff);
 
 			return v.add(coverage);
 		});
 	}
 	
-	private void updateNewlyCovered(String className, CoverageOfSingleClass coverage) {
+	private void updateNews(String className, CoverageOfSingleClass coverage) {
 		diffWithPrevious.put(className, coverage);
+		
+		if(coverage.isNotActivatedAnything())
+			return;
+		
+		newlyActivatedClasses.add(className);
+		newlyActivatedLineCount.put(className, coverage.getActivatedLineCount());
 		
 		if(coverage.isNotCoveredAnything())
 			return;
@@ -112,8 +123,12 @@ public class AntennaCoverageAccumulator {
 		return newlyCoveredLineCount.get(classNameWithDots);
 	}
 	
-	public Collection<String> getNewlyCoveredClaases() {
+	public Collection<String> getNewlyCoveredClasses() {
 		return newlyCoveredClasses;
+	}
+	
+	public Collection<String> getNewlyActivatedClasses() {
+		return newlyActivatedClasses;
 	}
 
 	public int getNewlyActivatedLineCountOfClass(String classNameWithDots) {
@@ -132,6 +147,22 @@ public class AntennaCoverageAccumulator {
 	public int getTotalCoveredLineCountOfClass(String classNameWithDots) {
 		CoverageOfSingleClass coverage = accumulated.get(classNameWithDots);
 		return coverage.getCoveredCount();
+	}
+	
+	public int getTotalActivatedLine() {
+		int totalActivatedLine = 0;
+		for(CoverageOfSingleClass coverage : accumulated.values()) {
+			totalActivatedLine += coverage.getActivatedLineCount();
+		}
+		return totalActivatedLine;
+	}
+
+	public int getTotalCoveredLine() {
+		int totalCoveredLine = 0;
+		for(CoverageOfSingleClass coverage : accumulated.values()) {
+			totalCoveredLine += coverage.getCoveredCount();
+		}
+		return totalCoveredLine;
 	}
 
 	private class CoverageOfSingleClass {
@@ -243,6 +274,14 @@ public class AntennaCoverageAccumulator {
 			return true;
 		}
 		
+		public boolean isNotActivatedAnything() {
+			for(int i = 0; i < lines.length; i++) {
+				if(lines[i] != ICounter.EMPTY)
+					return false;
+			}
+			return true;
+		}
+		
 		public int getCoveredCount() {
 			int count = 0;
 			
@@ -266,5 +305,4 @@ public class AntennaCoverageAccumulator {
 		}
 		
 	}
-
 }

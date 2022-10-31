@@ -42,6 +42,17 @@ public class AntennaCoverageAccumulatorTest {
 	}
 	
 	@Test
+	public void testNewlyActivatedClasses() {
+		accumulator.accumulate(pc1);
+		
+		assertEquals(4, accumulator.getNewlyActivatedClasses().size());
+		
+		accumulator.accumulate(pc2);
+
+		assertEquals(4, accumulator.getNewlyActivatedClasses().size());
+	}
+	
+	@Test
 	public void testNewlyVisitedFeatures() {
 		accumulator.accumulate(pc1);
 		accumulator.accumulate(pc2);
@@ -87,8 +98,8 @@ public class AntennaCoverageAccumulatorTest {
 		accumulator.accumulate(pc1);
 		accumulator.accumulate(pc2);
 		
-		assertTrue(accumulator.getNewlyCoveredClaases().contains(CLASS_A));
-		assertTrue(accumulator.getNewlyCoveredClaases().contains(CLASS_B));
+		assertTrue(accumulator.getNewlyCoveredClasses().contains(CLASS_A));
+		assertTrue(accumulator.getNewlyCoveredClasses().contains(CLASS_B));
 	}
 	
 	@Test
@@ -101,7 +112,7 @@ public class AntennaCoverageAccumulatorTest {
 	}
 
 	@Test
-	public void testTotalActivatedLineCount() {
+	public void testTotalActivatedLineCountOfClass() {
 		accumulator.accumulate(pc1);
 		
 		assertEquals(3, accumulator.getTotalActivatedLineCountOfClass(CLASS_A));
@@ -114,7 +125,7 @@ public class AntennaCoverageAccumulatorTest {
 	}
 	
 	@Test
-	public void testTotalCoveredLineCount() {
+	public void testTotalCoveredLineCountOfClass() {
 		accumulator.accumulate(pc1);
 		
 		assertEquals(3, accumulator.getTotalCoveredLineCountOfClass(CLASS_A));
@@ -124,7 +135,28 @@ public class AntennaCoverageAccumulatorTest {
 		
 		assertEquals(5, accumulator.getTotalCoveredLineCountOfClass(CLASS_A));
 		assertEquals(5, accumulator.getTotalCoveredLineCountOfClass(CLASS_B));
+	}
+	
+	@Test
+	public void testTotalActivatedLineCount() {
+		accumulator.accumulate(pc1);
 		
+		assertEquals(21, accumulator.getTotalActivatedLine());
+		
+		accumulator.accumulate(pc2);
+		
+		assertEquals(34, accumulator.getTotalActivatedLine());
+	}	
+	
+	@Test
+	public void testTotalCoveredLineCount() {
+		accumulator.accumulate(pc1);
+		
+		assertEquals(14, accumulator.getTotalCoveredLine());
+		
+		accumulator.accumulate(pc2);
+		
+		assertEquals(24, accumulator.getTotalCoveredLine());
 	}
 	
 	
