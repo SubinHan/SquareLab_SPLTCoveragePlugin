@@ -41,7 +41,7 @@ public final class SplCoverageReader extends AbstractSplCoverageReader {
 	}
 
 	@Override
-	protected ProductCoverage read(File productDirectory) {
+	protected ProductCoverage readSingleCoverage(File productDirectory) {
 		ProductCoverage productCoverage = tryRead(productDirectory);
 		if(productCoverage == null)
 			return null;

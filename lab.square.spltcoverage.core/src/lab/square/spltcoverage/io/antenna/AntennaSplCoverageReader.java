@@ -29,7 +29,7 @@ public class AntennaSplCoverageReader extends AbstractSplCoverageReader {
 	}
 
 	@Override
-	protected ProductCoverage read(File productDirectory) {
+	protected ProductCoverage readSingleCoverage(File productDirectory) {
 		currentProductNumber = findProductNumber(productDirectory.getName()) - 1;
 		
 		ProductCoverage productCoverage = tryRead(productDirectory);
