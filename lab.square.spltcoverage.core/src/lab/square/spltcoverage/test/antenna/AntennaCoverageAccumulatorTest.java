@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,8 @@ public class AntennaCoverageAccumulatorTest {
 	private static AntennaCoverageAccumulator accumulator;
 	private static AntennaProductCoverage pc1;
 	private static AntennaProductCoverage pc2;
+	
+	
 	
 	@Before
 	public void setUp() {
@@ -157,6 +160,31 @@ public class AntennaCoverageAccumulatorTest {
 		accumulator.accumulate(pc2);
 		
 		assertEquals(24, accumulator.getTotalCoveredLine());
+	}
+	
+	@Test
+	public void testNewlyCoveredLineNumbers() {
+		accumulator.accumulate(pc1);
+		
+		Set<Integer> newlyCoveredLineNumbersOfClassA = accumulator.getNewlyCoveredLineNumbersOfClass(CLASS_A);
+		Set<Integer> newlyCoveredLineNumbersOfClassB = accumulator.getNewlyCoveredLineNumbersOfClass(CLASS_B);
+
+		assertTrue(newlyCoveredLineNumbersOfClassA.contains(9));
+		assertTrue(newlyCoveredLineNumbersOfClassA.contains(17));
+		
+		assertTrue(newlyCoveredLineNumbersOfClassB.contains(15));
+		assertTrue(newlyCoveredLineNumbersOfClassB.contains(18));
+		
+		accumulator.accumulate(pc2);
+		
+		newlyCoveredLineNumbersOfClassA = accumulator.getNewlyCoveredLineNumbersOfClass(CLASS_A);
+		newlyCoveredLineNumbersOfClassB = accumulator.getNewlyCoveredLineNumbersOfClass(CLASS_B);
+		
+		assertTrue(newlyCoveredLineNumbersOfClassA.contains(7));
+		assertTrue(newlyCoveredLineNumbersOfClassA.contains(15));
+		
+		assertTrue(newlyCoveredLineNumbersOfClassB.contains(6));
+		assertTrue(newlyCoveredLineNumbersOfClassB.contains(17));
 	}
 	
 	

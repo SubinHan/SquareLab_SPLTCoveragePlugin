@@ -2,11 +2,11 @@ package lab.square.spltcoverage.core.antenna;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.jacoco.core.analysis.IClassCoverage;
@@ -123,6 +123,14 @@ public class AntennaCoverageAccumulator {
 		return newlyCoveredLineCount.get(classNameWithDots);
 	}
 	
+
+	public Set<Integer> getNewlyCoveredLineNumbersOfClass(String classNameWithDots) {
+		if(!newlyCoveredClasses.contains(classNameWithDots))
+			return Collections.emptySet();
+		
+		return diffWithPrevious.get(classNameWithDots).getCoveredLineNumbers();
+	}
+	
 	public Collection<String> getNewlyCoveredClasses() {
 		return newlyCoveredClasses;
 	}
@@ -229,7 +237,6 @@ public class AntennaCoverageAccumulator {
 			
 			return result;
 		}
-		
 
 		public CoverageOfSingleClass subtract(CoverageOfSingleClass other) {
 			CoverageOfSingleClass smaller;
@@ -282,15 +289,19 @@ public class AntennaCoverageAccumulator {
 			return true;
 		}
 		
-		public int getCoveredCount() {
-			int count = 0;
+		public Set<Integer> getCoveredLineNumbers() {
+			Set<Integer> coveredLineNumbers = new HashSet<>();
 			
 			for(int i = 0; i < lines.length; i++) {
 				if(lines[i] == ICounter.FULLY_COVERED)
-					count++;
+					coveredLineNumbers.add(i);
 			}
 			
-			return count;
+			return coveredLineNumbers;
+		}
+		
+		public int getCoveredCount() {
+			return getCoveredLineNumbers().size();
 		}
 		
 		public int getActivatedLineCount() {
@@ -305,4 +316,5 @@ public class AntennaCoverageAccumulator {
 		}
 		
 	}
+
 }
