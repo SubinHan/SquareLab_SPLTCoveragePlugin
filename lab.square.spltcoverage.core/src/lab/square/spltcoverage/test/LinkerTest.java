@@ -5,13 +5,14 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map.Entry;
 
 import org.jacoco.core.analysis.IClassCoverage;
 import org.junit.Before;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
+import lab.square.spltcoverage.io.AbstractSplCoverageReader;
 import lab.square.spltcoverage.io.SplCoverageReader;
+import lab.square.spltcoverage.io.SplCoverageReaderFactory;
 import lab.square.spltcoverage.model.FeatureSet;
 import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
@@ -171,12 +172,10 @@ public class LinkerTest {
 
 	private void testLinker(String directory, String classDirectory) {
 		String[] folders = directory.split("/");
+		AbstractSplCoverageReader reader = 
+				SplCoverageReaderFactory.createInvariableSplCoverageReader(classDirectory);
 		SplCoverage manager = new SplCoverage(folders[folders.length - 1]);
-		try {
-			SplCoverageReader.readInvariablePlCoverageInto(manager, directory, classDirectory);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		reader.readSplCoverage(directory);
 
 		Collection<ProductNode> heads = ProductLinker.link(manager);
 		if (heads.isEmpty())
