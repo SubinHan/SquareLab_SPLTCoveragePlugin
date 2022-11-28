@@ -22,7 +22,7 @@ public final class ProductLinker {
 
 	private ProductLinker() {
 	}
-
+	
 	public static Collection<ProductNode> link(Collection<FeatureSet> products) {
 		int min = getMinNumFeatureInFeatureSets(products);
 		int max = getMaxNumFeatureInFeatureSets(products);
