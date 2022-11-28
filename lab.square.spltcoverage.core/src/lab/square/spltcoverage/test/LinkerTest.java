@@ -1,340 +1,130 @@
 package lab.square.spltcoverage.test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.jacoco.core.analysis.IClassCoverage;
 import org.junit.Before;
+import org.junit.Test;
 
 import lab.square.spltcoverage.core.analysis.ProductLinker;
 import lab.square.spltcoverage.io.AbstractSplCoverageReader;
-import lab.square.spltcoverage.io.SplCoverageReader;
+import lab.square.spltcoverage.io.FeatureSetGroupReader;
 import lab.square.spltcoverage.io.SplCoverageReaderFactory;
 import lab.square.spltcoverage.model.FeatureSet;
-import lab.square.spltcoverage.model.ProductCoverage;
 import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.model.SplCoverage;
+import lab.square.spltcoverage.test.target.Configuration;
+import lab.square.spltcoverage.utils.Tools;
 
 /*
  * Test 시: core의 plugin.xml dependency -> org.jacoco (0.8.6) 이어야 함.
  * Plug-in testing으로 수행할 것.
  */
 public class LinkerTest {
-
+	
 	private Collection<ProductNode> visited;
-	private int count = 0;
-	private int notEnough = 0;
+	private Collection<FeatureSet> expected;
+	private SplCoverage splCoverage;
 
 	@Before
 	public void setUp() {
-		notEnough = 0;
-		count = 0;
+		visited = new ArrayList<>();
+		expected = new ArrayList<>();
+		
+		Map<String, Boolean> featureSet1 = new HashMap<>();
+		Map<String, Boolean> featureSet2 = new HashMap<>();
+		Map<String, Boolean> featureSet3 = new HashMap<>();
+		Map<String, Boolean> featureSet4 = new HashMap<>();
+		Map<String, Boolean> featureSet5 = new HashMap<>();
+		
+		featureSet2.put(Configuration.CONFIG_A, true);
+		
+		featureSet3.put(Configuration.CONFIG_B, true);
+		
+		featureSet4.put(Configuration.CONFIG_A, true);
+		featureSet4.put(Configuration.CONFIG_B, true);
+		
+		featureSet5.put(Configuration.CONFIG_A, true);
+		featureSet5.put(Configuration.CONFIG_B, true);
+		featureSet5.put(Configuration.CONFIG_C, true);
+		
+		expected.add(new FeatureSet(featureSet1));
+		expected.add(new FeatureSet(featureSet2));
+		expected.add(new FeatureSet(featureSet3));
+		expected.add(new FeatureSet(featureSet4));
+		expected.add(new FeatureSet(featureSet5));
 	}
-
-	// @Test
-	public void testLinkerGpl() {
+	
+	@Test
+	public void testLinkerWithOnlyFeatureSets() {
 		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/gpl/";
-		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/gpl/bin";
+		directory = TestConfig.FEATURE_SET_GROUP_NEW;
 
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
+		testLinker(directory);
 	}
 
-	// @Test
-	public void testLinkerMinepump() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/minepump/";
-		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/minepump/bin";
+	private void testLinker(String directory) {
+		FeatureSetGroupReader reader = new FeatureSetGroupReader(directory);
+		Collection<FeatureSet> products = reader.readAll();
 
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
+		Collection<ProductNode> heads = ProductLinker.link(products);
+		verifyGraph(heads);
+	}
+	
+	@Test
+	public void testLinkerWithSplCoverage() {
+		AbstractSplCoverageReader reader =
+				SplCoverageReaderFactory.createInvariableSplCoverageReader(TestConfig.CLASSPATH_SELF);
+		
+		splCoverage = reader.readSplCoverage(TestConfig.SPL_COVERAGE_PATH);
+		
+		Collection<ProductNode> heads = ProductLinker.link(splCoverage);
+		verifyGraph(heads);
 	}
 
-	// @Test
-	public void testLinkerNotepad() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/notepad/";
-		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/notepad/bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerSudoku() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/sudoku/";
-		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/sudoku/bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerVendingMachine() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/vendingmachine/";
-		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/vending/bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerBankaccount() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/bankaccount/";
-		classDirectory = "D:/workspacechallenege/challenge-master/workspace_IncLing/bankaccount/bin/bankaccount";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerFeatureAmp1() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/featureamp1";
-		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\FeatureAMP1\\bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerFeatureAmp8() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/featureamp8";
-		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\FeatureAMP8\\bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerAtm() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/atm";
-		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\ATM\\bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerChess() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/chess";
-		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Chess\\bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	// @Test
-	public void testLinkerElevator() {
-		String directory;
-		String classDirectory;
-		directory = "D:/directorypath/elevator";
-		classDirectory = "D:\\workspacechallenege\\challenge-master\\workspace_IncLing\\Elevator\\bin";
-
-		testLinker(directory, classDirectory);
-
-		pinrtNumOfNotEnoughs();
-	}
-
-	private void pinrtNumOfNotEnoughs() {
-		System.out.println("Num of Products that the coverage didn't change than its parents: " + notEnough);
-	}
-
-	private void testLinker(String directory, String classDirectory) {
-		String[] folders = directory.split("/");
-		AbstractSplCoverageReader reader = 
-				SplCoverageReaderFactory.createInvariableSplCoverageReader(classDirectory);
-		SplCoverage manager = new SplCoverage(folders[folders.length - 1]);
-		reader.readSplCoverage(directory);
-
-		Collection<ProductNode> heads = ProductLinker.link(manager);
+	private void verifyGraph(Collection<ProductNode> heads) {
 		if (heads.isEmpty())
 			fail();
 
-		visited = new HashSet<>();
-
-		for (ProductNode graph : heads) {
-			visitGraphRecur(graph);
-		}
-		System.out.println(manager.getProductCoverages().size());
-		System.out.println(count);
+		for (ProductNode head : heads)
+			visitGraphRecur(head);
 	}
 
 	private void visitGraphRecur(ProductNode graph) {
 		if (visited.contains(graph))
 			return;
 		visited.add(graph);
-		count++;
-
-		ProductCoverage pc = graph.getProductCoverage();
 		System.out.println("//============================//");
 		System.out.println("Level: " + graph.getLevel());
 		System.out.println("Feature Set:");
 		System.out.print("  ");
-		printFeatures(pc);
+		printFeatures(graph.getFeatureSet());
 		System.out.println("Parent's Feature Set:");
 		for (ProductNode parent : graph.getParents()) {
 			if (parent == null)
 				continue;
 			System.out.print("  ");
-			printFeatures(parent.getProductCoverage());
+			printFeatures(parent.getFeatureSet());
 		}
-		System.out.println("Coverage: (The difference with the first parent)");
-		Collection<IClassCoverage> classCoverages = pc.getClassCoverages();
-		for (IClassCoverage cc : classCoverages) {
-			System.out.println("  " + cc.getName());
-			System.out.print(
-					"     Covered Ratio(Line): " + String.format("%.1f", cc.getLineCounter().getCoveredRatio() * 100));
-			double different = cc.getLineCounter().getCoveredRatio() - findParentsLineRatio(graph, cc.getName());
-			if (different >= 0)
-				System.out.print("  (+" + String.format("%.1f", different * 100) + ")");
-			else
-				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
-			System.out.println();
-			System.out.print("     Covered Ratio(Method): "
-					+ String.format("%.1f", cc.getMethodCounter().getCoveredRatio() * 100));
-			different = cc.getMethodCounter().getCoveredRatio() - findParentsMethodRatio(graph, cc.getName());
-			if (different >= 0)
-				System.out.print("  (+" + String.format("%.1f", different * 100) + ")");
-			else
-				System.out.print("  (" + String.format("%.1f", different * 100) + ")");
-			System.out.println();
-		}
-
-		int different = pc.getScore() - findParentsScore(graph);
-		System.out.print("Score: " + pc.getScore());
-		if (different >= 0)
-			System.out.print(" (+" + different + ")");
-		else
-			System.out.print(" (" + different + ")");
-		System.out.println();
-
-		if (isProblemProduct(graph))
-			notEnough++;
+		
+		assertTrue(Tools.contains(expected, graph.getFeatureSet()));
 
 		for (ProductNode child : graph.getChildren()) {
 			visitGraphRecur(child);
 		}
 	}
 
-	private boolean isProblemProduct(ProductNode graph) {
-		ProductCoverage pc = graph.getProductCoverage();
-
-		if (graph.getParents() == null)
-			return false;
-
-		for (ProductNode parent : graph.getParents()) {
-			if (parent == null)
-				continue;
-			Collection<IClassCoverage> classCoverages = pc.getClassCoverages();
-			boolean isProblem = true;
-
-			for (IClassCoverage cc : classCoverages) {
-				double different = cc.getLineCounter().getCoveredRatio()
-						- getLineRatioOfClass(parent.getProductCoverage().getClassCoverages(), cc.getName());
-				if (different != 0) {
-					isProblem = false;
-					break;
-				}
-			}
-
-			if (isProblem)
-				return true;
-		}
-		return false;
-	}
-
-	private int findParentsScore(ProductNode graph) {
-		if (graph.getParents() == null)
-			return 0;
-		if (graph.getParents().isEmpty())
-			return 0;
-
-		for (ProductNode parent : graph.getParents()) {
-			if (parent != null)
-				return parent.getProductCoverage().getScore();
-		}
-
-		return 0;
-	}
-
-	private double findParentsLineRatio(ProductNode graph, String name) {
-		if (graph.getParents() == null)
-			return 0.f;
-		if (graph.getParents().isEmpty())
-			return 0.f;
-
-		for (ProductNode parent : graph.getParents()) {
-			if (parent != null)
-				return getLineRatioOfClass(parent.getProductCoverage().getClassCoverages(), name);
-		}
-		return 0.f;
-	}
-
-	private double getLineRatioOfClass(Collection<IClassCoverage> ccs, String className) {
-		for (IClassCoverage cc : ccs) {
-			if (cc.getName().equals(className))
-				return cc.getLineCounter().getCoveredRatio();
-		}
-
-		return 0.f;
-	}
-
-	private double findParentsMethodRatio(ProductNode graph, String name) {
-		if (graph.getParents() == null)
-			return 0.f;
-		if (graph.getParents().isEmpty())
-			return 0.f;
-
-		for (ProductNode parent : graph.getParents()) {
-			if (parent == null)
-				continue;
-			Collection<IClassCoverage> parentClassCoverages = parent.getProductCoverage().getClassCoverages();
-
-			for (IClassCoverage cc : parentClassCoverages) {
-				if (cc.getName().equals(name))
-					return cc.getMethodCounter().getCoveredRatio();
-			}
-			break;
-		}
-		return 0.f;
-	}
-
-	private void printFeatures(ProductCoverage pc) {
-		FeatureSet featureSet = pc.getFeatureSet();
+	private void printFeatures(FeatureSet featureSet) {
 		for (String feature : featureSet.getFeatures()) {
 			System.out.print(feature + " ");
 		}
 		System.out.println();
 	}
+	
+	
 }

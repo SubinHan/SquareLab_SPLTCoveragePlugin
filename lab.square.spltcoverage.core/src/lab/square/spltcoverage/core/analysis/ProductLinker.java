@@ -47,24 +47,21 @@ public final class ProductLinker {
 		return heads;
 	}
 
-	
-
-	@Deprecated
-	public static Collection<ProductNode> link(SplCoverage manager) {
-		int min = getMinNumFeature(manager);
-		Collection<ProductCoverage> notGeneratedYet = new LinkedList<>(manager.getProductCoverages());
+	public static Collection<ProductNode> link(SplCoverage splCoverage) {
+		int min = getMinNumFeature(splCoverage);
+		Collection<ProductCoverage> notGeneratedYet = new LinkedList<>(splCoverage.getProductCoverages());
 		Collection<ProductNode> generatedGraph = new LinkedList<>();
-		List<ProductCoverage> baseProducts = findHaveNumFeatures(manager, min);
+		List<ProductCoverage> baseProducts = findHaveNumFeatures(splCoverage, min);
 		Collection<ProductNode> heads = new HashSet<>();
 
 		int level = 0;
 		for (ProductCoverage pc : baseProducts) {
-			heads.add(makeGraphRecur(manager, generatedGraph, notGeneratedYet, null, pc, level));
+			heads.add(makeGraphRecur(splCoverage, generatedGraph, notGeneratedYet, null, pc, level));
 		}
 
 		int distance = 1;
 		while (!notGeneratedYet.isEmpty()) {
-			linkMoreRecur(manager, generatedGraph, notGeneratedYet, distance++);
+			linkMoreRecur(splCoverage, generatedGraph, notGeneratedYet, distance++);
 		}
 
 		return heads;

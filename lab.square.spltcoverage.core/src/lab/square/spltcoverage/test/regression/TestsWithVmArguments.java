@@ -8,7 +8,7 @@ import lab.square.spltcoverage.test.CoverageReaderTest;
 import lab.square.spltcoverage.test.FeatureExpressionParserTest;
 import lab.square.spltcoverage.test.FeatureSetGroupReaderTest;
 import lab.square.spltcoverage.test.FeatureSetTest;
-import lab.square.spltcoverage.test.LinkerTest2;
+import lab.square.spltcoverage.test.LinkerTest;
 import lab.square.spltcoverage.test.ProductNodeTest;
 import lab.square.spltcoverage.test.SplCoverageReaderTest;
 import lab.square.spltcoverage.test.antenna.AntennaCoverageGeneratorTest;

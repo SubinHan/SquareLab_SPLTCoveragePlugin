@@ -9,7 +9,7 @@ import lab.square.spltcoverage.test.FeatureExpressionParserTest;
 import lab.square.spltcoverage.test.FeatureIdeConfigReaderTest;
 import lab.square.spltcoverage.test.FeatureSetGroupReaderTest;
 import lab.square.spltcoverage.test.FeatureSetTest;
-import lab.square.spltcoverage.test.LinkerTest2;
+import lab.square.spltcoverage.test.LinkerTest;
 import lab.square.spltcoverage.test.ProductNodeTest;
 import lab.square.spltcoverage.test.SplCoverageGeneratorLauncherTest;
 import lab.square.spltcoverage.test.SplCoverageReaderTest;
@@ -27,7 +27,7 @@ import lab.square.spltcoverage.test.antenna.ProductFeatureLocationTest;
 	FeatureIdeConfigReaderTest.class, 
 	FeatureSetGroupReaderTest.class, 
 	FeatureSetTest.class,
-	LinkerTest2.class, 
+	LinkerTest.class, 
 	ProductNodeTest.class, 
 	SplCoverageGeneratorLauncherTest.class,
 	SplCoverageReaderTest.class,
