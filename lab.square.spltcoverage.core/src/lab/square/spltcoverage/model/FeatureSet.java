@@ -1,13 +1,16 @@
 package lab.square.spltcoverage.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import lab.square.spltcoverage.utils.Tools;
 
@@ -21,6 +24,18 @@ public class FeatureSet {
 
 	public FeatureSet() {
 		this(Collections.emptyMap());
+	}
+	
+	public static List<String> getAllFeatureList(Collection<FeatureSet> featureSets) {
+		Set<String> result = new HashSet<>();
+		
+		for(FeatureSet featureSet : featureSets) {
+			for(String feature : featureSet.getFeatures()) {
+				result.add(feature);
+			}
+		}
+		
+		return result.stream().collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	public void addFeature(String feature) {

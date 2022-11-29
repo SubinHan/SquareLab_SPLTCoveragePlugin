@@ -114,6 +114,14 @@ public class LinkerTest {
 			printFeatures(parent.getFeatureSet());
 			parentFeatureSet.add(parent.getFeatureSet());
 		}
+
+		System.out.println("Children's Feature Set:");
+		for (ProductNode child : node.getChildren()) {
+			if (child == null)
+				continue;
+			System.out.print("  ");
+			printFeatures(child.getFeatureSet());
+		}
 		
 		Answer answer = new Answer(node.getLevel(), parentFeatureSet, node.getFeatureSet());
 		assertTrue(expected.contains(answer));

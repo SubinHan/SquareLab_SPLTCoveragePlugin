@@ -5,6 +5,7 @@ import java.util.List;
 
 import lab.square.similaritymeasure.core.Vector;
 import lab.square.spltcoverage.model.FeatureSet;
+import lab.square.spltcoverage.model.ProductNode;
 import lab.square.spltcoverage.utils.Tools;
 
 public class VectorAdapter extends Vector{
@@ -20,7 +21,7 @@ public class VectorAdapter extends Vector{
 	public VectorAdapter(List<String> existsFeatures, FeatureSet target) {
 		this.vector = adapt(existsFeatures, target);
 	}
-	
+
 	private boolean[] adapt(List<String> existsFeatures, FeatureSet target) {
 		boolean[] vector = new boolean[existsFeatures.size()];
 		
@@ -41,8 +42,4 @@ public class VectorAdapter extends Vector{
 		return this.vector[dimension];
 	}
 
-	@Override
-	public void printAll() {
-		;
-	}
 }
