@@ -40,8 +40,10 @@ public final class FeatureExpressionParser {
 			// Precedence: ! > & > |
 			if(token.equals("!")) {
 				expressions.push(token);
+				continue;
 			} 
-			else if(token.equals("&")) {
+			
+			if(token.equals("&")) {
 				while(!expressions.empty()) {
 					String expression = expressions.peek();
 					if(expression.equals("(") || expression.equals("|")) {
@@ -50,8 +52,10 @@ public final class FeatureExpressionParser {
 					result.add(expressions.pop());
 				}
 				expressions.push(token);
+				continue;
 			} 
-			else if(token.equals("|")) {
+			
+			if(token.equals("|")) {
 				while(!expressions.empty()) {
 					if(expressions.peek().equals("(")) {
 						break;
@@ -59,20 +63,24 @@ public final class FeatureExpressionParser {
 					result.add(expressions.pop());
 				}
 				expressions.push(token);
+				continue;
 			} 
-			else if(token.equals("(")) {
+			
+			if(token.equals("(")) {
 				expressions.push(token);
+				continue;
 			} 
-			else if(token.equals(")")) {
+			
+			if(token.equals(")")) {
 				while(!expressions.peek().equals("(")) {
 					assert !expressions.empty();
 					result.add(expressions.pop());
 				}
 				expressions.pop();
+				continue;
 			}
-			else {
-				result.add(token);
-			}
+			
+			result.add(token);
 		}
 		
 		while(!expressions.empty()) {
