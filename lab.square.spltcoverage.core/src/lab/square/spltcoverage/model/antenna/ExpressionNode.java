@@ -40,36 +40,28 @@ public abstract class ExpressionNode {
 			return false;
 		
 		ExpressionNode node;
-		try {
-			node = (ExpressionNode)o;
-		} catch (Exception e){
+		node = (ExpressionNode)o;
+		
+		if(!this.value.equals(node.value))
 			return false;
-		}
 		
-		boolean equals = true;
 		if(this.left != null) {
-			if(node.left != null) {
-				if(!this.left.equals(node.left))
-					equals = false;
-			}
-			else {
-				equals = false;
-			}
-		}
-		if(this.right != null) {
-			if(node.right != null) {
-				if(!this.right.equals(node.right))
-					equals = false;
-			}
-			else {
-				equals = false;
-			}
-		}
-		if(!this.value.equals(node.value)) {
-			equals = false;
+			if(node.left == null)
+				return false;
+			
+			if(!this.left.equals(node.left))
+				return false;
 		}
 		
-		return equals;
+		if(this.right != null) {
+			if(node.right == null)
+				return false;
+			
+			if(!this.right.equals(node.right))
+				return false;
+		}
+		
+		return true;
 	}
 
 	@Override
