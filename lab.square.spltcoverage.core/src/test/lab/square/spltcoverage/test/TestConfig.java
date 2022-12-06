@@ -1,7 +1,7 @@
 package lab.square.spltcoverage.test;
 
 public class TestConfig {
-	public static final String CLASSPATH_SELF = "target/classes";
+	public static final String CLASSPATH_SELF = "target/test-classes";
 	public static final String TEST_A_CLASSPATH = "lab/square/spltcoverage/test/target/ClassATest.class";
 	public static final String TEST_B_CLASSPATH = "lab/square/spltcoverage/test/target/ClassBTest.class";
 	public static final String CLASS_A_CLASSNAME = "lab.square.spltcoverage.test.target.ClassA";

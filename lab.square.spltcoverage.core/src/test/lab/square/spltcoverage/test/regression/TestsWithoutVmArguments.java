@@ -16,6 +16,7 @@ import lab.square.spltcoverage.test.SplCoverageReaderTest;
 import lab.square.spltcoverage.test.antenna.AntennaCoverageAccumulatorTest;
 import lab.square.spltcoverage.test.antenna.AntennaCoverageReaderTest;
 import lab.square.spltcoverage.test.antenna.AntennaModelTest;
+import lab.square.spltcoverage.test.antenna.AntennaSplCoverageReaderTest;
 import lab.square.spltcoverage.test.antenna.FeatureLocatorTest;
 import lab.square.spltcoverage.test.antenna.ProductFeatureLocationTest;
 
@@ -28,12 +29,13 @@ import lab.square.spltcoverage.test.antenna.ProductFeatureLocationTest;
 	FeatureSetGroupReaderTest.class, 
 	FeatureSetTest.class,
 	LinkerTest.class, 
-	ProductNodeTest.class, 
-	SplCoverageGeneratorLauncherTest.class,
+	ProductNodeTest.class,
+	SplCoverageGeneratorLauncherTest.class, 
 	SplCoverageReaderTest.class,
 	AntennaCoverageAccumulatorTest.class,
 	AntennaCoverageReaderTest.class,
 	AntennaModelTest.class, 
+	AntennaSplCoverageReaderTest.class,
 	FeatureLocatorTest.class, 
 	ProductFeatureLocationTest.class})
 public class TestsWithoutVmArguments {

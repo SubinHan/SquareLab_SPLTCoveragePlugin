@@ -1,16 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lab.square.spltcoverage</groupId>
 	<artifactId>lab.square.spltcoverage</artifactId>
-	<version>0.0.6</version>
+	<version>1.0.0</version>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>resources</directory>
+			</resource>
+		</resources>
+		<testSourceDirectory>src/test</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<release>11</release>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.2</version>
+				<configuration>
+					<excludes>
+						<exclude>**/leraning/*</exclude>
+						<exclude>**/regression/*</exclude>
+					</excludes>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -26,11 +47,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>lab.square.similaritymeasure</groupId>
-			<artifactId>lab.square.similaritymeasure</artifactId>
-			<version>0.0.3</version>
-		</dependency>
 		<dependency>
 			<groupId>guru.nidi</groupId>
 			<artifactId>graphviz-java</artifactId>
