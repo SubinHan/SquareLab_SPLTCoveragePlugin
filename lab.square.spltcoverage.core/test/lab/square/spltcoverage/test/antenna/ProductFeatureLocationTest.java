@@ -14,7 +14,7 @@ import lab.square.spltcoverage.test.TestConfig;
 
 public class ProductFeatureLocationTest {
 
-	private static final String JAVA_SOURCE_PATH = "src/";
+	private static final String JAVA_SOURCE_PATH = "test/";
 	private static final String TARGET_CLASS_A = TestConfig.ANTENNA_PRODUCT1_CLASS_A_CLASSNAME_NESTED;
 	
 	private static final String JAVA_SOURCE_PATH2 = TestConfig.ANTENNA_SOURCE;
