@@ -54,6 +54,7 @@ public final class CoverageGeneratorLauncher {
 		ProcessBuilder processBuilder = createProcessBuilder(testClasspathRoot, outputPath, javaAgentArg, cp, convertedTestPath);
 		Process process = startProcess(processBuilder);
 		logProcessErrors(process);
+		process.destroyForcibly();
 	}
 
 	private static String createAdditionalDependencies(String classpath, Collection<String> additionalDependencies) {
@@ -84,9 +85,13 @@ public final class CoverageGeneratorLauncher {
 
 	private static void readLineAndLogTillEnd(BufferedReader read) {
 		String line;
+		int a = 0;
 		try {
 			while ((line = read.readLine()) != null) {
-				logger.severe(line);
+				logger.info(line);
+				a++;
+				if(a > 100000)
+					return;
 			}
 		} catch (IOException e) {
 			logger.severe("Process logging failed.");
@@ -98,7 +103,7 @@ public final class CoverageGeneratorLauncher {
 			String convertedTestPath) {
 		ProcessBuilder processBuilder = new ProcessBuilder(
 				JAVA_BIN_PATH, javaagent, JMX_ARG1, JMX_ARG2, JMX_ARG3, JMX_ARG4, RMI_ARG,
-				"-cp", cp, LauncherMain.class.getName(), classpath, convertedTestPath, outputPath);
+				"-cp", cp, LauncherMainAntenna.class.getName(), classpath, convertedTestPath, outputPath);
 		setProcessBuilderDirectory(processBuilder);
 		logger.info(() -> "arguments: " + processBuilder.command().toString());
 		return processBuilder;
@@ -129,6 +134,7 @@ public final class CoverageGeneratorLauncher {
 		try {
 			jacocoFile = new File(res.toURI());
 		} catch (URISyntaxException e) {
+			logger.severe(res.toString());
 			logger.severe(e.getMessage());
 			return "";
 		}

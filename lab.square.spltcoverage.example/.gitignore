@@ -1,0 +1,5 @@
+spltoutput/*
+target/*
+vizResult/*
+bin/*
+jacoco.exec

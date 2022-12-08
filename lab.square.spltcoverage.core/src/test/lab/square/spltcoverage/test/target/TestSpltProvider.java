@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import lab.square.spltcoverage.core.analysis.IIterableSpltProvider;
+import lab.square.spltcoverage.model.FeatureSet;
 
 public class TestSpltProvider implements IIterableSpltProvider {
 
@@ -27,8 +28,8 @@ public class TestSpltProvider implements IIterableSpltProvider {
 	}
 
 	@Override
-	public Map<String, Boolean> getFeatureSet() {
-		return Configuration.getConfigurations();
+	public FeatureSet getFeatureSet() {
+		return new FeatureSet(Configuration.getConfigurations());
 	}
 
 	@Override

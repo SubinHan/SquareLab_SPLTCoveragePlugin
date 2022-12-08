@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resource"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-swing-1.2.jar" sourcepath="C:/Users/selab/.m2/repository/org/easytesting/fest-swing/1.2/fest-swing-1.2-sources.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/powermock-mockito-release-full-1.6.4-full.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-assert-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-reflect-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-swing-junit-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-swing-junit-4.3.1-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-swing-junit-4.5-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/fest-util-1.1.2.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/guidsl.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/jaudiotagger-2.2.0-20130321.142353-1.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/mockito-all-1.10.19.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/mp3agic-0.8.1.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/mp3spi1.9.5.jar"/>
+	<classpathentry kind="lib" path="D:/workspace-featureide/Elevator-Antenna-v1.2/lib/tritonus_share.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

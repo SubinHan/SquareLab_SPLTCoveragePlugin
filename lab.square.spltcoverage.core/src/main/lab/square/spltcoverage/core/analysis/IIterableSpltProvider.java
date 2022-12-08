@@ -1,6 +1,6 @@
 package lab.square.spltcoverage.core.analysis;
 
-import java.util.Map;
+import lab.square.spltcoverage.model.FeatureSet;
 
 public interface IIterableSpltProvider {
 	/**
@@ -14,7 +14,7 @@ public interface IIterableSpltProvider {
 	 * It should returns the feature set of iterating product.
 	 * @return
 	 */
-	public Map<String, Boolean> getFeatureSet();
+	public FeatureSet getFeatureSet();
 	
 	/**
 	 * It should return the classes to trace coverage.

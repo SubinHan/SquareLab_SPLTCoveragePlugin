@@ -66,30 +66,33 @@ public final class ProductLinker {
 				continue;
 			
 			IVector toLinkAsVector = new ProductNodeVectorAdapter(allFeatures, toLink);
-			List<IVector> lessFeatures = new ArrayList<>();
-			List<IVector> moreFeatures = new ArrayList<>();
+			List<IVector> parentCandidates = new ArrayList<>();
+			List<IVector> childCandidate = new ArrayList<>();
 			
-			lessFeatures.add(toLinkAsVector);
-			moreFeatures.add(toLinkAsVector);
+			parentCandidates.add(toLinkAsVector);
+			childCandidate.add(toLinkAsVector);
 			
 			for(ProductNode node : nodes) {
-				if(toLink.getFeatureSet().getNumFeatures() > node.getFeatureSet().getNumFeatures()) {
-					lessFeatures.add(new ProductNodeVectorAdapter(allFeatures, node));
+				if(isCanBeParentOf(node, toLink))
+				{
+					parentCandidates.add(new ProductNodeVectorAdapter(allFeatures, node));
 					continue;
 				}
 				
-				if(toLink.getFeatureSet().getNumFeatures() < node.getFeatureSet().getNumFeatures()) {
-					moreFeatures.add(new ProductNodeVectorAdapter(allFeatures, node));
+				if(isCanBeParentOf(toLink, node)) {
+					childCandidate.add(new ProductNodeVectorAdapter(allFeatures, node));
 				}
 			}
 			
-			linkMostSimilarNodesToParent(toLink, lessFeatures);
-			linkMostSimilarNodesToChild(toLink, moreFeatures);
+			linkMostSimilarNodesToParent(toLink, parentCandidates);
+			linkMostSimilarNodesToChild(toLink, childCandidate);
 		}
 		
 		setLevels(nodes);
 		
-		return nodes;
+		Collection<ProductNode> heads = findHeads(nodes);
+		
+		return heads;
 	}
 
 	private static List<ProductNode> createProductNodes(List<ProductProvider> products) {
@@ -114,6 +117,17 @@ public final class ProductLinker {
 		}
 		
 		return result;
+	}
+
+	private static boolean isCanBeParentOf(ProductNode parent, ProductNode child) {
+		if(parent.getFeatureSet().getNumFeatures() >= child.getFeatureSet().getNumFeatures())
+			return false;
+		
+		FeatureSet common = parent.getFeatureSet().intersect(child.getFeatureSet());
+		if(common.getNumFeatures() != parent.getFeatureSet().getNumFeatures())
+			return false;
+		
+		return true;
 	}
 	
 	private static void linkMostSimilarNodesToParent(ProductNode toLink, List<IVector> products) {
@@ -179,6 +193,17 @@ public final class ProductLinker {
 		
 		node.setLevel(maxLevel);
 		return maxLevel;
+	}
+
+	private static Collection<ProductNode> findHeads(List<ProductNode> nodes) {
+		Collection<ProductNode> heads = new ArrayList<>();
+		
+		for(ProductNode node : nodes) {
+			if(node.getParents().isEmpty())
+				heads.add(node);
+		}
+		
+		return heads;
 	}
 
 	private static final class ProductProvider {
