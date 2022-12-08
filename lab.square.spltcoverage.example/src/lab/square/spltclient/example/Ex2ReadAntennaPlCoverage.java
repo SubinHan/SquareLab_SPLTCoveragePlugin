@@ -49,7 +49,7 @@ public class Ex2ReadAntennaPlCoverage {
 
 		String[] productDirectories = new String[NUM_PRODUCTS];
 
-		final String PL_BASE_DIRECTORY = "D:/workspace-featureide";
+		final String PL_BASE_DIRECTORY = "antennapl";
 		final String PRODUCT_PREFIX = "Elevator-Antenna-v1.2-000";
 
 		for (int i = 0; i < Math.min(9, NUM_PRODUCTS); i++) {
@@ -63,40 +63,10 @@ public class Ex2ReadAntennaPlCoverage {
 		return productDirectories;
 	}
 
-	private static String[] makeClasspathsArray() {
-		// Set directories of product1~16.
-
-		final int NUM_PRODUCTS = 16;
-		String[] productDirectories = new String[NUM_PRODUCTS];
-
-		final String PL_BASE_DIRECTORY = "D:/workspace-featureide";
-		final String PRODUCT_PREFIX = "Elevator-Antenna-v1.2-000";
-
-		for (int i = 0; i < Math.min(9, NUM_PRODUCTS); i++) {
-			productDirectories[i] = PL_BASE_DIRECTORY + "/" + PRODUCT_PREFIX + "0" + (i + 1);
-		}
-
-		for (int i = 9; i < NUM_PRODUCTS; i++) {
-			productDirectories[i] = PL_BASE_DIRECTORY + "/" + PRODUCT_PREFIX + (i + 1);
-		}
-
-		// map classpaths of each product and return.
-
-		String[] classpaths = new String[NUM_PRODUCTS];
-
-		final String CLASSPATH = "bin";
-
-		for (int i = 0; i < NUM_PRODUCTS; i++) {
-			classpaths[i] = productDirectories[i] + "/" + CLASSPATH;
-		}
-
-		return classpaths;
-	}
-
 	public static SplCoverage readSplCoverage() {
 		// We should define PL coverages path and
 		// classpath of each product.
-		final String PL_COVERAGE_PATH = "D:/spltoutput/elevator/";
+		final String PL_COVERAGE_PATH = "spltoutput/antennapl";
 
 		String[] productDirectories = makeProductDirectoryArray();
 		String[] productSourcePaths = new String[NUM_PRODUCTS];
