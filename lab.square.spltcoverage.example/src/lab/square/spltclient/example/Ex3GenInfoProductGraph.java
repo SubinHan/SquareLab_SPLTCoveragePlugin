@@ -11,7 +11,7 @@ import lab.square.spltcoverage.report.GraphVizGenerator;
 public class Ex3GenInfoProductGraph {
 	
 	private static SplCoverage splCoverage;
-	private static final String OUTPUT_PATH = "D:/spltoutput/graph.png";
+	private static final String OUTPUT_PATH = "spltoutput/graph.png";
 	private static Collection<ProductNode> heads;
 	
 	public static void main(String[] args) {
