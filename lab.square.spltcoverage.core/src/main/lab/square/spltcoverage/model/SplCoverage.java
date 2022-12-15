@@ -38,12 +38,20 @@ public class SplCoverage implements ICoverageModelComposite {
 		return result;
 	}
 	
+	public ProductCoverage getProductCoverage(Map<String, Boolean> featureSet) {
+		for(ICoverageModelComponent pc : this.productCoverages) {
+			if(((ProductCoverage)pc).getFeatureSet().equals(new FeatureSet(featureSet)))
+				return (ProductCoverage)pc;
+		}
+		return null;
+	}
+	
 	/**
 	 * Get the ProductCoverage of the given feature set.
 	 * @param featureSet
 	 * @return
 	 */
-	public ProductCoverage getProductCoverage(Map<String, Boolean> featureSet) {
+	public ProductCoverage getProductCoverage(FeatureSet featureSet) {
 		for(ICoverageModelComponent pc : this.productCoverages) {
 			if(((ProductCoverage)pc).getFeatureSet().equals(featureSet))
 				return (ProductCoverage)pc;
