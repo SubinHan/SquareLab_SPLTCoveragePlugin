@@ -15,6 +15,8 @@ import lab.square.spltcoverage.test.antenna.AntennaCoverageGeneratorTest;
 import lab.square.spltcoverage.test.antenna.AntennaModelTest;
 import lab.square.spltcoverage.test.antenna.FeatureLocatorTest;
 
+// VM argument: -javaagent:[JACOCO_AGENT_PATH]=jmx=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=7777 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({CoverageGeneratorTest2.class, AntennaCoverageGeneratorTest.class})
 public class TestsWithVmArguments {
