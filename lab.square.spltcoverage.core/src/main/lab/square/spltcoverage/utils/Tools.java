@@ -67,11 +67,18 @@ public final class Tools {
 
 	public static String convertClassNameByConvention(String className) {
 		String converted = className.replace('/', '.');
-//		if (className.contains("$"))
-//			converted = converted.substring(0, className.lastIndexOf('$'));
 
 		return converted;
 	}
+	
+	public static String convertClassNameByConventionAndRemoveDollar(String className) {
+		String converted = convertClassNameByConvention(className);
+		if (className.contains("$"))
+			converted = converted.substring(0, className.lastIndexOf('$'));
+
+		return converted;
+	}
+
 
 	public static void deleteDirectoryRecursively(File f) throws FileNotFoundException {
 		if (f.isDirectory()) {

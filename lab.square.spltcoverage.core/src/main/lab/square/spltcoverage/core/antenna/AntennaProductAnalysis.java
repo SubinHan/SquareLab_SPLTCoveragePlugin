@@ -10,16 +10,16 @@ import org.jacoco.core.analysis.IClassCoverage;
 import org.jacoco.core.analysis.ICounter;
 
 import lab.square.spltcoverage.model.FeatureSet;
-import lab.square.spltcoverage.model.antenna.AntennaProductCoverageOld;
+import lab.square.spltcoverage.model.antenna.AntennaProductCoverage;
 import lab.square.spltcoverage.model.antenna.ExpressionNode;
 import lab.square.spltcoverage.model.antenna.FeatureLocation;
 import lab.square.spltcoverage.utils.Tools;
 
 public class AntennaProductAnalysis {
-	private final AntennaProductCoverageOld pc;
+	private final AntennaProductCoverage pc;
 	private Map<String, Collection<FeatureCoverage>> fcs;
 
-	public AntennaProductAnalysis(AntennaProductCoverageOld pc) {
+	public AntennaProductAnalysis(AntennaProductCoverage pc) {
 		this.pc = pc;
 		this.fcs = new HashMap<>();
 		initFeatureCoverage();
@@ -27,8 +27,8 @@ public class AntennaProductAnalysis {
 
 	private void initFeatureCoverage() {
 		for (IClassCoverage cc : pc.getClassCoverages()) {
-			String name = Tools.convertClassNameByConvention(cc.getName());
-			Collection<FeatureLocation> fls = pc.getFeatureLocationsOf(name);
+			String name = Tools.convertClassNameByConventionAndRemoveDollar(cc.getName());
+			Collection<FeatureLocation> fls = pc.getFeatureLocationsOfClass(name);
 			List<FeatureCoverageMut> fcms = createFeatureCoveragesOfClass(cc, fls);
 
 			this.fcs.put(name, convertFeatureCoverageMutToImmut(fcms));
@@ -128,7 +128,7 @@ public class AntennaProductAnalysis {
 	public Collection<FeatureCoverage> getFeatureCoverage(FeatureSet targetFeatureSet) {
 		List<FeatureCoverageMut> fcms = new ArrayList<>();
 		for (IClassCoverage cc : pc.getClassCoverages()) {
-			String name = Tools.convertClassNameByConvention(cc.getName());
+			String name = Tools.convertClassNameByConventionAndRemoveDollar(cc.getName());
 
 			for (FeatureCoverage fc : fcs.get(name)) {
 				if (FeatureExpressionParser.evaluate(fc.node, targetFeatureSet)) {
