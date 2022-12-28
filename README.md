@@ -24,13 +24,17 @@ The idea of software product-line engineering is that we invest some initial wor
 
 ## It works on...
 
-> - Annotation(parameterized)-based-approach
+> - if-parameterization approach (or variability implementation mechanism in runtime).
 > - Composition-based-approach with Antenna(Java preprocessor)
 <br>
 
 ## How can we use this?
 
-- Try example codes.
+- Try example codes in lab.square.spltcoverage.example
+* Prerequisites:
+1. Should add dependency lib/*
+2. Should add dependency lib_experiment/*
+3. Should build as a maven project.
 <br>
 
 ## VM Arguments
