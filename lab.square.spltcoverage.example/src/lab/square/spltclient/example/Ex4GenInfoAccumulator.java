@@ -31,8 +31,10 @@ public class Ex4GenInfoAccumulator {
 		// I accumulated iterating products by BFS,
 		// and printed how much the accumulated product coverage changed compared to previous. 
 		accumulateAndPrintResults();
+		System.out.println();
+		accumulateAndPrintResultSimplified();
 	}
-	
+
 	private static void accumulateAndPrintResults() {
 		AntennaCoverageAccumulator accumulator = new AntennaCoverageAccumulator();
 		
@@ -47,7 +49,6 @@ public class Ex4GenInfoAccumulator {
 		// perform BFS.
 		while(!q.isEmpty()) {			
 			ProductNode node = q.poll();
-			featureSetVisited.add(node.getFeatureSet());
 			
 			accumulator.accumulate((AntennaProductCoverage)node.getProductCoverage());
 			System.out.println("===========visited!===========");
@@ -83,7 +84,69 @@ public class Ex4GenInfoAccumulator {
 			System.out.println("total line coverage: " + totalCovered + "/" + totalActivated + "(" + formattedRatio + "%)");
 			
 			for(ProductNode child : node.getChildren()) {
+				if(featureSetVisited.contains(child.getFeatureSet()))
+					continue;
 				q.add(child);
+				featureSetVisited.add(child.getFeatureSet());
+			}
+		}
+	}
+	
+	private static void accumulateAndPrintResultSimplified() {
+		AntennaCoverageAccumulator accumulator = new AntennaCoverageAccumulator();
+		
+		Queue<ProductNode> q = new LinkedList<>();
+		Set<FeatureSet> featureSetVisited = new HashSet<>();
+		
+		for(ProductNode root : heads) {
+			q.add(root);
+			featureSetVisited.add(root.getFeatureSet());
+		}
+		
+		final String SEPARATOR = " | ";
+		final String HEADER1 = String.format("%9s", "Product");
+		final String HEADER2 = String.format("%40s", "Newly Visited Features");
+		final String HEADER3 = String.format("%14s", "Newly Cov.?");
+		final String HEADER4 = String.format("%11s", "Newly Actv.");
+		final String HEADER5 = String.format("%10s", "Newly Cov.");
+		final String HEADER6 = String.format("%11s", "Total Actv.");
+		final String HEADER7 = String.format("%10s", "Total Cov.");
+		final String HEADER8 = String.format("%10s", "Cov. Ratio");
+		
+		System.out.print(HEADER1 + SEPARATOR + HEADER2 + SEPARATOR + HEADER3 + SEPARATOR + HEADER4 + SEPARATOR + HEADER5 + SEPARATOR + HEADER6 + SEPARATOR + HEADER7 + SEPARATOR + HEADER8);
+		
+		System.out.println();
+		System.out.println("=========================================================================================================================================");
+		
+		// perform BFS.
+		while(!q.isEmpty()) {			
+			ProductNode node = q.poll();
+			
+			accumulator.accumulate((AntennaProductCoverage)node.getProductCoverage());
+			System.out.print(String.format("%9s", node.getProductCoverage().getName()) + SEPARATOR);
+			//System.out.print(Arrays.toString(node.getFeatureSet().getFeatures().toArray()) + "|");
+			System.out.print(String.format("%40s", Arrays.toString(accumulator.getNewlyVisitedFeatures().toArray())) + SEPARATOR);
+			System.out.print(String.format("%14s", accumulator.isCoverageChanged()) + SEPARATOR);
+			
+			int newlyActivated = 0;
+			int newlyCovered = 0;
+			for(String className : accumulator.getNewlyActivatedClasses()) {
+				newlyActivated += accumulator.getNewlyActivatedLineCountOfClass(className);
+				newlyCovered += accumulator.getNewlyCoveredLineCountOfClass(className);				
+			}
+			System.out.print(String.format("%11d", newlyActivated) + SEPARATOR + String.format("%10d", newlyCovered) + SEPARATOR);
+			
+			int totalActivated = accumulator.getTotalActivatedLine();
+			int totalCovered = accumulator.getTotalCoveredLine();
+			double totalRatio = (double)totalCovered / (double)totalActivated * 100;
+			String formattedRatio = String.format("%10.2f", totalRatio);
+			System.out.println(String.format("%11d", totalActivated) + SEPARATOR + String.format("%10d", totalCovered) + SEPARATOR + formattedRatio + "%");
+			
+			for(ProductNode child : node.getChildren()) {
+				if(featureSetVisited.contains(child.getFeatureSet()))
+					continue;
+				q.add(child);
+				featureSetVisited.add(child.getFeatureSet());
 			}
 		}
 	}
