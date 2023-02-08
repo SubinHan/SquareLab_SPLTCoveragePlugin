@@ -31,7 +31,7 @@ The idea of software product-line engineering is that we invest some initial wor
 ## How can we use this?
 
 - Try example codes in lab.square.spltcoverage.example
-* Prerequisites:
+* Example prerequisites:
 1. Should add dependency lib/*
 2. Should add dependency lib_experiment/*
 3. Should build as a maven project.
