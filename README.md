@@ -1,4 +1,4 @@
-# SQuaRe Lab - SPLT Coverage
+# PLCoCo
 
 This project is for the coverage measurement in Software Product Line Testing for controlling the software variability.
 <br><br>
