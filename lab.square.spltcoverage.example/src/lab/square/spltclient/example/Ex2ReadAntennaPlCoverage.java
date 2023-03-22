@@ -15,7 +15,7 @@ public class Ex2ReadAntennaPlCoverage {
 	public static void main(String[] args) {
 		// read SplCoverage before we generated.
 		SplCoverage splCoverage = readSplCoverage();
-
+	
 		// We can visit recursively coverage hierarchy by using the Visitor Patterns.
 		splCoverage.accept(new ISplCoverageVisitor() {
 

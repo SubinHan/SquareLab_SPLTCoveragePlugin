@@ -1,5 +1,10 @@
 package lab.square.similaritymeasure.core;
 
+/**
+ * The abstract vector class contains a logic of equals().
+ * @author selab
+ *
+ */
 public abstract class Vector implements IVector {	
 	public abstract int getDimension();
 	public abstract boolean getValue(int dimension);

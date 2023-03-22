@@ -3,8 +3,30 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lab.square.spltcoverage</groupId>
-	<artifactId>lab.square.spltcoverage</artifactId>
+	<artifactId>plcoco</artifactId>
 	<version>1.0.0</version>
+	
+	<name>PLCoCo</name>
+	<description>A program for analyzing coveage of the Software Product Line projects</description>
+	<url>https://github.com/SubinHan/squarelab-spltcoverage</url>
+	
+	<licenses>
+		<license>
+			<name>GNU General Public License v3.0</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+	</licenses>
+	
+	<developers>
+		<developer>
+			<name>Subin Han</name>
+			<email>hanidiot@gmail.com</email>
+			<organization>SQuaRe Lab</organization>
+			<organizationUrl>https://sites.google.com/view/square-lab</organizationUrl>
+		</developer>
+	</developers>
+	
+	
 	<build>
 		<sourceDirectory>src/main</sourceDirectory>
 		<resources>

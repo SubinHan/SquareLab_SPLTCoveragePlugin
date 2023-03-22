@@ -27,8 +27,26 @@ import org.junit.runner.notification.RunListener;
 import lab.square.spltcoverage.io.CoverageWriter;
 import lab.square.spltcoverage.model.CoverageResult;
 
+/**
+ * It generates coverage execution data of a if-parameterization product line.
+ * It uses JaCoCo, and the port should be opened to communicate with JaCoCo
+ * agent. Use the CoverageGeneratorLauncher class to generate coverage, but do
+ * not use this directly to generate coverage.
+ * 
+ * The 7777 port is used to communicate to the JaCoCo by using RMI. If you want
+ * to use the CoverageGenerator directly without launcher, then you should set
+ * VM arguments following:
+ * 
+ * -javaagent:[JACOCO_AGENT_PATH]=jmx=true -Dcom.sun.management.jmxremote
+ * -Dcom.sun.management.jmxremote.port=7777
+ * -Dcom.sun.management.jmxremote.authenticate=false
+ * -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost
+ * 
+ * @author selab
+ *
+ */
 public class CoverageGenerator {
-	
+
 	static final Logger logger = Logger.getLogger(CoverageGenerator.class.getName());
 
 	public static final String SUFFIX_MERGED = "__merged__.exec";
@@ -37,21 +55,33 @@ public class CoverageGenerator {
 	private final JacocoConnection jacocoConnection;
 
 	/**
-	 * Creates a new example instance printing to the given stream.
+	 * Create CoverageGenerator without target classes. here may no differences
+	 * between the target classes are null or not, but only that use analyze()
+	 * method.
 	 * 
-	 * @param out stream for outputs
-	 * @throws IOException
-	 * @throws MalformedObjectNameException
 	 */
 	public CoverageGenerator() {
 		this.jacocoConnection = JacocoConnection.getInstance();
 	}
 
+	/**
+	 * Create CoverageGenerator with target classes. There may no differences
+	 * between the target classes are null or not, but only that use analyze()
+	 * method.
+	 * 
+	 * @param targetClasses
+	 */
 	public CoverageGenerator(Class... targetClasses) {
 		this();
 		this.targetClasses = targetClasses;
 	}
 
+	/**
+	 * It returns CoverageResult about the program ran until now.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public CoverageResult analyze() throws IOException {
 
 		logger.info("Version: " + jacocoConnection.getVersion());
@@ -84,10 +114,17 @@ public class CoverageGenerator {
 		return getClass().getResourceAsStream(resource);
 	}
 
+	/**
+	 * Reset all coverage data collected until now.
+	 */
 	public void resetData() {
 		jacocoConnection.resetData();
 	}
 
+	/**
+	 * Generate coverage of the if-parameterization PL given by the provider.
+	 * @param provider. Please refer the IProductProvider.
+	 */
 	public void generateCoverage(IProductProvider provider) {
 		try {
 			Files.createDirectories(Paths.get(provider.getOutputPath()));
@@ -99,6 +136,11 @@ public class CoverageGenerator {
 		mergeExecs(provider.getOutputPath());
 	}
 
+	/**
+	 * It is not implemented.
+	 * @param provider
+	 */
+	@Deprecated
 	public void generateCoverage2(IProductProvider provider) {
 		// TODO
 
@@ -140,7 +182,7 @@ public class CoverageGenerator {
 
 	private void mergeExecs(String productDirectory) {
 		File productFolder = new File(productDirectory);
-		final FilenameFilter filter = (current, name) ->  new File(current, name).isDirectory();
+		final FilenameFilter filter = (current, name) -> new File(current, name).isDirectory();
 		File[] testCaseExecs = new File[productFolder.list(filter).length];
 
 		int index = 0;
@@ -163,7 +205,7 @@ public class CoverageGenerator {
 		}
 	}
 
-	private class TestListener extends RunListener {		
+	private class TestListener extends RunListener {
 		IProductProvider provider;
 
 		public TestListener(IProductProvider provider) {

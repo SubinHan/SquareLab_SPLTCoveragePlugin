@@ -5,6 +5,11 @@ import java.util.LinkedList;
 //import java.util.Collection;
 import java.util.List;
 
+/**
+ * The similarity measurer using Jaccard Similarity.
+ * @author selab
+ *
+ */
 public class Jaccard implements ISimilarityMeasurer {
 	
 	
